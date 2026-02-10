@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jaime Mera - Product Design Lead</title>
+    <meta
+      name="description"
+      content="Jaime Mera is a product design lead focused on measurable business outcomes and human-centered digital experiences."
+    />
+    <meta property="og:title" content="Jaime Mera - Product Design Lead" />
+    <meta
+      property="og:description"
+      content="Product design portfolio featuring strategic product work across global brands."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="home">
+    <div class="chat-page">
+      <header class="site-header">
+      <div class="nav">
+        <a class="logo" href="./index.html?reset=1#top" id="home-reset">JAIME MERA</a>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <label for="nav-toggle" class="nav-toggle-button">☰</label>
+        <div class="nav-right">
+          <nav class="nav-links">
+            <a href="./about.html">About</a>
+            <a href="./work.html">Work</a>
+          </nav>
+        </div>
+        <div class="nav-mobile">
+          <a href="./about.html">About</a>
+          <a href="./work.html">Work</a>
+        </div>
+      </div>
+      </header>
+
+      <main id="top" class="page">
+        <section class="chat-hero messages-container">
+        <button class="chat-back" type="button" aria-label="Exit chat mode">
+          ‹ Back
+        </button>
+        <div class="hero-grid home-split">
+          <div class="hero-left">
+            <div class="hero-avatar">
+              <img src="./images/jaime-avatar.png" alt="Jaime Mera avatar" />
+            </div>
+            <h2 class="hero-name">Jaime Mera</h2>
+          </div>
+          <div class="hero-content">
+            <div class="hero-top">
+              <span class="wave">👋</span>
+              <span class="hero-hi">Welcome</span>
+            </div>
+            <h1 class="headline">
+              Hi, I&apos;m Jaime. Some say I&apos;m a Product Designer but truly, what I
+              really do is try to make everyone&apos;s life easier. Try asking me
+              anything and check it out for yourself.
+            </h1>
+            <div class="chat-input-shell">
+              <div class="chat-input-wrap">
+                <div class="search-bar">
+                  <input type="text" placeholder="Ask me about my work..." />
+                  <button class="send-button" type="button" aria-label="Send">
+                    ➤
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="chat-landing">
+              <div class="chat-quick">
+                <button class="quick-chip" type="button">
+                  🚀 Show me your best work
+                </button>
+                <button class="quick-chip" type="button">
+                  🏛️ Show the Sabadell system
+                </button>
+                <button class="quick-chip" type="button">
+                  ✨ Show other projects
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-thread" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <div class="chat-input-fixed">
+        <div class="search-bar">
+          <input type="text" placeholder="Ask me about my work..." />
+          <button class="send-button" type="button" aria-label="Send">
+            ➤
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button class="help-button" type="button" aria-label="Help">?</button>
+    <script src="./search-data.js"></script>
+    <script src="./search.js"></script>
+  </body>
+</html>

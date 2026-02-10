@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOTOGP | Jaime Mera</title>
+    <meta
+      name="description"
+      content="Racing Platform Visual Transformation + Feature POC."
+    />
+    <meta property="og:title" content="MOTOGP | Jaime Mera" />
+    <meta
+      property="og:description"
+      content="Racing Platform Visual Transformation + Feature POC."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="nav">
+        <a class="logo" href="./index.html?reset=1#top">JAIME MERA</a>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <label for="nav-toggle" class="nav-toggle-button">☰</label>
+        <div class="nav-right">
+          <nav class="nav-links">
+            <a href="./about.html">About</a>
+            <a href="./work.html">Work</a>
+          </nav>
+        </div>
+        <div class="nav-mobile">
+          <a href="./about.html">About</a>
+          <a href="./work.html">Work</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page section detail-header">
+      <a class="back-link" href="./work.html">← Back to work</a>
+
+      <div class="detail-intro">
+        <div class="profile-circle">JM</div>
+        <p>
+          Here&apos;s the story behind <strong>MOTOGP</strong> and how the
+          experience created measurable outcomes.
+        </p>
+      </div>
+
+      <div class="image-wrapper">
+        <img
+          src="./images/motogp.jpg"
+          alt="MOTOGP"
+          onerror="this.closest('.image-wrapper').classList.add('is-missing');this.remove();"
+        />
+        <div class="image-fallback">MOTOGP</div>
+      </div>
+
+      <div class="detail-meta">
+        <div class="detail-tags">
+          <span class="tag-pill" style="position: static">SPORTS</span>
+        </div>
+        <h1 class="detail-title">MOTOGP</h1>
+        <p class="section-subtitle">
+          Racing Platform Visual Transformation + Feature POC
+        </p>
+        <a class="primary-button" href="#">View Case Study</a>
+      </div>
+
+      <div class="about-card">
+        <h2>Project Overview</h2>
+        <p class="section-subtitle">
+          MotoGP partnered with Accenture to modernize its digital presence and
+          explore new feature concepts. I created visual guidelines, designed
+          proof-of-concept experiences, and supported a content-first direction.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <h2>Challenge &amp; Impact</h2>
+        <p class="section-subtitle">
+          The platform needed to feel fast, premium, and mobile-first while
+          supporting real-time racing data and video. The new visual system
+          improved content hierarchy, discoverability, and fan engagement.
+        </p>
+      </div>
+
+      <div class="pill-row">
+        <a class="pill" href="#">Visual refresh for fans</a>
+        <a class="pill" href="#">Feature proof-of-concept</a>
+        <a class="pill" href="#">Engagement-led UI</a>
+      </div>
+
+    </main>
+
+    <button class="help-button" type="button" aria-label="Help">?</button>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "MOTOGP",
+        "description": "Racing Platform Visual Transformation + Feature POC",
+        "image": "./images/motogp.jpg"
+      }
+    </script>
+  </body>
+</html>
