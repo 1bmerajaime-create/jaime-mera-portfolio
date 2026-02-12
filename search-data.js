@@ -190,7 +190,7 @@ window.PORTFOLIO_PROJECTS = {
     tag: "B2B E-COMMERCE",
     metric: "60% FASTER",
     description: "Global B2B e-commerce platform + wholesale mobile app.",
-    image: "./images/adidas-click.jpg",
+    image: "./images/adidas/Adidas-1-fdb8e856-6207-44e0-b8f7-9fa9ff768100.png",
     url: "./work-adidas-click.html",
   },
   sabadell: {
@@ -198,15 +198,15 @@ window.PORTFOLIO_PROJECTS = {
     tag: "BANKING",
     metric: "35% GROWTH",
     description: "Digital banking transformation + Galatea design system.",
-    image: "./images/sabadell.jpg",
+    image: "./images/sabadell/Sabadell-1-4f956ff9-6aed-47d3-a3ba-b552fea15349.png",
     url: "./work-banco-sabadell.html",
   },
   beedata: {
     title: "BEEDATA",
     tag: "B2B SAAS",
-    metric: "20-30% GROWTH",
+    metric: "20.7% USERS",
     description: "AI-powered B2B SaaS insights for non-technical users.",
-    image: "./images/beedata.jpg",
+    image: "./images/beedata/BeeData-1-2d482b4a-7ac9-4090-bb0e-b844bc875109.png",
     url: "./work-beedata.html",
   },
   shell: {
@@ -214,7 +214,7 @@ window.PORTFOLIO_PROJECTS = {
     tag: "GLOBAL APP",
     metric: "GLOBAL",
     description: "EV charging, payments, and global app unification.",
-    image: "./images/shell.jpg",
+    image: "./images/shell/Shell-1-f99e972e-736c-4a3e-b068-4161d3b334b0.png",
     url: "./work-shell.html",
   },
   wivai: {
@@ -222,7 +222,7 @@ window.PORTFOLIO_PROJECTS = {
     tag: "E-COMMERCE",
     metric: "233.4K VISITS",
     description: "Retail e-commerce launch for CaixaBank.",
-    image: "./images/wivai.jpg",
+    image: "./images/wivai/Wivai-1-17a205d2-11ba-4bfd-96b4-23421e3347d5.png",
     url: "./work-wivai.html",
   },
   motogp: {
@@ -230,7 +230,7 @@ window.PORTFOLIO_PROJECTS = {
     tag: "SPORTS",
     metric: "POC",
     description: "Visual transformation + feature proof of concept.",
-    image: "./images/motogp.jpg",
+    image: "./images/motogp/Motogp-5-114613e7-df71-44c6-8dc8-9a0f40bc1af8.png",
     url: "./work-motogp.html",
   },
   riotinto: {
@@ -238,7 +238,7 @@ window.PORTFOLIO_PROJECTS = {
     tag: "ENTERPRISE",
     metric: "30% EFFICIENCY",
     description: "Enterprise HR platform for global scale.",
-    image: "./images/riotinto.jpg",
+    image: "./images/riotinto/RioTinto-1-fb984dba-165a-464f-ad33-332c57284f88.png",
     url: "./work-rio-tinto.html",
   },
 };

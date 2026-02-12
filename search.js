@@ -8,6 +8,7 @@
   const searchData = window.PORTFOLIO_INDEX || [];
   const projects = window.PORTFOLIO_PROJECTS || {};
   const profile = window.JAIME_PROFILE || {};
+  const qaPairs = window.JAIME_QA || [];
   const inputs = Array.from(document.querySelectorAll(".search-bar input"));
   const thread = document.querySelector(".chat-thread");
   const searchBars = Array.from(document.querySelectorAll(".search-bar"));
@@ -21,6 +22,9 @@
   const PROJECT_STORAGE_KEY = "jaime-chat-project";
   const CLICKED_SUGGESTIONS_KEY = "jaime-chat-clicked-suggestions";
 
+  // Lightweight conversational state (not persisted across sessions)
+  let chatTurnCount = 0;
+
   if (!inputs.length || !thread) return;
 
   const KEYWORDS = [
@@ -28,7 +32,7 @@
       keys: ["adidas", "click", "wholesale", "b2b", "e-commerce", "ecommerce"],
       project: "adidas",
       response:
-        "Adidas Click was a global B2B platform. I led the wholesale mobile app from research to launch across 15+ markets and co-created the Click design system. The impact was real: 60% faster design-to-dev and 40% faster reordering through scanning.",
+        "Adidas Click is the global B2B platform that wholesale buyers use worldwide. I led the wholesale mobile app from research through launch across 15+ markets and co-created the Click design system from scratch. For the app, I spent time on shop floors and designed a scanning-based reordering flow that made day-to-day ordering dramatically faster. The design system side was 50+ components, full documentation, and guardrails so designers and developers could ship consistently without babysitting every screen. The result was roughly 60% faster design-to-dev and about 40% faster reordering in real stores. Are you more curious about the mobile app side, the design system, or the business impact numbers?",
       suggestions: [
         "How did you scale the design system?",
         "What was the mobile app impact?",
@@ -39,7 +43,7 @@
       keys: ["sabadell", "banking", "bank", "galatea", "finance"],
       project: "sabadell",
       response:
-        "Banco Sabadell was a full digital banking transformation. I built the Galatea system from scratch and it drove a 35% mobile conversion lift and 45% growth in private banking leads.",
+        "Banco Sabadell was a full digital banking transformation where we basically had to drag an old ecosystem into something people actually wanted to use. I built the Galatea design system from zero, turning a messy set of screens into a single, coherent language that worked for both retail and private banking. We ended up with 200+ components and patterns that teams could plug into instead of reinventing buttons for the hundredth time. That foundation helped drive a 35% lift in mobile conversion and a 45% increase in private banking leads, plus about 50% faster design-to-dev cycles. It is one of those projects where design, ops, and business all line up. Are you interested more in the system itself, the metrics, or how we rolled it out to so many teams?",
       suggestions: [
         "How did Galatea help teams?",
         "What drove the conversion lift?",
@@ -50,7 +54,7 @@
       keys: ["beedata", "saas", "subscription", "data", "analytics", "ai"],
       project: "beedata",
       response:
-        "BeeData was about making AI-driven analytics usable for non-technical teams. We grew subscriptions by 20-30%, improved NPS from 32 to 58, and cut onboarding from 3 weeks to 3 days.",
+        "BeeData was all about taking an intimidating, engineering-first analytics tool and turning it into something normal humans could actually use. We reframed it as a kind of business intelligence advisor, with guided flows and language that made sense to sales and ops teams instead of data scientists. I led research, redesigned the IA, and created dashboards that surfaced the right insights without forcing people to wrestle with a hundred filters. That work grew subscriptions by roughly 20–30%, pushed NPS from 32 up to 58, and cut onboarding from three weeks down to three days. Not bad for something that started as a pretty dense product. Are you more interested in the UX changes, the research, or the business results?",
       suggestions: [
         "How did you improve onboarding?",
         "What did you change in the dashboards?",
@@ -61,7 +65,7 @@
       keys: ["shell", "ev", "charging", "carwash", "payments"],
       project: "shell",
       response:
-        "For Shell, I designed a global app experience that unified EV charging, carwash, fuel, payments, and loyalty. The focus was on scalable patterns that worked across regions.",
+        "For Shell, the challenge was to make one app feel coherent while it juggled EV charging, fuel, carwash, payments, and loyalty across different countries. I focused on creating scalable service patterns and payment flows that could flex to local needs without turning the UI into a Frankenstein monster. That meant lots of work on states, edge cases, and the little transitions that make complex journeys feel simple. The result was a global foundation teams could reuse instead of rebuilding flows for every region. It is not the flashy \"Dribbble shot\" type of work, but it is the kind that quietly keeps everything running. Want to hear more about the EV part, the payments side, or how we handled all those variations?",
       suggestions: [
         "What made the global app scalable?",
         "How did you design for EV use cases?",
@@ -72,7 +76,7 @@
       keys: ["wivai", "caixabank", "retail", "marketplace", "e-commerce"],
       project: "wivai",
       response:
-        "Wivai was CaixaBank's entry into retail e-commerce. I built the brand and mobile-first experience, and it reached 233.4K monthly visits with a 33.6% bounce rate reduction.",
+        "Wivai was CaixaBank's jump into retail e-commerce, which is not exactly the most obvious move for a bank. I helped shape the brand and designed a mobile-first experience that made the whole thing feel trustworthy but still friendly enough for everyday shopping. A lot of the work was about simplifying flows, building trust patterns, and keeping the checkout from turning into a nine-step interrogation. The platform grew to over 233K monthly visits and cut bounce rate by about a third. It is a good example of blending financial UX with consumer e-commerce expectations. Are you more interested in the brand side, the UX flows, or the business impact?",
       suggestions: [
         "How did you define the value prop?",
         "What did mobile-first change?",
@@ -83,7 +87,7 @@
       keys: ["motogp", "racing", "sports", "video", "live"],
       project: "motogp",
       response:
-        "MotoGP needed a visual refresh and new feature concepts. I led the visual direction, created a dark-mode-first system, and designed 8 feature POCs for a 60% mobile audience.",
+        "MotoGP needed a serious visual refresh and some new product thinking to match how fans actually follow races now. I led the visual direction, created a dark-mode-first design system, and prototyped eight new feature concepts focused on a very mobile-heavy audience. Think live data, video, and race-day flows that had to feel exciting without being a chaotic mess. The work modernised the platform’s look and gave leadership concrete POCs to build into the roadmap. It is one of the more \"fun\" projects visually, but it still had a lot of product strategy underneath. Do you want to hear more about the visual system, the concepts, or how we approached live content?",
       suggestions: [
         "What features did you prototype?",
         "How did you handle live data?",
@@ -94,7 +98,7 @@
       keys: ["rio", "tinto", "hr", "safety", "enterprise", "workflow"],
       project: "riotinto",
       response:
-        "Rio Tinto was a global HR platform where I designed a universal core with regional modules. It cut routine HR work by 30% and sped up feature delivery by 60%.",
+        "Rio Tinto was a global HR platform project where the main goal was to make HR tools suck less for both employees and admins. I designed a universal core experience with regional modules so each country could meet its legal and cultural needs without breaking the system. A lot of the work was around workflows, permissions, and making self-service actually usable instead of something people avoid. That structure cut routine HR work by around 30% and sped up feature delivery by roughly 60%. It is very enterprise, but also very satisfying when you see the efficiency numbers move. Are you more into the system architecture part or the UX for employees?",
       suggestions: [
         "How did you drive efficiency?",
         "What was the system architecture?",
@@ -105,7 +109,7 @@
       keys: ["design system", "system", "components", "tokens"],
       project: "sabadell",
       response:
-        "Design systems are a core strength. I built Galatea for Sabadell and co-created Click for Adidas. Both reduced build time and scaled teams without losing consistency.",
+        "Design systems are one of my main playgrounds. I built Galatea for Banco Sabadell from scratch and co-created the Click system for Adidas, both of which went way beyond \"a Figma file with some buttons\". These systems included tokens, components, documentation, and governance so teams could move faster without slowly drifting into chaos. They helped cut design-to-dev time by 50–60% and made it possible to scale work across multiple squads without sacrificing quality. I like systems because they sit right at the intersection of craft, ops, and business impact. Are you interested in how the systems were structured, how we rolled them out, or how they changed team behaviour?",
       suggestions: [
         "How did Galatea work in practice?",
         "Show the Adidas system impact",
@@ -116,7 +120,7 @@
       keys: ["mobile", "mobile-first", "app"],
       project: "adidas",
       response:
-        "Mobile-first is non-negotiable for me. I led the Adidas wholesale app and applied the same approach to banking and e-commerce so users can move faster on mobile.",
+        "Mobile-first is pretty much non-negotiable for me at this point. I led the Adidas wholesale app, where floor staff literally work from their phones while juggling stock and customers. The same mindset carried over into banking and e-commerce work, where I pushed for layouts, interactions, and flows that assume people are on small screens, half-distracted, and probably on the move. That means things like one-handed navigation, progressive disclosure, and trimming any step that does not earn its keep. When you do that well, conversion and task completion almost automatically improve. Are you looking at a mobile-heavy product yourself, or just curious how I approach it?",
       suggestions: [
         "How did you lead the Adidas app?",
         "What mobile-first decisions mattered?",
@@ -127,7 +131,7 @@
       keys: ["impact", "metrics", "results", "growth", "conversion"],
       project: "beedata",
       response:
-        "I focus on measurable outcomes: 35% mobile conversion lift at Sabadell, 20-30% subscription growth at BeeData, and 30% efficiency gains at Rio Tinto.",
+        "I tend to start with metrics rather than wireframes, because pretty UI without results is just decoration. On recent projects that has meant things like a 35% lift in mobile conversion at Sabadell, 20–30% subscription growth at BeeData, and around 30% efficiency gains at Rio Tinto. Those numbers came from a mix of better flows, clearer communication, and design systems that removed friction for teams. It is not about chasing vanity KPIs, it is about making sure design work shows up in the business dashboard. That mindset also keeps conversations with stakeholders very grounded. What kind of outcomes matter most in your context – growth, conversion, efficiency, or something else?",
       suggestions: [
         "Show the Sabadell impact",
         "How did BeeData grow?",
@@ -139,7 +143,7 @@
       project: null,
       response:
         profile.summary ||
-        "I am a Product Design Lead at AILY Labs in Madrid. I build design systems, lead mobile-first work, and focus on business outcomes for global brands.",
+        "I am a Product Design Lead at AILY Labs in Madrid, with a background across Accenture Song and a bunch of global clients. I have spent the last years building design systems from scratch, leading mobile-first work, and obsessing over how design shows up in business metrics. My sweet spot is complex products that need to become simple and useful without losing power. I am also pretty AI-native: I design AI products and use tools like Claude, ChatGPT, and Midjourney daily to move faster. That does not mean skipping thinking – it just means automating the boring parts. What part of my background are you most curious about – experience, projects, or how I work with teams?",
       suggestions: [
         "What makes you different?",
         "Show your best project",
@@ -150,7 +154,7 @@
       keys: ["ai", "aily", "claude", "chatgpt", "midjourney"],
       project: null,
       response:
-        "I am AI-native in two ways: I design AI products at AILY Labs and I use AI tools like Claude, ChatGPT, and Midjourney daily to move faster without losing craft.",
+        "I am fairly AI-native in two directions at once. On one side I lead design at AILY Labs, an AI company in Madrid, which means working on products where AI is not just a buzzword but the core of the experience. On the other side I use tools like Claude, ChatGPT, and Midjourney daily to speed up research synthesis, exploration, and even bits of visual thinking. The trick is knowing when to lean on AI and when to slow down and think like a human, especially for high-stakes decisions. Done right, it lets you move faster without turning everything into generic sludge. Are you thinking about AI in your own product, or just curious how it fits into a design workflow?",
       suggestions: [
         "How do you keep quality high?",
         "What AI features have you designed?",
@@ -161,7 +165,7 @@
       keys: ["different", "unique", "why you", "differentiator"],
       project: null,
       response:
-        "I build systems, not just screens. I have built two design systems from scratch, I am mobile-first by default, and I lead with measurable business impact like 60% faster teams and 35% conversion lifts.",
+        "A few things make me a bit different from the average \"I love Figma\" designer. I build systems, not just screens – I have created two design systems from scratch, not just inherited someone else\u2019s library. I also start from business metrics and constraints, so conversations are about things like 60% faster teams or 35% conversion lifts, not just color palettes. On top of that, I work in an AI company and use AI tools daily, which means I can move fast without cutting corners on thinking. And I have worked across banking, fashion, B2B SaaS, and heavy industry, so I tend to bring patterns from one world into another. Which part of that mix is most relevant to what you are looking for?",
       suggestions: [
         "Show the Galatea system",
         "What impact stands out most?",
@@ -213,19 +217,24 @@
     return `${details.overview} Impact: ${details.impact}`;
   };
 
-  const getChatResponse = (query) => {
+  const getChatResponse = (query, context = {}) => {
+    const { turnCount = 1, wantsProjects = false } = context;
     const normalized = normalize(query);
+    const queryTokens = normalized.split(/\s+/).filter(Boolean);
+
     const match = KEYWORDS.find((entry) =>
-      entry.keys.some((key) => normalized.includes(normalize(key)))
+      entry.keys.some((key) => queryTokens.includes(normalize(key)))
     );
 
     if (match) {
       if (match.project) {
         localStorage.setItem(PROJECT_STORAGE_KEY, match.project);
       }
+      const shouldShowCards =
+        wantsProjects && turnCount >= 2 && !!match.project;
       return {
         text: match.response,
-        projects: match.project ? [projects[match.project]] : [],
+        projects: shouldShowCards ? [projects[match.project]] : [],
         suggestions: match.suggestions,
       };
     }
@@ -237,9 +246,13 @@
     if (activeProject && isFollowUp) {
       const detail = getProjectDetail(activeProject, query);
       if (detail) {
+        const shouldShowCards =
+          wantsProjects && turnCount >= 2 && !!projects[activeProject];
         return {
           text: detail,
-          projects: [projects[activeProject]].filter(Boolean),
+          projects: shouldShowCards
+            ? [projects[activeProject]].filter(Boolean)
+            : [],
           suggestions: [
             "What was the impact?",
             "What was the challenge?",
@@ -249,11 +262,196 @@
       }
     }
 
-    const fallback = searchData[0];
+    // First turn: act as a warm welcome and ask what they are here for
+    if (turnCount === 1) {
+      return {
+        text:
+          "Hey, welcome to my portfolio. I\u2019m here to chat about my work with you, not just dump a wall of links and hope for the best. I\u2019ve got projects across Adidas, banking, B2B SaaS, sports, and heavy industry, all with real business impact behind them. What brings you here today \u2013 hiring, design inspiration, or just being a bit nosy about the projects?",
+        projects: [],
+        suggestions: [
+          "Show me your best work",
+          "Tell me about Adidas Click",
+          "What makes you different as a designer?",
+        ],
+      };
+    }
+
+    // If the user explicitly asks to see work and we have had at least a bit of conversation
+    if (wantsProjects && turnCount >= 2) {
+      return {
+        text:
+          "Got it, you want to see some work instead of just hearing me talk about it. Based on what most people care about, Adidas Click and Banco Sabadell are usually the best starting points – one is global B2B e-commerce, the other is a big banking transformation with a design system at its core. They both show a mix of strategy, craft, and measurable results. I can also point you to more niche projects if you have something specific in mind. For now, here are two good anchors to explore.",
+        projects: [projects.adidas, projects.sabadell].filter(Boolean),
+        suggestions: [
+          "Tell me more about Adidas",
+          "Tell me more about Banco Sabadell",
+          "Show me B2B SaaS work",
+        ],
+      };
+    }
+
+    // Try to answer from the Q&A knowledge base (keep it conversational, not copy-pastey)
+    if (qaPairs.length) {
+      const STOPWORDS = new Set([
+        "the",
+        "and",
+        "for",
+        "with",
+        "this",
+        "that",
+        "what",
+        "how",
+        "why",
+        "who",
+        "where",
+        "when",
+        "are",
+        "is",
+        "do",
+        "does",
+        "can",
+        "could",
+        "should",
+        "would",
+        "your",
+        "you",
+        "me",
+        "my",
+        "i",
+        "im",
+        "its",
+        "about",
+      ]);
+
+      const tokens = normalized
+        .split(/\s+/)
+        .map((t) => t.replace(/[^a-z0-9%+.-]/g, ""))
+        .map((t) => (t === "jaime" ? "you" : t))
+        .filter((t) => t.length > 2 && !STOPWORDS.has(t));
+
+      const detectMode = () => {
+        if (
+          /(salary|compensation|notice|start|visa|sponsor|sponsorship|benefits|equity|authorization)/.test(
+            normalized
+          )
+        )
+          return "recruiter";
+        if (
+          /(figma|sketch|xd|after effects|prototype|prototyp|tokens|components?|dev mode|html|css|javascript|wcag|accessibility|typography|design system)/.test(
+            normalized
+          )
+        )
+          return "designer";
+        if (/(ceo|roi|revenue|kpi|metrics|conversion|retention|growth|strategy)/.test(normalized))
+          return "exec";
+        return "general";
+      };
+
+      const scoreItem = (item) => {
+        let score = 0;
+        tokens.forEach((token) => {
+          if (item.normalizedQuestion.includes(token)) score += 2;
+          if (item.normalizedAnswer.includes(token)) score += 1;
+        });
+        return score;
+      };
+
+      const scored = qaPairs
+        .map((item) => ({ item, score: scoreItem(item) }))
+        .filter((entry) => entry.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 4);
+
+      if (scored.length) {
+        const mode = detectMode();
+        const selected = [scored[0]];
+        // If the query spans multiple topics, blend in close matches.
+        const isMultiTopic =
+          normalized.includes(" and ") ||
+          normalized.includes(" vs ") ||
+          normalized.includes(" / ") ||
+          normalized.includes(",");
+        if (scored[1] && scored[1].score >= scored[0].score * 0.75) selected.push(scored[1]);
+        if (
+          isMultiTopic &&
+          scored[2] &&
+          scored[2].score >= scored[0].score * 0.6
+        )
+          selected.push(scored[2]);
+
+        const splitSentences = (text) => {
+          const parts = String(text)
+            .replace(/\s+/g, " ")
+            .trim()
+            .match(/[^.!?]+[.!?]+|[^.!?]+$/g);
+          return (parts || []).map((s) => s.trim()).filter(Boolean);
+        };
+
+        const keySentences = [];
+        selected.forEach(({ item }, idx) => {
+          const sentences = splitSentences(item.answer);
+          if (!sentences.length) return;
+          // Take 1–2 sentences per answer, capped overall.
+          keySentences.push(sentences[0]);
+          if (idx === 0 && sentences[1] && keySentences.length < 3) keySentences.push(sentences[1]);
+        });
+
+        const intros = {
+          recruiter: "Sure — practical answer, no HR theatre.",
+          designer: "Yep. Here’s the real version, not the Dribbble one.",
+          exec: "If we care about outcomes, here’s how I’d frame it.",
+          general: "Alright — here’s the honest answer.",
+        };
+        const outros = {
+          recruiter:
+            "What’s the role scope and location you’re hiring for, so I can answer in the right context?",
+          designer:
+            "What kind of product are you working on — mobile-first, B2B, consumer — so I can tailor the details?",
+          exec:
+            "What metric are you actually trying to move — conversion, retention, efficiency — so we optimize the right thing?",
+          general:
+            "What’s the context here — are you hiring, looking for inspiration, or trying to solve a specific product problem?",
+        };
+
+        const suggestionsByMode = {
+          recruiter: [
+            "What are your salary expectations?",
+            "How soon can you start?",
+            "Do you need visa sponsorship?",
+          ],
+          designer: [
+            "What’s your design system experience?",
+            "How do you hand off to developers?",
+            "What tools do you use daily?",
+          ],
+          exec: [
+            "What impact have you driven?",
+            "How do you prioritize work?",
+            "Show me a project with metrics",
+          ],
+          general: [
+            "Can you give me a specific example?",
+            "How does that show up in your work?",
+            "Show me a project that proves this.",
+          ],
+        };
+
+        const body = keySentences.join(" ").trim();
+        // Keep answers readable and roughly 4–6 sentences.
+        const text = `${intros[mode]} ${body} ${outros[mode]}`.replace(/\s+/g, " ").trim();
+
+        return {
+          text,
+          projects: [],
+          suggestions: suggestionsByMode[mode] || suggestionsByMode.general,
+        };
+      }
+    }
+
     return {
       text:
-        "I can help you explore projects, impact, or design systems. Try Adidas, Sabadell, BeeData, Wivai, MotoGP, Rio Tinto, or Shell.",
-      projects: fallback ? [projects.adidas, projects.sabadell].filter(Boolean) : [],
+        "I can help you explore projects, impact, or how I work – whatever is most useful for you. There’s work for Adidas, Banco Sabadell, BeeData, Wivai, MotoGP, Rio Tinto, and Shell, plus a couple of design systems that tie everything together. Rather than throwing everything at you at once, I’d rather point you to what actually matches your interests. Are you more into B2B, consumer products, design systems, or something completely different?",
+      projects: [],
       suggestions: [
         "Show the Adidas work",
         "How did you build Galatea?",
@@ -266,21 +464,46 @@
     const row = document.createElement("div");
     row.className = `chat-row ${role}`;
 
-    const avatar = document.createElement("div");
-    avatar.className = `chat-avatar ${role}`;
-    avatar.textContent = role === "user" ? "You" : "JM";
-
     const bubble = document.createElement("div");
     bubble.className = `chat-bubble ${role}`;
-    bubble.textContent = text;
+    const bubbleText = document.createElement("div");
+    bubbleText.className = "chat-bubble-text";
+    bubble.appendChild(bubbleText);
+    row.appendChild(bubble);
 
-    if (role === "user") {
-      row.appendChild(bubble);
-      row.appendChild(avatar);
-    } else {
-      row.appendChild(avatar);
-      row.appendChild(bubble);
-    }
+    const typeText = (fullText) => {
+      const maxChars = 2000;
+      const content = fullText.length > maxChars ? fullText.slice(0, maxChars) : fullText;
+      if (role !== "assistant") {
+        bubbleText.textContent = content;
+        bubble.dataset.typingComplete = "true";
+        return;
+      }
+      bubbleText.textContent = "";
+      let index = 0;
+      const baseDelay = 18;
+      const step = () => {
+        if (index <= content.length) {
+          bubbleText.textContent = content.slice(0, index);
+          index += 2; // slightly faster than 1-by-1
+          // Keep view pinned to the latest message while typing
+          const scroller = document.scrollingElement || document.documentElement;
+          window.scrollTo({
+            top: scroller.scrollHeight,
+            behavior: "smooth",
+          });
+          setTimeout(step, baseDelay);
+        } else {
+          bubble.dataset.typingComplete = "true";
+          bubble.dispatchEvent(
+            new CustomEvent("typing-complete", { bubbles: true })
+          );
+        }
+      };
+      step();
+    };
+
+    typeText(text);
 
     thread.appendChild(row);
     requestAnimationFrame(() => {
@@ -345,7 +568,7 @@
     );
     if (!filtered.length) return;
     const wrap = document.createElement("div");
-    wrap.className = "chat-suggestions";
+    wrap.className = "chat-suggestions is-pending";
     filtered.slice(0, 3).forEach((item) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -357,6 +580,18 @@
       });
       wrap.appendChild(button);
     });
+
+    const reveal = () => {
+      wrap.classList.remove("is-pending");
+      parent.removeEventListener("typing-complete", reveal);
+    };
+
+    parent.addEventListener("typing-complete", reveal);
+    // If typing already finished before we attached the listener, reveal immediately.
+    if (parent.dataset.typingComplete === "true") {
+      reveal();
+    }
+
     parent.appendChild(wrap);
   };
 
@@ -401,9 +636,26 @@
   const handleQuery = (query) => {
     const cleaned = query.trim();
     if (!cleaned) return;
+    chatTurnCount += 1;
+    const normalized = normalize(cleaned);
+    const wantsProjects =
+      normalized.includes("show me your work") ||
+      normalized.includes("show your work") ||
+      normalized.includes("show me work") ||
+      normalized.includes("show projects") ||
+      normalized.includes("show me projects") ||
+      normalized.includes("see your work") ||
+      normalized.includes("see projects") ||
+      normalized.includes("portfolio") ||
+      normalized.includes("case study") ||
+      normalized.includes("case studies") ||
+      normalized.includes("project cards");
     body.classList.add("chat-started");
     addMessage("user", cleaned);
-    const response = getChatResponse(cleaned);
+    const response = getChatResponse(cleaned, {
+      turnCount: chatTurnCount,
+      wantsProjects,
+    });
     const message = addMessage("assistant", normalizeResponseLength(response.text));
     addProjectCards(message, response.projects);
     addSuggestions(message, response.suggestions);

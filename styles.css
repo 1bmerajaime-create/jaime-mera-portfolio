@@ -40,7 +40,7 @@ a {
 }
 
 body.chat-started .page {
-  padding-bottom: 6.5rem;
+  padding: 1.5rem 6vw 6.5rem;
 }
 
 .site-header {
@@ -55,7 +55,7 @@ body.chat-started .page {
 .nav {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.2rem 6vw;
+  padding: 1.2rem 3vw;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -265,7 +265,7 @@ body.chat-started .page {
 
 .home-split {
   grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.2fr);
-  gap: 7rem;
+  gap: 9rem;
   align-items: center;
   margin-top: 4rem;
 }
@@ -279,10 +279,11 @@ body.chat-started .page {
 }
 
 .hero-name {
-  font-size: 72px;
+  font-size: 64px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .hero-avatar {
@@ -598,6 +599,11 @@ body.chat-started .page {
   margin-top: 0.8rem;
 }
 
+.chat-suggestions.is-pending {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .chat-suggestion {
   border: 1px solid #444746;
   background: #1e1f20;
@@ -627,7 +633,7 @@ body.chat-started .chat-thread {
 body.chat-started .messages-container {
   height: auto;
   overflow-y: visible;
-  padding: 40px 24px 140px;
+  padding: 12px 24px 140px;
   scroll-behavior: smooth;
 }
 
@@ -654,11 +660,11 @@ body.chat-started .chat-input-fixed {
 body.chat-started .chat-input-fixed .search-bar {
   display: block;
   width: 100%;
-  max-width: 800px;
+  max-width: 640px;
   margin: 0 auto;
   background: #0a0a0a;
   border: 1px solid #2a2a2a;
-  border-radius: 12px;
+  border-radius: 999px;
   padding: 14px 16px;
   pointer-events: auto;
   box-shadow: none;
@@ -1295,12 +1301,100 @@ body.chat-started .chat-back {
 }
 
 .adidas-kpis {
-  background: #0d0d0d;
+  background: radial-gradient(
+      120% 200% at 0% 0%,
+      rgba(59, 130, 246, 0.22),
+      rgba(10, 10, 10, 0.9)
+    ),
+    #050505;
   padding: 80px 40px;
-  border-top: 1px solid #2a2a2a;
-  border-bottom: 1px solid #2a2a2a;
+  border: 1px solid #2a2a2a;
   border-radius: 20px;
   margin: 0 24px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+}
+
+.wivai-kpis {
+  background: #0d0d0d;
+  padding: 100px 40px;
+  border-top: 1px solid #2a2a2a;
+  margin-bottom: 120px;
+}
+
+.wivai-kpis-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wivai-metrics-2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.wivai-pillars {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  gap: 40px;
+}
+
+.wivai-pillar-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.wivai-pillar-index {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  color: #3b82f6;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.wivai-pillars h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.wivai-pillars p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #d0d0d0;
+}
+
+.wivai-mobile-row {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  align-items: end;
+}
+
+.wivai-mobile-row img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid #2a2a2a;
+  background: #0d0d0d;
+}
+
+@media (max-width: 960px) {
+  .wivai-mobile-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .adidas-kpi-grid {
@@ -1341,6 +1435,37 @@ body.chat-started .chat-back {
   padding: 80px 0;
 }
 
+.wivai-two-col {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: start;
+}
+
+.wivai-two-col-item h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.wivai-two-col-item p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #d0d0d0;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 960px) {
+  .wivai-two-col {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
 .adidas-text {
   max-width: 720px;
   margin: 0 auto;
@@ -1361,11 +1486,13 @@ body.chat-started .chat-back {
   margin-bottom: 24px;
 }
 
-.adidas-section {
+.adidas-section,
+.sabadell-section {
   padding: 80px 0;
 }
 
-.adidas-section-header {
+.adidas-section-header,
+.sabadell-section-header {
   max-width: 1200px;
   margin: 0 auto 60px;
   padding: 0 40px;
@@ -1385,7 +1512,8 @@ body.chat-started .chat-back {
   color: #d0d0d0;
 }
 
-.adidas-media {
+.adidas-media,
+.sabadell-media {
   max-width: 1200px;
   margin: 0 auto 40px;
   padding: 0 40px;
@@ -1393,7 +1521,10 @@ body.chat-started .chat-back {
 
 .adidas-media img,
 .adidas-media-grid img,
-.adidas-mobile-grid img {
+.adidas-mobile-grid img,
+.sabadell-media img,
+.sabadell-media-grid img,
+.sabadell-mobile-grid img {
   width: 100%;
   display: block;
   border-radius: 16px;
@@ -1401,18 +1532,12 @@ body.chat-started .chat-back {
   background: #0d0d0d;
 }
 
-.adidas-media-grid {
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  padding: 0 40px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px;
-}
-
-.adidas-mobile-grid {
+.adidas-media-grid,
+.adidas-mobile-grid,
+.sabadell-media-grid,
+.sabadell-mobile-grid {
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   padding: 0 40px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1425,6 +1550,41 @@ body.chat-started .chat-back {
 
 .adidas-mobile-grid img:nth-child(even) {
   transform: translateY(-12px);
+}
+
+.sabadell-stagger-grid img {
+  transform: none;
+}
+
+@media (min-width: 900px) {
+  .sabadell-stagger-grid img:nth-child(odd) {
+    transform: translateY(10px);
+  }
+
+  .sabadell-stagger-grid img:nth-child(even) {
+    transform: translateY(-10px);
+  }
+}
+
+.adidas-subsection {
+  max-width: 1200px;
+  margin: 0 auto 16px;
+  padding: 0 40px;
+}
+
+.adidas-subsection h3 {
+  margin: 6px 0 8px;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.adidas-subsection p {
+  max-width: 720px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #d0d0d0;
 }
 
 .adidas-list {
@@ -1458,51 +1618,195 @@ body.chat-started .chat-back {
   font-weight: 700;
 }
 
-.adidas-impact {
-  background: #0d0d0d;
-  border: 1px solid #2a2a2a;
-  border-radius: 20px;
-  margin: 0 24px;
+.impact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
-.adidas-impact .adidas-text {
-  padding: 80px 40px;
-}
-
-.adidas-impact-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  margin-top: 32px;
-}
-
-.adidas-impact-card {
-  background: #0a0a0a;
-  border: 1px solid #2a2a2a;
-  border-radius: 16px;
-  padding: 24px;
-}
-
-.adidas-impact-number {
-  display: block;
+.impact-heading {
   font-size: 32px;
   font-weight: 700;
-  color: #3b82f6;
-  margin-bottom: 8px;
-  text-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+  margin-bottom: 32px;
+  text-align: left;
 }
 
-.adidas-impact-label {
-  font-size: 14px;
+.impact-intro {
+  font-size: 18px;
+  color: #d0d0d0;
+  line-height: 1.7;
+  max-width: 720px;
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+.metrics-grid-large {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.metrics-grid-small {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.metric-card {
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.metric-card.large {
+  padding: 48px;
+  min-height: 280px;
+}
+
+.metric-card.small {
+  padding: 40px;
+  min-height: 200px;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  border-color: #3a3a3a;
+}
+
+.metric-number {
+  font-size: 72px;
+  font-weight: 700;
+  color: #3b82f6;
+  line-height: 1;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+}
+
+.metric-card.small .metric-number {
+  font-size: 56px;
+}
+
+.metric-description {
+  font-size: 16px;
   color: #a0a0a0;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+@media (max-width: 1024px) {
+  .adidas-media-grid,
+  .sabadell-media-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metrics-grid-large {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metrics-grid-small {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .metric-number {
+    font-size: 64px;
+  }
+
+  .metric-card.small .metric-number {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-grid-large,
+  .metrics-grid-small {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .metric-card.large .metric-number {
+    font-size: 56px;
+  }
+
+  .metric-card.small .metric-number {
+    font-size: 48px;
+  }
+
+  .metric-card.large,
+  .metric-card.small {
+    min-height: 180px;
+    padding: 32px;
+  }
 }
 
 .adidas-next {
-  background: #0d0d0d;
-  border-top: 1px solid #2a2a2a;
+  background: radial-gradient(
+      130% 200% at 0% 0%,
+      rgba(59, 130, 246, 0.18),
+      rgba(10, 10, 10, 0.95)
+    ),
+    #050505;
+  border: 1px solid #2a2a2a;
   padding: 80px 0;
   border-radius: 20px;
   margin: 0 24px 80px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+}
+
+.adidas-next-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.adidas-next-media img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid #2a2a2a;
+  background: #0d0d0d;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.adidas-next .adidas-text {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.case-two-col {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: start;
+}
+
+.case-two-col-item h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.case-two-col-item p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #d0d0d0;
+  margin-bottom: 24px;
 }
 
 .adidas-label {
@@ -1534,6 +1838,18 @@ body.chat-started .chat-back {
 .reveal-on-scroll.is-visible {
   opacity: 1;
   transform: translateX(0);
+}
+
+@media (max-width: 960px) {
+  .adidas-next-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .case-two-col {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1592,7 +1908,9 @@ body.chat-started .chat-back {
   .adidas-section-header,
   .adidas-media,
   .adidas-media-grid,
-  .adidas-mobile-grid {
+  .adidas-mobile-grid,
+  .sabadell-media-grid,
+  .sabadell-mobile-grid {
     padding: 0 24px;
   }
 
@@ -1613,10 +1931,6 @@ body.chat-started .chat-back {
 
   .adidas-mobile-grid img {
     transform: none;
-  }
-
-  .adidas-impact {
-    margin: 0 16px;
   }
 
   .adidas-impact .adidas-text {
