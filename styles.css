@@ -1319,6 +1319,149 @@ body.chat-started .chat-back {
   position: relative;
 }
 
+.case-hero-modern {
+  background: #0a0a0a;
+}
+
+.case-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+
+.case-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 80px;
+  align-items: start;
+}
+
+.case-hero-left h1 {
+  font-size: 64px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.case-badge {
+  display: inline-flex;
+  font-size: 16px;
+  color: var(--accent);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 32px;
+}
+
+.case-overview {
+  font-size: 18px;
+  color: #d0d0d0;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.case-hero-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.case-meta-label {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #6a6a6a;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.case-meta-value {
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.case-meta-item {
+  margin-bottom: 32px;
+}
+
+.case-kpis-spaced {
+  margin-top: 80px;
+}
+
+.case-challenge {
+  background: #0a0a0a;
+}
+
+.case-challenge-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 40px;
+}
+
+.case-challenge-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 48px;
+}
+
+.case-challenge-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+
+.case-challenge-left p {
+  font-size: 20px;
+  color: #d0d0d0;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+.case-highlight {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.case-challenge-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.case-challenge-card {
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  padding: 32px;
+  border-radius: 12px;
+  min-height: 180px;
+  transition: all 0.3s ease;
+}
+
+.case-challenge-card:hover {
+  border-color: #3a3a3a;
+  transform: translateY(-4px);
+}
+
+.case-card-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.case-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.case-card-desc {
+  font-size: 15px;
+  color: #a0a0a0;
+  line-height: 1.6;
+}
+
 .adidas-hero-content {
   max-width: 900px;
   margin: 0 auto;
@@ -1357,6 +1500,39 @@ body.chat-started .chat-back {
   border-radius: 20px;
   margin: 0 24px;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 1024px) {
+  .case-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .case-hero-inner,
+  .case-challenge-inner {
+    padding: 60px 24px;
+  }
+
+  .case-hero-grid,
+  .case-challenge-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .case-hero-left h1 {
+    font-size: 40px;
+  }
+
+  .case-challenge-title {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .case-challenge-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .wivai-kpis {
