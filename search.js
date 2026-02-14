@@ -21,11 +21,69 @@
   const STORAGE_VERSION = "3";
   const PROJECT_STORAGE_KEY = "jaime-chat-project";
   const CLICKED_SUGGESTIONS_KEY = "jaime-chat-clicked-suggestions";
+  const PENDING_CARDS_KEY = "jaime-chat-pending-cards";
 
   // Lightweight conversational state (not persisted across sessions)
   let chatTurnCount = 0;
+  let lastIntroUsed = "";
+  let lastAssistantMessage = "";
 
   if (!inputs.length || !thread) return;
+
+  const isAffirmative = (normalized) =>
+    /^(yes|yep|yeah|sure|ok|okay|do it|show me|let’s do it|lets do it|go ahead|sounds good)\b/.test(
+      normalized
+    );
+
+  const isNegative = (normalized) =>
+    /^(no|nope|nah|not now|later|don’t|dont)\b/.test(normalized);
+
+  const getPendingCards = () => {
+    const stored = localStorage.getItem(PENDING_CARDS_KEY);
+    if (!stored) return [];
+    try {
+      const keys = JSON.parse(stored);
+      if (!Array.isArray(keys)) return [];
+      return keys.map((k) => projects[k]).filter(Boolean);
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const setPendingCards = (cards = []) => {
+    const keys = Object.keys(projects).filter((key) =>
+      cards.some((card) => card && card.url && card.url === projects[key]?.url)
+    );
+    localStorage.setItem(PENDING_CARDS_KEY, JSON.stringify(keys.slice(0, 2)));
+  };
+
+  const clearPendingCards = () => {
+    localStorage.removeItem(PENDING_CARDS_KEY);
+  };
+
+  const getContextualSuggestions = (text) => {
+    const t = normalize(text);
+    if (t.includes("adidas") || t.includes("click")) {
+      return [
+        "Tell me about the mobile app",
+        "How did you build the design system?",
+        "Show me the project",
+      ];
+    }
+    if (t.includes("design system") || t.includes("components")) {
+      return ["What was the impact?", "Show me examples", "What were the challenges?"];
+    }
+    if (t.includes("sabadell") || t.includes("galatea")) {
+      return ["What drove the conversion lift?", "Show me the project", "How did you roll it out?"];
+    }
+    if (t.includes("beedata")) {
+      return ["What changed in the dashboards?", "How did you improve onboarding?", "Show me the project"];
+    }
+    if (t.includes("shell") || t.includes("payments") || t.includes("ev")) {
+      return ["What were the edge cases?", "How did you scale it globally?", "Show me the project"];
+    }
+    return ["Tell me more", "Show me your work", "What else have you done?"];
+  };
 
   const KEYWORDS = [
     {
@@ -193,6 +251,25 @@
     "why",
   ];
 
+  const SUGGESTED_RESPONSES = {
+    "Tell me about your work":
+      "I'm a Product Design Lead at AILY Labs, but most of my portfolio is from Accenture Song working with Adidas, Banco Sabadell, and BeeData. My sweet spot is making complex systems simple—built two design systems from scratch and led a mobile app to 15+ markets. What kind of projects are you interested in?",
+
+    "What makes you different?":
+      "Three things: I speak business language (60% faster, 35% conversion lift), I've built design systems from scratch twice, and I'm AI-native—use Claude and ChatGPT daily to work 10x faster. Most designers can't do all three. Want to see how that plays out?",
+
+    "What's your biggest achievement?":
+      "Building the Click design system at Adidas—100% adoption by the B2B team and 60% faster development. Close second is leading the Adidas mobile app from research to launch in 15+ markets. What kind of impact matters most to you?",
+  };
+
+  const SUGGESTED_RESPONSE_KEYS = Object.keys(SUGGESTED_RESPONSES).reduce(
+    (acc, key) => {
+      acc[normalize(key)] = key;
+      return acc;
+    },
+    {}
+  );
+
   const getProjectDetail = (projectKey, query) => {
     const details = profile.projects ? profile.projects[projectKey] : null;
     if (!details) return null;
@@ -218,9 +295,52 @@
   };
 
   const getChatResponse = (query, context = {}) => {
-    const { turnCount = 1, wantsProjects = false } = context;
+    const {
+      turnCount = 1,
+      wantsProjects = false,
+      explicitProjectsRequest = false,
+    } = context;
     const normalized = normalize(query);
     const queryTokens = normalized.split(/\s+/).filter(Boolean);
+    const workAdjacent =
+      /(work|project|projects|portfolio|case study|case studies|achievement|different|impact|metrics|results|design system|system|components|adidas|sabadell|beedata|shell|wivai|motogp|rio tinto|riotinto)/.test(
+        normalized
+      );
+    const pickContextProjects = () => {
+      const active = localStorage.getItem(PROJECT_STORAGE_KEY);
+      if (active && projects[active]) return [projects[active]].filter(Boolean);
+      if (/(design system|system|components|tokens)/.test(normalized)) {
+        return [projects.sabadell, projects.adidas].filter(Boolean);
+      }
+      if (/(b2b|saas|enterprise)/.test(normalized)) {
+        return [projects.adidas, projects.beedata || projects.riotinto]
+          .filter(Boolean)
+          .slice(0, 2);
+      }
+      if (/(mobile|app)/.test(normalized)) {
+        return [projects.adidas, projects.shell].filter(Boolean);
+      }
+      return [projects.adidas, projects.sabadell].filter(Boolean);
+    };
+    const showProjectsNow = explicitProjectsRequest
+      ? turnCount >= 2
+      : wantsProjects && turnCount >= 3;
+
+    const suggestedKey = SUGGESTED_RESPONSE_KEYS[normalized];
+    if (suggestedKey) {
+      return {
+        text: SUGGESTED_RESPONSES[suggestedKey],
+        allowShort: true,
+        projects: showProjectsNow
+          ? [projects.adidas, projects.sabadell].filter(Boolean)
+          : [],
+        suggestions: [
+          "Tell me about Adidas Click",
+          "Show me B2B work",
+          "What business impact stands out?",
+        ],
+      };
+    }
 
     const match = KEYWORDS.find((entry) =>
       entry.keys.some((key) => queryTokens.includes(normalize(key)))
@@ -230,8 +350,8 @@
       if (match.project) {
         localStorage.setItem(PROJECT_STORAGE_KEY, match.project);
       }
-      const shouldShowCards =
-        wantsProjects && turnCount >= 2 && !!match.project;
+      // If we're talking about a specific project, start surfacing the card after a couple turns.
+      const shouldShowCards = !!match.project && (showProjectsNow || turnCount >= 2);
       return {
         text: match.response,
         projects: shouldShowCards ? [projects[match.project]] : [],
@@ -247,7 +367,7 @@
       const detail = getProjectDetail(activeProject, query);
       if (detail) {
         const shouldShowCards =
-          wantsProjects && turnCount >= 2 && !!projects[activeProject];
+          !!projects[activeProject] && (showProjectsNow || turnCount >= 3);
         return {
           text: detail,
           projects: shouldShowCards
@@ -266,21 +386,34 @@
     if (turnCount === 1) {
       return {
         text:
-          "Hey, welcome to my portfolio. I\u2019m here to chat about my work with you, not just dump a wall of links and hope for the best. I\u2019ve got projects across Adidas, banking, B2B SaaS, sports, and heavy industry, all with real business impact behind them. What brings you here today \u2013 hiring, design inspiration, or just being a bit nosy about the projects?",
+          "Hey — welcome. What brings you here: hiring, design inspiration, or checking out the work? If you tell me what you care about (B2B, consumer, design systems, mobile), I’ll point you to the right thing.",
         projects: [],
         suggestions: [
-          "Show me your best work",
-          "Tell me about Adidas Click",
-          "What makes you different as a designer?",
+          "Tell me about your work",
+          "What makes you different?",
+          "What's your biggest achievement?",
         ],
       };
     }
 
-    // If the user explicitly asks to see work and we have had at least a bit of conversation
-    if (wantsProjects && turnCount >= 2) {
+    // Work intent: talk first, then show cards after 2–3 turns (unless explicit)
+    if (wantsProjects && !showProjectsNow) {
       return {
         text:
-          "Got it, you want to see some work instead of just hearing me talk about it. Based on what most people care about, Adidas Click and Banco Sabadell are usually the best starting points – one is global B2B e-commerce, the other is a big banking transformation with a design system at its core. They both show a mix of strategy, craft, and measurable results. I can also point you to more niche projects if you have something specific in mind. For now, here are two good anchors to explore.",
+          "Cool — before I throw project links at you like confetti, what kind of work do you actually want to see? Design systems, mobile apps, B2B enterprise, consumer e‑commerce… pick a lane and I’ll point you to the right case study. If you don’t care, I’ll default to the two strongest: Adidas Click and Banco Sabadell.",
+        projects: [],
+        suggestions: [
+          "Design systems",
+          "Mobile apps",
+          "B2B enterprise",
+        ],
+      };
+    }
+
+    if (showProjectsNow && wantsProjects) {
+      return {
+        text:
+          "Alright, you’ve earned the visuals. Here are two strong starting points that show both craft and real numbers — Adidas Click (global B2B + design system) and Banco Sabadell (banking transformation + Galatea). If you tell me what you care about (systems vs product flows vs pure impact), I can narrow it down even more.",
         projects: [projects.adidas, projects.sabadell].filter(Boolean),
         suggestions: [
           "Tell me more about Adidas",
@@ -397,10 +530,34 @@
         });
 
         const intros = {
-          recruiter: "Sure — practical answer, no HR theatre.",
-          designer: "Yep. Here’s the real version, not the Dribbble one.",
-          exec: "If we care about outcomes, here’s how I’d frame it.",
-          general: "Alright — here’s the honest answer.",
+          recruiter: [
+            "Sure — practical answer, no HR theatre.",
+            "Alright — here’s the straight answer.",
+            "Let’s keep it concrete.",
+            "No fluff — here’s what matters.",
+            "If I’m being direct: ",
+          ],
+          designer: [
+            "Yep. Here’s the real version, not the Dribbble one.",
+            "Design-nerd mode on for a sec.",
+            "Ok, here’s what actually matters.",
+            "Let’s talk craft and trade-offs for a second.",
+            "The short version (with the important bits):",
+          ],
+          exec: [
+            "If we care about outcomes, here’s how I’d frame it.",
+            "Here’s the business version.",
+            "Bluntly: this is what moves the needle.",
+            "If we zoom out: outcomes first, then tactics.",
+            "Bottom line:",
+          ],
+          general: [
+            "Alright — here’s the honest answer.",
+            "Honestly?",
+            "Quick but real:",
+            "Here’s the thing:",
+            "Let me put it this way:",
+          ],
         };
         const outros = {
           recruiter:
@@ -437,12 +594,23 @@
         };
 
         const body = keySentences.join(" ").trim();
-        // Keep answers readable and roughly 4–6 sentences.
-        const text = `${intros[mode]} ${body} ${outros[mode]}`.replace(/\s+/g, " ").trim();
+        // Keep answers readable and roughly 4–6 sentences, and vary openings.
+        const introPool = (intros[mode] || intros.general || []).filter(Boolean);
+        const options = introPool.filter((item) => item !== lastIntroUsed);
+        const pickFrom = options.length ? options : introPool;
+        const intro =
+          pickFrom[Math.floor(Math.random() * pickFrom.length)] ||
+          pickFrom[0] ||
+          "";
+        lastIntroUsed = intro || lastIntroUsed;
+        const text = `${intro} ${body} ${outros[mode]}`.replace(/\s+/g, " ").trim();
 
         return {
           text,
-          projects: [],
+          projects:
+            turnCount >= 3 && (wantsProjects || workAdjacent)
+              ? pickContextProjects().slice(0, 2)
+              : [],
           suggestions: suggestionsByMode[mode] || suggestionsByMode.general,
         };
       }
@@ -451,7 +619,10 @@
     return {
       text:
         "I can help you explore projects, impact, or how I work – whatever is most useful for you. There’s work for Adidas, Banco Sabadell, BeeData, Wivai, MotoGP, Rio Tinto, and Shell, plus a couple of design systems that tie everything together. Rather than throwing everything at you at once, I’d rather point you to what actually matches your interests. Are you more into B2B, consumer products, design systems, or something completely different?",
-      projects: [],
+      projects:
+        turnCount >= 3 && (wantsProjects || workAdjacent)
+          ? pickContextProjects().slice(0, 2)
+          : [],
       suggestions: [
         "Show the Adidas work",
         "How did you build Galatea?",
@@ -479,9 +650,23 @@
         bubble.dataset.typingComplete = "true";
         return;
       }
-      bubbleText.textContent = "";
+      // Human-ish typing indicator + small "thinking" pause.
+      bubbleText.innerHTML = `
+        <div class="typing-indicator" aria-hidden="true">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+      `;
       let index = 0;
-      const baseDelay = 18;
+      const words = content.trim() ? content.trim().split(/\s+/).length : 0;
+      const thinkDelay = 120 + Math.min(words * 6, 360);
+      const baseDelay = 16;
+      const startTyping = () => {
+        bubbleText.textContent = "";
+        index = 0;
+        step();
+      };
       const step = () => {
         if (index <= content.length) {
           bubbleText.textContent = content.slice(0, index);
@@ -500,7 +685,7 @@
           );
         }
       };
-      step();
+      setTimeout(startTyping, thinkDelay);
     };
 
     typeText(text);
@@ -627,7 +812,8 @@
     }
   };
 
-  const normalizeResponseLength = (text) => {
+  const normalizeResponseLength = (text, allowShort = false) => {
+    if (allowShort) return text;
     const minLength = 140;
     if (text.length >= minLength) return text;
     return `${text} Want more detail on impact or decisions? Ask me to go deeper.`;
@@ -638,7 +824,30 @@
     if (!cleaned) return;
     chatTurnCount += 1;
     const normalized = normalize(cleaned);
-    const wantsProjects =
+
+    // If we previously offered cards, interpret a "yes/no" reply in context.
+    const pending = getPendingCards();
+    if (pending.length) {
+      if (isAffirmative(normalized)) {
+        clearPendingCards();
+        body.classList.add("chat-started");
+        addMessage("user", cleaned);
+        const msg = addMessage("assistant", "Cool — here you go.");
+        addProjectCards(msg, pending);
+        addSuggestions(msg, getContextualSuggestions(lastAssistantMessage));
+        persistHistory();
+        thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
+        return;
+      }
+      if (isNegative(normalized)) {
+        clearPendingCards();
+      }
+    }
+    const isHomepageSuggested =
+      normalized === normalize("Tell me about your work") ||
+      normalized === normalize("What makes you different?") ||
+      normalized === normalize("What's your biggest achievement?");
+    const explicitProjectsRequest =
       normalized.includes("show me your work") ||
       normalized.includes("show your work") ||
       normalized.includes("show me work") ||
@@ -646,19 +855,42 @@
       normalized.includes("show me projects") ||
       normalized.includes("see your work") ||
       normalized.includes("see projects") ||
-      normalized.includes("portfolio") ||
+      normalized.includes("project cards") ||
       normalized.includes("case study") ||
-      normalized.includes("case studies") ||
-      normalized.includes("project cards");
+      normalized.includes("case studies");
+    const wantsProjects =
+      explicitProjectsRequest ||
+      normalized.includes("show me your best work") ||
+      normalized.includes("tell me about your work") ||
+      normalized.includes("about your work") ||
+      isHomepageSuggested ||
+      normalized.includes("best work") ||
+      normalized.includes("portfolio");
     body.classList.add("chat-started");
     addMessage("user", cleaned);
     const response = getChatResponse(cleaned, {
       turnCount: chatTurnCount,
       wantsProjects,
+      explicitProjectsRequest,
     });
-    const message = addMessage("assistant", normalizeResponseLength(response.text));
-    addProjectCards(message, response.projects);
-    addSuggestions(message, response.suggestions);
+
+    // Always confirm before showing project cards.
+    const offeredCards = Array.isArray(response.projects) ? response.projects.filter(Boolean) : [];
+    let assistantText = normalizeResponseLength(response.text, response.allowShort);
+    let assistantCards = [];
+    if (offeredCards.length) {
+      setPendingCards(offeredCards.slice(0, 2));
+      assistantText = `${assistantText} Want me to pull up the case study card(s)?`;
+      assistantCards = [];
+    }
+
+    const message = addMessage("assistant", assistantText);
+    addProjectCards(message, assistantCards);
+    const sug = (response.suggestions && response.suggestions.length)
+      ? response.suggestions
+      : getContextualSuggestions(assistantText);
+    addSuggestions(message, sug);
+    lastAssistantMessage = assistantText;
     persistHistory();
     thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
   };
@@ -677,11 +909,19 @@
 
   const fitQuickChips = () => {
     if (!quickRow) return;
+    const styles = getComputedStyle(quickRow);
+    // If the row is allowed to wrap (e.g., homepage), don't hide chips.
+    if (styles.flexWrap && styles.flexWrap !== "nowrap") {
+      Array.from(quickRow.children).forEach((chip) => {
+        chip.style.display = "";
+      });
+      return;
+    }
     const chips = Array.from(quickRow.children);
     chips.forEach((chip) => {
       chip.style.display = "";
     });
-    const gapValue = parseFloat(getComputedStyle(quickRow).gap || "0");
+    const gapValue = parseFloat(styles.gap || "0");
     let used = 0;
     const max = quickRow.clientWidth;
     chips.forEach((chip) => {
