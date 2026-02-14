@@ -782,6 +782,1267 @@ A: Senior/Lead IC or Design Manager. Ready to level up from current role. Want m
 
 Q: What makes you interested in us vs other companies?
 A: [Be specific] The combination of [specific thing about their product/mission], [team quality], and [growth stage] is compelling. Seems like right time to join and have real impact.
+
+=====================================
+PART 3 — ADIDAS DEEP DIVE (50)
+=====================================
+
+Q: How long did the Adidas project take?
+A: About 2 years total (2021-2023). The mobile app took roughly 8 months from kickoff to first market launch, then we rolled out to 15+ markets over the next year. The design system was built in parallel and evolved as we learned from the app development.
+
+Q: How many people were on the Adidas team?
+A: Core team was about 12 people - 3-4 designers (including me as mobile lead), 1 PM, 6-7 engineers, plus stakeholders from regional markets. The design system work involved the broader CE-C team of 100+ people eventually.
+
+Q: What was your specific role at Adidas?
+A: I was the design lead for the wholesale mobile app - owned it from user research through global launch. Also co-created the Click design system with the senior design team. Basically led mobile, collaborated on the system.
+
+Q: Who were the users of the Adidas app?
+A: Retail employees at wholesale accounts - store managers and floor staff who needed to reorder products quickly. Not consumers, but B2B buyers working in Adidas retail partner stores globally.
+
+Q: What research did you do for Adidas?
+A: Conducted 15+ interviews with floor employees across different wholesale accounts. Shadowed them during peak seasons to watch actual ordering workflows. Also analyzed existing pain points from support tickets and usage data.
+
+Q: What was the biggest challenge at Adidas?
+A: Designing for global scale with regional variations. Different markets had different wholesale models, but we needed one app. Had to find the universal patterns while allowing for local flexibility.
+
+Q: How did you measure success at Adidas?
+A: Three key metrics - adoption rate (how many accounts actually used the app), time to complete an order (40% faster than before), and design-to-dev speed for the team (60% improvement with the system).
+
+Q: What tools did you use for Adidas?
+A: Figma for design and the design system. Miro for workshops. User testing tools for validation. The design system was built entirely in Figma with proper component architecture and variants.
+
+Q: How did you test the Adidas app?
+A: Prototype testing with actual wholesale buyers in their store environments. Watched them use it during real ordering scenarios, not in a lab. Also did remote testing across different markets to validate regional variations.
+
+Q: What would you change about the Adidas project?
+A: I'd start the design system earlier. We built it alongside the mobile app, but having it first would've made development even faster. Also, I'd push for more aggressive adoption metrics upfront.
+
+Q: How did you handle Adidas brand guidelines?
+A: Adapted them for B2B digital. The brand guidelines were built for consumer marketing, so we had to translate that energy into functional UI while maintaining the Adidas DNA. More restrained but still recognizable.
+
+Q: What was the tech stack for Adidas?
+A: React Native for the mobile app (iOS and Android from one codebase). Not my area, but I worked closely with the tech lead to ensure designs were technically feasible.
+
+Q: How did you prioritize features for Adidas?
+A: User research insights + business impact. Barcode scanning came first because every buyer mentioned it. Order history was second. Offline mode third. Basically ranked by pain point severity and usage frequency.
+
+Q: What made the Adidas app successful?
+A: Solved a real problem (mobile ordering from the floor), worked offline (crucial for poor connectivity), and was fast (40% faster than previous process). Also, the design system made future features easier to build.
+
+Q: How did you convince stakeholders at Adidas?
+A: Showed them the research. Played videos of buyers struggling with the old system. Hard to argue when you see someone fumbling with a desktop in the middle of helping a customer.
+
+Q: What was the Adidas design system built with?
+A: Figma. Atomic Design methodology - atoms, molecules, organisms. Design tokens for colors, spacing, typography. Full documentation with usage examples. Integrated with dev handoff tools.
+
+Q: How many components in the Adidas system?
+A: 50+ documented components. Everything from basic buttons to complex data tables. Each with variants, states, documentation, and code specs for developers.
+
+Q: Who uses the Adidas design system now?
+A: The entire B2B design team - 100% adoption. Started with our team, then rolled out to other B2B products. Now it's the standard for anything wholesale-related at Adidas.
+
+Q: How do you maintain the Adidas design system?
+A: I don't anymore (left Accenture), but we set up governance - design system team reviews new components, version control in Figma, regular sync meetings. It's owned by a dedicated team now.
+
+Q: What was the ROI of the Adidas design system?
+A: 60% faster design-to-development time. That's not just time saved, it's features shipped faster, which means business value delivered sooner. Hard ROI in speed and consistency.
+
+Q: How did you document the Adidas system?
+A: In Figma itself plus Notion. Each component had usage guidelines, do's and don'ts, code snippets, and accessibility specs. Developers could grab what they needed without asking designers.
+
+Q: What frameworks influenced your Adidas work?
+A: Atomic Design for the system architecture. Jobs to Be Done for user research. Mobile-first design principles. Nothing revolutionary, just solid fundamentals executed well.
+
+Q: How did you handle feedback at Adidas?
+A: Regular design reviews with stakeholders and team. User testing at key milestones. Iterated based on data, not opinions. If feedback conflicted with research, research won.
+
+Q: What permissions/roles existed in Adidas app?
+A: Different user roles - store managers could approve orders, floor staff could create them. Regional variations too - some markets had additional approval layers.
+
+Q: How did offline mode work in Adidas?
+A: Users could browse products, build carts, and queue orders offline. Once connectivity returned, orders synced automatically. Critical for stores with poor wifi.
+
+Q: What accessibility features did Adidas have?
+A: WCAG AA compliance - proper contrast ratios, keyboard navigation, screen reader support, large enough touch targets. Not perfect, but solid baseline accessibility.
+
+Q: How did you handle internationalization at Adidas?
+A: Designed with variable text lengths in mind (German is long!). Right-to-left support for Middle East markets. Date and currency formatting handled locally. Tested in multiple languages.
+
+Q: What was your relationship with Adidas stakeholders?
+A: Regular syncs with product team, quarterly reviews with regional leads. They gave business context, I translated to design solutions. Collaborative but I owned the design decisions.
+
+Q: How did you present work to Adidas leadership?
+A: Focus on business outcomes, not design process. Led with metrics - "40% faster ordering means X more orders per day" - then showed the design. Executives care about impact, not pixels.
+
+Q: What surprised you about working with Adidas?
+A: How complex wholesale is. Looks simple (order products), but there's inventory management, regional variations, bulk ordering logic, account hierarchies. Consumer retail is easier.
+
+Q: Would you work with Adidas again?
+A: Absolutely. Great team, challenging problem, real impact at scale. That's the kind of work I want - complex problems with measurable outcomes.
+
+Q: What did you learn from Adidas?
+A: Design systems are force multipliers. Also, global scale requires different thinking - you can't just scale up local solutions, you need architecture that handles variation from day one.
+
+Q: How did the Adidas app handle errors?
+A: Clear error messages in plain language. If an order failed, we explained why and what to do. Also offline queueing meant network errors didn't block users.
+
+Q: What analytics were tracked in Adidas?
+A: Order completion rate, time to order, feature usage, error rates, offline usage. Also which markets were using it most, which features were popular, where users dropped off.
+
+Q: How did you onboard users to Adidas app?
+A: Minimal onboarding - show the barcode scanner, show order history, done. The app was simple enough that we didn't need a tour. Progressive disclosure for advanced features.
+
+Q: What made Adidas different from other e-commerce?
+A: B2B vs B2C. Buyers are professionals doing a job, not consumers browsing. Different mindset - speed and efficiency matter more than discovery and delight.
+
+Q: How did you balance speed vs quality at Adidas?
+A: Ship fast, iterate based on data. We launched with core features, then added based on usage. Perfect is the enemy of shipped, especially for global rollouts.
+
+Q: What would Adidas users say about the app?
+A: "Makes my job easier." That's the goal. They're not there for entertainment, they're there to work. If it's fast and doesn't break, they're happy.
+
+Q: How did you handle design debt at Adidas?
+A: The design system prevented a lot of it. New features used existing components, so consistency was built in. When we did accumulate debt, we'd dedicate sprints to cleanup.
+
+Q: What's your favorite part of the Adidas project?
+A: Watching the design system get adopted. Seeing other designers use components I built and ship features faster - that's the impact I care about.
+
+Q: How did Adidas compare to your other projects?
+A: Larger scale, longer timeline, more moving parts. Most complex from a systems perspective. BeeData had bigger business impact percentage-wise, but Adidas had bigger absolute numbers.
+
+Q: What metrics improved after Adidas launched?
+A: 40% faster reordering, 60% faster development with the system, 15+ markets deployed, 100% team adoption. All measurable, all significant.
+
+Q: How did you ensure Adidas quality?
+A: Design reviews, user testing, QA with developers, pilot programs before full rollout. Also, the design system ensured consistency across everything we built.
+
+Q: What was the biggest risk at Adidas?
+A: Global rollout failing in key markets. We mitigated by starting with pilot markets, gathering feedback, iterating before expanding. Measured approach, not big bang.
+
+Q: How long would you need to get up to speed on a similar project?
+A: Maybe 2 weeks to understand the domain, 1 month to be fully productive. I know B2B e-commerce patterns well now, so I'd move faster than someone learning from scratch.
+
+Q: What would you do differently if starting Adidas today?
+A: Use AI tools to accelerate research synthesis and component creation. Also start with the design system foundation first, then build the app on top of it.
+
+Q: How did you manage scope creep at Adidas?
+A: Clear MVP definition upfront. Every new request got evaluated against: does this help us hit our core metrics? If no, it's v2. If yes, prioritize it properly.
+
+Q: What made you proud about Adidas?
+A: The scale. Millions of orders placed through something I helped design. The system making 100+ people faster. Impact at that level is what design should be about.
+
+Q: How technical did you need to be for Adidas?
+A: Enough to have intelligent conversations with engineers about feasibility and constraints. I don't code production work, but I understand React Native architecture and mobile platform limitations.
+
+Q: What's the legacy of your Adidas work?
+A: The design system. Long after I left, it's still accelerating the team. That's the kind of infrastructure work I love - builds capacity, not just features.
+
+=====================================
+BANCO SABADELL DEEP-DIVE (40)
+=====================================
+
+Q: How long did the Sabadell project take?
+A: About 18 months total (2021-2023). First 6 months was building Galatea from scratch, then 12 months implementing it across retail and private banking segments while iterating based on feedback.
+
+Q: What is Galatea?
+A: The design system I built from zero for Banco Sabadell. Named Galatea (no idea why, client chose it), includes 200+ components, design tokens, documentation - everything needed to build consistent banking experiences at scale.
+
+Q: Why did Sabadell need a design system?
+A: They had fragmented experiences across segments (retail, private, business banking). Every product looked different, slow development, inconsistent UX. Needed scalable foundation for digital transformation.
+
+Q: How many components in Galatea?
+A: 200+ documented components and patterns. From basic buttons to complex data tables to full page layouts. More comprehensive than the Adidas system because banking is more complex.
+
+Q: Who uses Galatea now?
+A: 8 product teams across Sabadell - retail banking, private banking, business banking. About 150+ designers and developers total. It's the standard for all digital banking products.
+
+Q: What was the business impact of Sabadell?
+A: 35% increase in mobile conversion, 45% more qualified Private Banking leads, 50% faster design-to-dev time. Also massive brand consistency improvement across all segments.
+
+Q: How did you approach banking design?
+A: Trust and clarity above all. Banking is high-stakes - people's money is involved. Clear information hierarchy, obvious CTAs, no clever UI tricks. Boring is good in banking.
+
+Q: What made Sabadell challenging?
+A: Regulations, security requirements, legacy systems integration, and serving two different customer segments (retail mass market vs high-net-worth private banking) with one design system.
+
+Q: How did you differentiate retail vs private banking?
+A: Same foundation (Galatea), different expressions. Retail got saturated colors and friendly rounded corners. Private got richer tones and elegant serif accents. Shared components, different styling.
+
+Q: What research did you do for Sabadell?
+A: Competitive analysis of 12+ banks (Spanish and international), user interviews with both retail and private banking customers, analytics review of existing sites, stakeholder workshops to understand business goals.
+
+Q: How mobile-first was Sabadell?
+A: Extremely. 65% of their traffic was mobile. We designed mobile-first, then adapted to desktop. Every component had to work perfectly on small screens before we thought about desktop.
+
+Q: What tools did you use for Sabadell?
+A: Figma for the design system and all screens. Miro for collaborative workshops. Notion for documentation. Standard suite, nothing exotic.
+
+Q: How did you handle Sabadell's brand?
+A: Worked with their brand team to translate print guidelines into digital. They had strong brand equity (colors, typography), we adapted it for screens while maintaining recognition.
+
+Q: What was the biggest challenge at Sabadell?
+A: Building a system flexible enough for two very different segments (retail vs private) while maintaining consistency. Also, navigating banking regulations and security requirements.
+
+Q: How did you measure Galatea's success?
+A: Adoption (8 teams using it), speed improvement (50% faster dev), consistency (measurable reduction in UI variations), and business outcomes (35% conversion, 45% leads).
+
+Q: What's your favorite part of Galatea?
+A: The token system. Built proper design tokens for everything - colors, spacing, typography, shadows. Makes updates cascading and systematic, not manual and error-prone.
+
+Q: How did you document Galatea?
+A: Each component had: visual examples, usage guidelines, code snippets, accessibility specs, do's and don'ts. Documentation lived in Figma and Notion. Developers could self-serve.
+
+Q: How long to build Galatea from scratch?
+A: About 6 months for v1 - foundations, core components, initial documentation. Then we iterated based on real usage. Design systems are never "done," they evolve.
+
+Q: What methodology did you use for Galatea?
+A: Atomic Design - atoms, molecules, organisms, templates, pages. Also design tokens for the foundation layer. Standard industry approach, well-executed.
+
+Q: How did you get buy-in for Galatea?
+A: Showed the cost of inconsistency (screenshots of 5 different button styles across products). Then showed ROI projections (faster development, better consistency). Executives got it immediately.
+
+Q: What was the governance model for Galatea?
+A: Design system team (3 people) owned it. Other teams could propose new components, but system team reviewed for quality and fit. Prevented chaos while allowing contribution.
+
+Q: How did you handle updates to Galatea?
+A: Versioning in Figma. Teams could stay on stable versions or opt into beta features. Communicated changes in a changelog. Tried not to break existing implementations.
+
+Q: What would you improve about Galatea?
+A: More automation. Some of the documentation was manual and got out of sync. Also wish we'd built code generation tools earlier to make design-to-code even faster.
+
+Q: How technical is Galatea?
+A: It's design-focused, but developers were involved from day one. Every component has implementation specs. We didn't just throw designs over the wall.
+
+Q: What makes Galatea different from other design systems?
+A: Built for banking specifically - complex data tables, regulatory compliance patterns, trust-building elements. Most design systems are generic, this was purpose-built.
+
+Q: How did you train teams on Galatea?
+A: Workshops, office hours, detailed documentation. Also embedded with teams during initial adoption to help them use it correctly. Teaching matters as much as building.
+
+Q: What was the adoption rate of Galatea?
+A: 100% eventually. Started with one team as pilot, then rolled out to others. By end of my time there, every product team was using it.
+
+Q: How did Galatea improve time-to-market?
+A: Designers could grab pre-built components instead of designing from scratch. Developers could use existing code instead of building custom. 50% faster overall.
+
+Q: What accessibility standards did Sabadell meet?
+A: WCAG AA compliance across the board. Banking serves everyone, accessibility isn't optional. Proper contrast, keyboard nav, screen reader support built into every component.
+
+Q: How did you handle Sabadell stakeholders?
+A: Regular updates, showed progress incrementally, involved them in key decisions. Banking is conservative - you need buy-in, not top-down mandates.
+
+Q: What surprised you about banking design?
+A: How much trust matters. In e-commerce, flashy can work. In banking, boring is better. Users want confidence, not excitement.
+
+Q: Would you design for banking again?
+A: Yes. High-stakes, complex problems, measurable impact. Plus, most banking UX is terrible - huge opportunity to make things better.
+
+Q: What's the ROI of design systems generally?
+A: Based on Galatea and Click: 50-60% faster development, better consistency, easier onboarding, reduced design debt. Pays for itself in 6-12 months typically.
+
+Q: How did you prioritize what to include in Galatea?
+A: Audit of existing products to find common patterns. Started with highest-frequency components (buttons, forms, cards), then added specialized ones (banking-specific patterns).
+
+Q: What was the team structure at Sabadell?
+A: I worked with 2 other designers on Galatea itself, then collaborated with 8 product teams (50+ people) on implementation. Also product managers, developers, brand team.
+
+Q: How did you handle edge cases in Galatea?
+A: Built for the 80% common use case, documented how to extend for the 20% edge cases. You can't predict everything, so make the system extensible.
+
+Q: What's the difference between retail and private banking design?
+A: Audience and tone. Retail is mass market - clear, approachable, efficient. Private is high-net-worth - premium, sophisticated, personalized. Same functions, different feel.
+
+Q: How did you test Sabadell designs?
+A: Usability testing with actual banking customers, A/B testing on live site, analytics review, accessibility audits. Multi-pronged validation approach.
+
+Q: What made Sabadell successful?
+A: Clear vision (one system, two expressions), executive support, disciplined execution, and measuring everything. Also, the system actually solved real problems.
+
+Q: How long would it take you to build another design system?
+A: Depends on scope, but probably 4-6 months for a solid v1. I know the patterns now, I'd move faster than Galatea took.
+
+=====================================
+BEE DATA DEEP-DIVE (30)
+=====================================
+
+Q: What is BeeData?
+A: B2B SaaS data analytics platform that uses AI to help businesses extract value from their subscription data. They had a powerful backend but an interface built by engineers for engineers.
+
+Q: What was your role at BeeData?
+A: Lead Designer. Owned the entire redesign from research through launch. Interviewed users, redesigned information architecture, created new interfaces, tested with customers.
+
+Q: How long did the BeeData project take?
+A: About 10 months from kickoff to launch. 2 months research, 3 months design, 3 months development, 2 months testing/iteration.
+
+Q: What was broken at BeeData?
+A: High churn, confusing interface, intimidating for non-technical users. Customers couldn't find value fast enough, so they canceled. Classic product-market fit problem masked as UX problem.
+
+Q: What was your strategy for BeeData?
+A: Reframe it. Instead of a "data tool," make it a "business intelligence advisor." Guide users to insights proactively rather than just displaying data.
+
+Q: What research did you do for BeeData?
+A: Interviewed 25+ customers across industries, shadowed 8 users during actual work sessions, analyzed support tickets to find pain points, reviewed analytics for drop-off points.
+
+Q: What was the business impact of BeeData?
+A: 20-30% subscription growth, NPS improved from 32 to 58 (81% jump), onboarding dropped from 3 weeks to 3 days, support tickets down 40%. Massive improvement across every metric.
+
+Q: How did you improve onboarding at BeeData?
+A: Created guided wizards with sample data, added contextual help, removed database jargon, built progressive disclosure. Got users to value in minutes, not weeks.
+
+Q: What made BeeData challenging?
+A: Making complex data analytics accessible without dumbing it down. Enterprise users need power, but they also need usability. Balance is hard.
+
+Q: How did you handle data visualization at BeeData?
+A: Standard chart types (bars, lines, tables) with clear labels and helpful defaults. Didn't try to be clever - clarity over creativity in data viz.
+
+Q: What was the key insight at BeeData?
+A: Users didn't need more data, they needed better insights. We added AI-powered insights that proactively highlighted trends instead of making users hunt for patterns.
+
+Q: How did you measure success at BeeData?
+A: Subscription growth (revenue), NPS (satisfaction), time-to-value (onboarding), support tickets (confusion), feature adoption (usage). All improved significantly.
+
+Q: What would you change about BeeData?
+A: Move faster. We spent 2 months on research when 4 weeks probably would've been enough. Speed matters in startups.
+
+Q: Who are BeeData's users?
+A: Business analysts, operations managers, executives - people who need to understand subscription metrics but aren't data scientists. Non-technical folks doing analytical work.
+
+Q: What features did you add to BeeData?
+A: AI-powered insights panel, natural language queries, guided exploration, contextual help, modular dashboards, better data visualization, simplified navigation.
+
+Q: How did you prioritize features at BeeData?
+A: Impact on churn vs effort to build. What keeps customers around vs what's nice to have? We killed a lot of "cool" features to focus on retention.
+
+Q: What was the biggest challenge at BeeData?
+A: Convincing the engineering team that simplification wasn't dumbing down. They built powerful tools and worried we'd lose power users. We didn't - we made power accessible.
+
+Q: How did you test BeeData designs?
+A: Prototype testing with customers, beta program with friendly clients, analytics review post-launch, ongoing user interviews to validate improvements.
+
+Q: What's the NPS story at BeeData?
+A: Started at 32 (mediocre), ended at 58 (excellent). That's an 81% improvement. Customers went from frustrated to delighted. That's what good UX does.
+
+Q: How did you handle technical users at BeeData?
+A: Progressive disclosure. Simple by default, complex when needed. Power users could go deep, casual users stayed in shallow end. Both were happy.
+
+Q: What did you learn from BeeData?
+A: B2B SaaS is about retention, not just acquisition. Beautiful onboarding means nothing if people churn at month 2. Focus on value delivery, not just first impressions.
+
+Q: Would you work on B2B SaaS again?
+A: Absolutely. I love making complex tools usable. Enterprise software is mostly terrible - huge opportunity for designers who understand business problems.
+
+Q: How did BeeData compare to your other work?
+A: Biggest percentage business impact (20-30% growth). Smaller absolute scale than Adidas, but higher multiplier on existing business. Both matter.
+
+Q: What was your relationship with BeeData founders?
+A: Direct collaboration. Small startup, so I worked with founders daily. They gave me business context, I gave them UX expertise. True partnership.
+
+Q: How did you balance aesthetics vs function at BeeData?
+A: Function first, always. It's a business tool, not a consumer app. If it helps users do their job better, it's beautiful enough.
+
+Q: What makes good B2B SaaS design?
+A: Fast time-to-value, clear workflows, helpful guidance, power when needed, and measurable business impact. Pretty UI is table stakes, outcomes matter more.
+
+Q: How did you simplify BeeData?
+A: Removed jargon, added plain language, progressive disclosure, better defaults, contextual help. Every screen got the "can a normal person understand this?" test.
+
+Q: What was the team structure at BeeData?
+A: Small - me (design), 1 PM, 3 engineers, 2 founders. Scrappy startup team. Everyone wore multiple hats, moved fast, iterated based on customer feedback.
+
+Q: How did you handle customer feedback at BeeData?
+A: Weekly calls with users, support ticket review, feature request tracking. Customers shaped the roadmap - we built what they needed, not what we thought was cool.
+
+Q: What's your proudest moment at BeeData?
+A: Getting an email from a customer saying "this actually makes sense now." That's the dream - making complex simple.
+
+=====================================
+DESIGN PROCESS QUESTIONS (50)
+=====================================
+
+Q: Walk me through your design process.
+A: Understand business goals → research with users → design mobile-first → test prototypes → iterate based on feedback → ship → measure impact → repeat. Nothing revolutionary, just good fundamentals.
+
+Q: How do you start a new project?
+A: Three questions: What business metric are we trying to move? Who are the users and what do they need? What constraints exist (technical, time, budget)? Answer those, then design.
+
+Q: How do you conduct user research?
+A: Interviews (15-25+ users), contextual observation (shadowing in their environment), support ticket analysis, analytics review, competitive analysis. Mix of qual and quant.
+
+Q: How many users do you interview?
+A: Minimum 15, usually 20-25. After that, you start seeing patterns repeat. Quality matters more than quantity - talk to the right people, not just more people.
+
+Q: How do you know when to stop researching?
+A: When patterns repeat and you stop learning new things. Usually around interview 20-25. Also, deadlines matter - perfect research that ships late is useless.
+
+Q: What's your wireframing process?
+A: Low-fi sketches first (paper or Figma rectangles), test core flows, then increase fidelity. Start ugly, add polish later. Prevents getting attached to bad ideas.
+
+Q: How do you handle ambiguous projects?
+A: Start with what you know, make assumptions explicit, validate fast with users. Would rather ship imperfect and learn than wait for perfect clarity.
+
+Q: What's your prototyping approach?
+A: Figma for most prototypes. High-fidelity for stakeholder presentations, low-fidelity for early testing. Match fidelity to the question you're answering.
+
+Q: How do you present designs to stakeholders?
+A: Lead with business context (what problem, what metric), show the solution, explain key decisions, ask for specific feedback. Make it easy to say yes.
+
+Q: How do you handle design feedback?
+A: Distinguish between preferences ("I don't like blue") and problems ("users won't see this"). Listen to problems, push back on preferences. Use data when disagreements arise.
+
+Q: What's your approach to design critiques?
+A: Focus on solutions, not problems. "This doesn't work" isn't helpful. "This doesn't work because X, try Y instead" is helpful. Critique the work, not the person.
+
+Q: How do you prioritize features?
+A: Impact vs effort matrix. What moves key metrics most with least work? Also consider strategic value and user need based on research.
+
+Q: How do you work with product managers?
+A: Collaborative partnership. Align on goals and metrics, then divide ownership - they handle requirements, I handle experience. Regular syncs, shared accountability.
+
+Q: How do you work with engineers?
+A: Early and often. Involve them in design reviews, understand technical constraints, provide clear specs, stay available during implementation. Design doesn't end at handoff.
+
+Q: What's your handoff process?
+A: Figma Dev Mode with detailed specs, component documentation, edge case notes, and myself available for questions. Good handoff = clean implementation.
+
+Q: How do you ensure design quality?
+A: Design reviews with team, user testing at key milestones, QA with developers, analytics review post-launch. Quality is a process, not a checkpoint.
+
+Q: How do you handle tight deadlines?
+A: Ship MVP, cut scope ruthlessly. Focus on core user need, kill nice-to-haves. Better to ship something good than nothing perfect.
+
+Q: What's your approach to accessibility?
+A: Baked in from the start, not bolted on at the end. WCAG AA minimum. Proper contrast, keyboard nav, screen reader support in every design.
+
+Q: How do you test designs?
+A: Prototype testing with users (5-8 people usually enough), analytics on live products, A/B testing when possible, accessibility audits. Mix of methods.
+
+Q: What do you do when users hate your design?
+A: Figure out why. Is it genuinely bad or just different? Test with more users, check analytics, iterate. User feedback is data, not gospel - interpret it.
+
+Q: How do you balance user needs vs business goals?
+A: They're usually aligned. Happy users = business success. When they conflict, find the win-win. If impossible, business goals win - no business, no product.
+
+Q: What's your philosophy on mobile design?
+A: Mobile-first, always. Design for smallest screen, adapt up to desktop. Most users are mobile, so it's not an afterthought.
+
+Q: How do you approach responsive design?
+A: Design for 3 breakpoints - mobile (375px), tablet (768px), desktop (1440px). Use flexible layouts that adapt, not separate designs for every size.
+
+Q: What's your approach to information architecture?
+A: User mental models first, business organization second. How do users think about the content vs how the company organizes it? Design for users.
+
+Q: How do you validate your designs?
+A: User testing, analytics review, A/B testing when possible, business metrics (did conversion improve?). Multiple validation methods, not just one.
+
+Q: What's your design documentation like?
+A: Just enough to be useful. Component specs, usage guidelines, code examples. More documentation isn't better - useful documentation is better.
+
+Q: How do you handle legacy systems?
+A: Incremental improvement. Can't rebuild Rome overnight. Identify highest-impact areas, establish new patterns, gradually migrate old to new.
+
+Q: What's your approach to design debt?
+A: Prevent it with design systems. When it accumulates, dedicate sprints to cleanup. Track it like technical debt - you can't ignore it forever.
+
+Q: How do you measure design success?
+A: Business metrics (conversion, retention, revenue), user satisfaction (NPS, ratings), efficiency (time-to-task), adoption (are people using it?).
+
+Q: What's your QA process?
+A: Review builds with developers, test key flows myself, check accessibility, verify responsive behavior, compare to designs. Catch issues before users do.
+
+Q: How do you handle design reviews?
+A: Regular cadence (weekly usually), psychological safety (critique work not people), focus on outcomes (does this solve the problem?), actionable feedback only.
+
+Q: What's your approach to competitive analysis?
+A: Look at 5-10 competitors, note patterns (what everyone does similarly), identify opportunities (gaps in the market), steal good ideas shamelessly.
+
+Q: How do you stay current with design trends?
+A: Honestly, I don't chase trends. I focus on fundamentals - good typography, clear hierarchy, fast performance. Trends are noise, principles are forever.
+
+Q: What design principles guide your work?
+A: Clarity over cleverness. Speed over perfection. Outcomes over outputs. Users over stakeholders (but serve both). Simple over complex.
+
+Q: How do you approach form design?
+A: Make them as short as possible. Only ask for what you absolutely need. Clear labels, helpful errors, smart defaults. Forms are friction - minimize friction.
+
+Q: What's your design iteration process?
+A: Ship → measure → learn → iterate. Don't wait for perfect, ship good and improve based on real usage. Data beats opinions.
+
+Q: How do you handle scope creep?
+A: Document it clearly, communicate impact on timeline/quality, get explicit prioritization. If scope increases, something else has to give.
+
+Q: What's your approach to empty states?
+A: Make them useful. Don't just say "no data" - explain why and what to do next. Empty states are onboarding opportunities.
+
+Q: How do you design for different user personas?
+A: Find the common needs first (everyone needs core functionality), then handle variations. Don't build separate products for each persona if possible.
+
+Q: What's your error handling philosophy?
+A: Clear messages in plain language. Explain what happened, why, and what to do. "Error 500" helps no one.
+
+Q: How do you approach loading states?
+A: Show something fast (skeleton screens), be honest about wait times, provide progress indicators. Never let users wonder if it's broken.
+
+Q: What's your approach to navigation design?
+A: Make it obvious where you are, where you can go, and how to get back. Top nav for main sections, clear hierarchy, breadcrumbs for deep content.
+
+Q: How do you handle design at scale?
+A: Design systems, clear patterns, good documentation, governance. Can't scale without infrastructure.
+
+Q: What's your approach to user onboarding?
+A: Get to value fast. Don't tour every feature - show the one thing that matters most. Progressive disclosure. Empty state design is onboarding design.
+
+Q: How do you work with remote teams?
+A: Over-communicate, async-first mindset, clear documentation. Record decisions in writing, use async tools, sync when needed for complex discussions.
+
+Q: What's your design review checklist?
+A: Does it solve the user problem? Does it meet business goals? Is it accessible? Is it feasible to build? Is it consistent with existing patterns?
+
+Q: How do you know when a design is done?
+A: When it solves the problem and you're out of time. Design is never truly "done" - you iterate forever or you ship.
+
+Q: What's your biggest design pet peeve?
+A: Over-designed complexity. Designers who make things complicated to show off instead of making them simple to help users.
+
+Q: How do you handle creative blocks?
+A: Look at competitors, talk to users, take a walk. Usually creative blocks mean I don't understand the problem well enough. Go back to research.
+
+=====================================
+LEADERSHIP & MANAGEMENT (50)
+=====================================
+
+Q: How would you describe your leadership style?
+A: Lead by example, transparent communication, focus on outcomes. Give people context and autonomy, get out of their way, provide support when needed.
+
+Q: Have you led design teams before?
+A: Project leadership yes (Adidas mobile team), people management not yet formally. Led cross-functional teams, mentored designers, ready for formal management.
+
+Q: How do you mentor junior designers?
+A: Pair on real work, not theoretical exercises. Review their work with specific feedback, share my decision-making process, give them stretch projects with support.
+
+Q: What makes a good design leader?
+A: Strategic thinking, ability to say no, focus on outcomes not outputs, makes team more valuable to the business. Good leaders multiply team impact.
+
+Q: How would you build a design team from scratch?
+A: Start with 1-2 strong ICs covering different skills (systems thinker + visual designer). Hire for complementary skills, not same skill. Grow based on product needs, not arbitrary headcount.
+
+Q: How do you give critical feedback?
+A: Direct but kind. Specific examples, focus on impact, offer suggestions. "This doesn't work because X, try Y instead" - not just "I don't like it."
+
+Q: How do you handle underperforming team members?
+A: Direct conversation privately. Clear expectations, specific examples, support to improve, defined timeline. If no improvement, part ways. Kind but firm.
+
+Q: What's your approach to hiring designers?
+A: Portfolio review (can they design?), problem-solving exercise (how do they think?), team interview (culture fit?). Look for craft + thinking + collaboration.
+
+Q: How do you onboard new designers?
+A: Pair them with experienced designer, give them real work quickly (not just busy work), regular 1:1s, document everything so they can self-serve.
+
+Q: How would you structure a design team?
+A: Embedded in product teams (1 designer per squad) but with design team connection. Need both autonomy to ship and community to grow.
+
+Q: What's your approach to design operations?
+A: Just enough process to be effective. Design systems, clear workflows, good tools. More process isn't better - useful process is better.
+
+Q: How do you handle design team conflicts?
+A: Address privately and quickly. Understand both perspectives, find common ground or make a decision. Don't let conflicts fester.
+
+Q: What would be your first 90 days as design lead?
+A: Learn the product (weeks 1-2), talk to users (weeks 3-4), identify quick wins (weeks 5-6), build relationships cross-functionally (ongoing), ship something by day 90.
+
+Q: How do you build design culture?
+A: Regular critiques, celebrate good work publicly, invest in craft, involve design early in decisions, measure impact, and hire people who care about outcomes.
+
+Q: How do you balance hands-on work with leadership?
+A: As IC lead: 70% hands-on, 30% leadership. As manager: 50/50. As director: 30% hands-on, 70% leadership. Always want some hands-on to stay sharp.
+
+Q: How do you advocate for design to executives?
+A: Speak their language - business metrics, ROI, competitive advantage. Show how design impacts revenue/retention/efficiency. No designer jargon.
+
+Q: How do you prioritize across multiple projects?
+A: Align with business priorities, focus on highest impact work, kill low-value projects. Better to do 3 things well than 10 things poorly.
+
+Q: How do you handle design-product disagreements?
+A: Data and user research. If we disagree, let's test with users or check analytics. Data usually resolves disagreements.
+
+Q: What's your approach to design strategy?
+A: Align with business strategy, understand user needs, identify design opportunities, prioritize based on impact, measure success.
+
+Q: How do you scale design impact?
+A: Design systems (multiply team output), great documentation (reduce dependencies), clear processes (faster decisions), hire well (team compounds).
+
+Q: How do you handle designer career growth?
+A: Regular 1:1s, clear growth paths, stretch projects, honest feedback, advocate for promotions when earned. Invest in people, they compound.
+
+Q: What's your approach to design team collaboration?
+A: Regular syncs, shared tools, open file access, critique culture, documentation. Transparency and communication prevent duplication and misalignment.
+
+Q: How do you measure design team success?
+A: Business impact (did we move metrics?), velocity (are we shipping?), quality (user satisfaction?), team health (retention, engagement).
+
+Q: How do you handle remote design teams?
+A: Async-first, over-communicate, document everything, regular video syncs for complex topics. Remote can work great with discipline.
+
+Q: What's your approach to design critique?
+A: Psychological safety first (safe to show rough work), focus on solutions (not just problems), everyone participates (not just senior voices).
+
+Q: How do you build relationships with engineering?
+A: Involve them early, understand constraints, respect their expertise, provide clear specs, stay available during implementation. Partnership, not handoff.
+
+Q: How do you handle design team burnout?
+A: Watch for signs, address workload, protect from thrash, ensure breaks, give ownership (autonomy prevents burnout), celebrate wins.
+
+Q: What's your approach to design debt?
+A: Track it, dedicate sprints to cleanup, prevent new debt with systems. Can't ignore it forever or it becomes crushing.
+
+Q: How do you handle stakeholder management?
+A: Regular updates, involve early, manage expectations, communicate trade-offs clearly. No surprises, ever.
+
+Q: How do you build trust with executives?
+A: Deliver what you promise, communicate proactively, speak their language (business metrics), admit when you don't know something.
+
+Q: What's your approach to design rituals?
+A: Weekly critiques, biweekly design reviews, monthly design lunches (team bonding). Enough ritual to create culture, not so much it becomes burden.
+
+Q: How do you handle design team growth?
+A: Hire deliberately (don't just fill headcount), maintain quality bar, invest in onboarding, build community. Better small and excellent than large and mediocre.
+
+Q: What's your management philosophy?
+A: Hire smart people, give them context and autonomy, get out of their way. Manage outcomes not activities, trust until proven otherwise.
+
+Q: How do you handle underperforming projects?
+A: Diagnose root cause (wrong problem? wrong solution? wrong team?), fix or kill. Don't throw good money after bad.
+
+Q: What's your approach to design team communication?
+A: Transparent, frequent, varied channels. Slack for quick stuff, docs for decisions, calls for complex topics, all-hands for big updates.
+
+Q: How do you celebrate design wins?
+A: Public recognition, share customer feedback, call out impact in team meetings. Make success visible.
+
+Q: How do you handle design team feedback?
+A: Ask for it regularly, act on it visibly, close the loop. If you don't act on feedback, people stop giving it.
+
+Q: What's your approach to design leadership development?
+A: Give ownership early, support from sidelines, let people learn from failures (small ones), provide coaching, advocate for growth.
+
+Q: How do you handle design team morale?
+A: Autonomy, mastery, purpose (Dan Pink). Give ownership, invest in growth, connect work to impact. Also, protect from thrash and celebrate wins.
+
+Q: What's your vision for a great design team?
+A: Small, high-impact, business-focused. Designers who can think strategically, execute excellently, and measure their impact. Quality over quantity.
+
+Q: How do you handle cross-functional collaboration?
+A: Regular syncs, shared goals, mutual respect. Design doesn't work in isolation - need strong product, engineering, research partners.
+
+Q: What's your approach to design team tools?
+A: Invest in good tools (Figma, Miro, etc), train people properly, standardize where possible. Bad tools create friction.
+
+Q: How do you handle design team diversity?
+A: Hire for diverse perspectives (background, skills, thinking style), create inclusive culture, amplify quiet voices. Diversity makes better products.
+
+Q: What's your approach to design team metrics?
+A: Track business impact (did we move revenue/retention?), velocity (features shipped), quality (user satisfaction), team health (engagement, retention).
+
+Q: How do you handle remote vs in-office?
+A: Hybrid ideal for me - office for collaboration, home for focus. But full remote works with discipline. Forced full-office is outdated.
+
+Q: What's your leadership development plan?
+A: Lead more projects, take on management, mentor more designers, develop business acumen, maybe MBA or executive coaching eventually.
+
+Q: How would you change design culture?
+A: More business thinking (less pixel-pushing), more measurement (less opinions), more collaboration (less isolation), more shipping (less perfection).
+
+Q: What's your dream design team size?
+A: 5-8 people for a product company. Small enough to move fast, large enough to cover different skills. More than 10 requires management overhead.
+
+Q: How do you evaluate design leadership candidates?
+A: Past impact (measurable outcomes), strategic thinking (see the big picture), people development (did they grow their team?), collaboration (cross-functional).
+
+=====================================
+BUSINESS & STRATEGY (60)
+=====================================
+
+Q: How do you think about business strategy?
+A: Design should serve business goals, not exist in isolation. Understand the P&L, know key metrics, align design work to moving those numbers.
+
+Q: What business metrics do you care about?
+A: Depends on the business. E-commerce: conversion, AOV, retention. SaaS: MRR, churn, LTV. Banking: account openings, deposits, engagement. Know your business's numbers.
+
+Q: How do you measure ROI of design?
+A: Before/after metrics. Did conversion improve? Did retention increase? Did development speed up? Tie design changes to business outcomes when possible.
+
+Q: How do you prioritize design work?
+A: Impact on business metrics vs effort required. Also strategic value (opens new markets?) and user need (validated through research). Multi-factor prioritization.
+
+Q: What's your understanding of product-market fit?
+A: When customers want what you're building and will pay for it. Design can't fix bad PMF, but can improve good PMF. Know the difference.
+
+Q: How do you think about competitive advantage?
+A: Design can be an advantage (Apple), but usually it's table stakes. Real advantage is business model, network effects, brand. Design supports these.
+
+Q: What's your approach to pricing and packaging?
+A: Not my core expertise, but understand that design affects perceived value. Premium design can support premium pricing. Also, clear packaging UX matters.
+
+Q: How do you think about growth?
+A: Acquisition (get users), activation (get them to value), retention (keep them), referral (grow organically), revenue (monetize). Design touches all five.
+
+Q: What's your understanding of unit economics?
+A: Cost to acquire customer (CAC) vs lifetime value (LTV). Design can improve both - better conversion (lower CAC), better retention (higher LTV).
+
+Q: How do you approach platform vs feature decisions?
+A: Platform if you'll build 3+ things on it (design systems are platforms). Feature if it's one-off. Platform costs more upfront, pays off over time.
+
+Q: What's your view on MVP?
+A: Minimum Viable Product - smallest thing that validates hypothesis. Design MVPs should be good enough to test properly, not beautiful enough to ship.
+
+Q: How do you think about market segmentation?
+A: Different users need different things. But don't build separate products for each segment if you can avoid it. Find common needs, handle variations.
+
+Q: What's your approach to pricing strategy?
+A: Understand value delivered, competitive landscape, customer willingness to pay. Design affects perceived value. Work with product on pricing.
+
+Q: How do you evaluate business opportunities?
+A: Market size (TAM), problem severity (how bad is the pain?), competitive landscape (who else?), our advantage (why us?). Design supports, doesn't drive these.
+
+Q: What's your understanding of go-to-market strategy?
+A: How you reach customers and convince them to buy. Design supports GTM through clear value props, good onboarding, viral features. Not my core expertise.
+
+Q: How do you think about customer acquisition?
+A: Many channels (paid, organic, referral, partnerships). Design impacts conversion once they arrive, but getting them there is marketing/growth's job.
+
+Q: What's your view on freemium vs paid?
+A: Freemium can work if free tier genuinely useful (creates loyalty) but leaves room for upgrade (monetization). Design clear upgrade paths.
+
+Q: How do you approach internationalization?
+A: Design for it from start - variable text lengths, date/currency formats, RTL support. Retrofitting is expensive.
+
+Q: What's your understanding of churn?
+A: Lost customers. Design can reduce churn through better onboarding (get to value faster) and better retention features (keep them engaged).
+
+Q: How do you think about customer lifetime value?
+A: Total revenue from customer over their lifetime. Design improves LTV through better retention, upsells, cross-sells. Longer customers stay, more they're worth.
+
+Q: What's your approach to brand strategy?
+A: Brand is promise + delivery. Design delivers on the promise visually. Strong brands command premium prices and customer loyalty.
+
+Q: How do you evaluate partnerships?
+A: Strategic fit, value exchange, integration effort. Design matters for partnership UX - make it seamless or don't do it.
+
+Q: What's your view on data strategy?
+A: Collect what matters, protect user privacy, use it to improve product. Design impacts what data you can collect and how users feel about it.
+
+Q: How do you think about customer segmentation?
+A: Group by behavior more than demographics. High-value vs low-value, engaged vs at-risk. Design experiences appropriate to each segment.
+
+Q: What's your understanding of market positioning?
+A: How customers perceive you vs competitors. Design supports positioning through visual identity, messaging, experience quality.
+
+Q: How do you approach pricing psychology?
+A: Anchoring, social proof, scarcity, framing. Design makes these visible. Work with product on strategy, execute in UI.
+
+Q: What's your view on vertical vs horizontal products?
+A: Vertical (deep in one industry) vs horizontal (broad across industries). Different design approaches - vertical needs domain expertise.
+
+Q: How do you think about switching costs?
+A: Cost/pain to change providers. Design can increase switching costs (unique features, integrations) or decrease them (easy export, portability).
+
+Q: What's your understanding of network effects?
+A: Product gets better as more people use it. Design for network effects - make it easy to invite, show value of network, reward connectors.
+
+Q: How do you approach customer retention?
+A: Onboarding (get to value), engagement (keep them active), support (help when stuck). Design all three touchpoints.
+
+Q: What's your view on business model innovation?
+A: Can create massive value. But most companies shouldn't innovate business model AND product simultaneously. Too risky.
+
+Q: How do you think about sales efficiency?
+A: Cost to close a deal. Design can help - clear demos, self-serve trials, good sales materials. Support sales, don't replace it.
+
+Q: What's your understanding of customer acquisition cost?
+A: Total cost to acquire a customer. Design impacts conversion (better UX = higher conversion = lower CAC). Track it.
+
+Q: How do you approach upselling and cross-selling?
+A: Design natural upgrade paths, show value of premium features, make switching tiers easy. Don't be sleazy.
+
+Q: What's your view on customer success?
+A: Help customers achieve their goals. Design for success - good onboarding, helpful guidance, clear paths to value.
+
+Q: How do you think about market timing?
+A: Too early = educating market (expensive). Too late = crowded (hard to differentiate). Can't control timing, but design can speed adoption.
+
+Q: What's your understanding of gross margin?
+A: Revenue minus cost of goods sold. SaaS has high gross margins (good), retail has low (challenging). Design doesn't directly impact COGS usually.
+
+Q: How do you approach customer feedback loops?
+A: Collect feedback, analyze patterns, prioritize changes, implement, measure impact. Design the feedback collection UX carefully.
+
+Q: What's your view on viral growth?
+A: Users invite users. Design mechanisms that make sharing valuable and easy. Dropbox referrals, Slack team invites. Hard to force.
+
+Q: How do you think about customer onboarding?
+A: Get them to "aha moment" fast. Design clear path to value, remove friction, provide helpful guidance without overwhelming.
+
+Q: What's your understanding of monthly recurring revenue?
+A: Predictable subscription income. SaaS gold standard. Design impacts MRR through conversion (new MRR), retention (keep MRR), expansion (grow MRR).
+
+Q: How do you approach expansion revenue?
+A: Existing customers paying more. Upsells, cross-sells, usage-based pricing. Design clear upgrade paths and show value of expansion.
+
+Q: What's your view on customer support strategy?
+A: Self-serve when possible (design good help docs), human support when needed (design good ticketing). Support is expensive.
+
+Q: How do you think about distribution strategy?
+A: How product reaches customers. Direct (own sales), indirect (partners), marketplaces. Design impacts each channel differently.
+
+Q: What's your understanding of burn rate?
+A: Money spent per month. Startups burn cash building product. Design efficiently - don't over-design, ship MVPs, measure impact.
+
+Q: How do you approach market research?
+A: Understand market size, competitive landscape, customer needs, pricing benchmarks. Design for market realities, not assumptions.
+
+Q: What's your view on platform strategy?
+A: Build ecosystem where others create value. Design great APIs, developer experience, partnership UX. Hard but powerful.
+
+Q: How do you think about customer acquisition channels?
+A: Paid, organic, referral, partnerships. Design impacts conversion for all channels. Track which channels work, optimize for those.
+
+Q: What's your understanding of product-led growth?
+A: Product itself drives acquisition and expansion. Design for virality, easy sharing, clear value, frictionless onboarding. SaaS trend.
+
+Q: How do you approach customer journey mapping?
+A: Map awareness → consideration → purchase → onboarding → usage → renewal. Design each touchpoint. Find friction, remove it.
+
+Q: What's your view on brand equity?
+A: Value of your brand vs generic alternative. Strong brands command premium prices. Design builds brand through consistency and quality.
+
+Q: How do you think about pricing tiers?
+A: Good/better/best. Design clear differentiation, make upgrading obvious, show value at each tier. Most people pick middle tier.
+
+Q: What's your understanding of annual recurring revenue?
+A: Yearly subscription income. More stable than MRR (longer commitments). Design annual plans to feel valuable (discounts, bonuses).
+
+Q: How do you approach customer lifetime metrics?
+A: How long customers stay, how much they spend, how often they refer. Design for long-term value, not just quick wins.
+
+Q: What's your view on cash flow management?
+A: Money in vs money out. Startups burn cash, need runway. Design efficiently, don't waste money on unnecessary features.
+
+Q: How do you think about technology moats?
+A: Defensible technical advantage. Design can support (Apple), but rarely is the moat itself. Know the difference.
+
+Q: What's your understanding of payback period?
+A: How long to recover customer acquisition cost. Shorter is better. Design impacts through retention (keep them longer = recover faster).
+
+Q: How do you approach feature adoption?
+A: Track who uses new features, why others don't. Design for discoverability, provide onboarding, measure usage. Kill unused features.
+
+Q: What's your view on economies of scale?
+A: Bigger = more efficient. Design systems create economies of scale in design/development. 100 features with system is faster than 10 without.
+
+=====================================
+SHELL APP DEEP-DIVE (30 QUESTIONS)
+=====================================
+
+Q: What is the Shell app project?
+A: Mobile app for Shell that integrates fuel payment, EV charging, and carwash services into one seamless experience. Think of it as Shell's digital ecosystem - everything you need at a gas station, in your pocket.
+
+Q: What was your role on Shell?
+A: Design Lead for the mobile experience. Owned the UI/UX for payment flows, EV charging integration, and carwash booking features. Worked with Shell's global product team.
+
+Q: How long did the Shell project take?
+A: About 14 months (2022-2023). First 3 months was research and strategy, then 6 months design and development, then 5 months rollout and iteration across markets.
+
+Q: What was the main challenge with Shell?
+A: Integrating three different services (fuel, EV charging, carwash) into one cohesive experience without it feeling bloated. Each service has different users and use cases - had to find the common patterns.
+
+Q: Who uses the Shell app?
+A: Three main groups - traditional fuel customers (convenience), EV drivers (charging infrastructure), and car owners (carwash services). Different needs, same app.
+
+Q: What research did you do for Shell?
+A: Interviewed 30+ users across all three service types, observed behavior at Shell stations, analyzed competitor apps (BP, Exxon, Tesla for EV), reviewed support tickets and app store reviews.
+
+Q: What was the business impact of Shell?
+A: 2M+ active users globally, 45% mobile payment adoption, 1.5M EV charging sessions, 30% increase in carwash bookings, 4.2/5 app store rating. Strong adoption across all services.
+
+Q: How did you approach the Shell app design?
+A: Service-agnostic core (payment, account, location finding), then service-specific features (EV charging stations, carwash booking). Modular architecture so users only see what's relevant to them.
+
+Q: What made Shell different from other gas station apps?
+A: EV charging integration. Most gas apps ignore EVs (wrong!). Shell embraced the transition - same app for both fuel and electric. Future-proofing the business.
+
+Q: How did you handle the fuel vs EV divide?
+A: Smart defaults based on user behavior. If you charge EVs, we show charging stations first. If you fuel, we show pumps. App adapts to you, not one-size-fits-all.
+
+Q: What was the payment flow like?
+A: Tap-to-pay at the pump, Apple/Google Pay integration, Shell loyalty program built in. Under 3 taps from app open to payment authorized. Speed was critical.
+
+Q: How did you design the EV charging experience?
+A: Show charging station availability in real-time, pricing transparency, reservation system for high-demand locations. Also estimated charging time based on vehicle type.
+
+Q: What was the carwash booking feature?
+A: Book ahead, skip the line, pay in app. Reduced wait times, increased throughput for Shell, better experience for users. Win-win.
+
+Q: How mobile-first was Shell?
+A: 100% mobile-only. No desktop version (doesn't make sense - you're at a gas station). Designed for one-handed use, thumb zones, quick interactions.
+
+Q: What accessibility features did Shell include?
+A: WCAG AA compliance, large touch targets (you're often using it while standing at a pump), high contrast mode, VoiceOver support. Accessibility = usability for everyone.
+
+Q: How did you measure success at Shell?
+A: Adoption rate (2M+ users), payment penetration (45% mobile), feature usage (1.5M EV sessions, 30% carwash growth), satisfaction (4.2/5 rating). All measurable.
+
+Q: What would you improve about Shell?
+A: Better predictive features - "you usually fuel on Thursdays, reminder?" Also smarter station recommendations based on route/preferences, not just proximity.
+
+Q: How did Shell handle loyalty programs?
+A: Integrated Shell's existing loyalty into the app. Earn points automatically with mobile payment, redeem in-app. Made loyalty frictionless.
+
+Q: What was the biggest technical challenge with Shell?
+A: Real-time station data - pump availability, EV charger status, carwash queue length. Required integration with hardware at thousands of locations globally.
+
+Q: How did you test the Shell app?
+A: Prototype testing with users, beta program at select stations, analytics review post-launch. Also spent time at Shell stations watching people use it in the wild.
+
+Q: What made the Shell payment flow fast?
+A: Pre-authorization, stored payment methods, location-based pump detection. App knows which pump you're at, you just confirm and authorize. Under 10 seconds.
+
+Q: How did you handle different Shell station types?
+A: Some have EV chargers, some don't. Some have carwash, some don't. App adapts based on location - only shows available services.
+
+Q: What was the EV charging pricing strategy?
+A: Transparent pricing per kWh, estimated total cost before charging starts. EV drivers hate surprise bills - we showed costs upfront.
+
+Q: How did you design for international markets?
+A: Variable station configurations, different payment methods by country, metric vs imperial units, localized content. Global app, local flexibility.
+
+Q: What analytics did Shell track?
+A: Payment completion rate, feature adoption, station dwell time, cross-service usage (do fuel customers try EV charging?), app crashes, support requests.
+
+Q: How did Shell compare to your other work?
+A: Similar to Adidas in scale (millions of users), but consumer vs B2B. Different mindset - Shell users want speed and convenience, not deep engagement.
+
+Q: Would you work on mobility/energy apps again?
+A: Yes. Energy transition is happening - EVs, renewable energy, charging infrastructure. Huge design opportunity to make sustainable choices convenient.
+
+Q: What surprised you about Shell users?
+A: How much they value speed. Fueling is a chore, not a destination. Design for fastest possible experience, not engagement. Different from e-commerce or social apps.
+
+Q: What made Shell successful?
+A: Solved real problems (payment friction, EV charging anxiety, carwash wait times) with simple solutions. Also, Shell's scale - 2M+ users is serious adoption.
+
+Q: What did you learn from Shell?
+A: Context matters. An app used at a gas station has different design constraints than one used at home. Design for the actual use environment, not idealized lab conditions.
+
+=====================================
+WIVAI / CAIXABANK DEEP-DIVE (40 QUESTIONS)
+=====================================
+
+Q: What is Wivai?
+A: CaixaBank's strategic move into retail e-commerce. Not a bank offering products, but a bank becoming a retailer. They wanted to compete with Amazon and El Corte Inglés.
+
+Q: What was your role at Wivai?
+A: Design Lead. Owned the complete digital brand creation and platform design from scratch. Everything from brand identity to checkout flow.
+
+Q: How long did Wivai take?
+A: About 16 months (2021-2023). 3 months brand development, 8 months platform design and build, 5 months testing and rollout.
+
+Q: What was the main challenge with Wivai?
+A: Convincing 3.5M banking customers to trust their bank as a retailer. "Why should I buy shoes from my bank?" was a real question we had to answer.
+
+Q: Who are Wivai's users?
+A: Existing CaixaBank customers (3.5M+ at launch) plus new retail customers. Two audiences - people who trust the bank, and people who just want good products.
+
+Q: What research did you do for Wivai?
+A: Competitive analysis of 15+ e-commerce platforms, user interviews with CaixaBank customers, market research on Spanish retail behavior, tested prototypes with focus groups.
+
+Q: What was the business impact of Wivai?
+A: 233.4K monthly visits achieved, 33.6% bounce rate reduction, 70% mobile traffic (aligned with Spanish market), 3.5M+ customers at launch. Strong market entry.
+
+Q: How did you approach brand development for Wivai?
+A: Separate from CaixaBank's corporate identity but leveraging their trust. Warmer colors, friendlier tone, approachable imagery. Not banking-formal, but credible.
+
+Q: What made Wivai different from other e-commerce?
+A: CaixaBank payment integration (frictionless for existing customers), trust factor (financial institution backing), and discovery-focused (curated products, not infinite selection).
+
+Q: How mobile-first was Wivai?
+A: Extremely. 70% of Spanish e-commerce is mobile. We designed for thumb zones, infinite scroll, one-tap checkout. Desktop was the adaptation, not the starting point.
+
+Q: What was your design strategy for Wivai?
+A: Discovery plus convenience. Not competing on price alone (Amazon wins that), but on curation and ease. Help people find things they didn't know they wanted.
+
+Q: How did you handle CaixaBank's brand guidelines?
+A: Adapted them for retail. Banking guidelines are corporate and serious - we made them warmer and more approachable while maintaining trust and credibility.
+
+Q: What features did you prioritize for Wivai?
+A: Visual product discovery (cards, infinite scroll), smart recommendations, one-tap payment for CaixaBank customers, mobile-first checkout. Speed and convenience over feature bloat.
+
+Q: How did you design the homepage?
+A: Hero offers, trending products, personalized recommendations, category navigation. Standard e-commerce patterns executed really well - don't reinvent the wheel.
+
+Q: What was the product browsing experience?
+A: Visual cards, filters that actually work, sort options people use, quick view for details. Made it easy to browse hundreds of products on mobile.
+
+Q: How did you approach product detail pages?
+A: Large images (swipe gallery), key specs above fold, reviews/ratings, clear CTA, size/color variants. Everything a buying decision needs, nothing extra.
+
+Q: What was the checkout flow?
+A: For CaixaBank customers - one tap (saved payment, address). For new customers - guest checkout option, minimal fields, clear progress. Never ask for more than you need.
+
+Q: How did you integrate CaixaBank payment?
+A: Seamless for existing customers - they're already authenticated in banking app, payment just works. Trust plus convenience.
+
+Q: What made Wivai trustworthy?
+A: CaixaBank backing (financial credibility), real product photography (no stock images), honest pricing (no hidden fees), clear return policy. Transparency builds trust.
+
+Q: How did you handle returns and customer service?
+A: Clear return policy upfront, easy return process in-app, CaixaBank customer service integration. Leverage existing trust infrastructure.
+
+Q: What was the biggest risk with Wivai?
+A: Brand confusion. "Is this banking or shopping?" We needed clear separation while leveraging CaixaBank trust. Walked a fine line.
+
+Q: How did you test Wivai designs?
+A: Prototype testing with CaixaBank customers, A/B testing different layouts, usability testing for checkout flow, analytics review post-launch.
+
+Q: What surprised you about Wivai users?
+A: How quickly they trusted it. CaixaBank's financial credibility transferred to retail faster than expected. Existing trust is a powerful asset.
+
+Q: How did Wivai compare to other e-commerce platforms?
+A: Smaller catalog (curated), Spanish market focus (not global), banking integration (unique advantage). Different positioning than Amazon.
+
+Q: What was the product photography strategy?
+A: Real products, real photography, honest representation. No misleading images. Trust matters more than making things look perfect.
+
+Q: How did you approach personalization?
+A: Behavioral recommendations (based on browsing/purchases), trending products (social proof), category-based suggestions. Smart but not creepy.
+
+Q: What was the search experience?
+A: Auto-complete, typo tolerance, filters, sort options. Standard e-commerce search done well - users know these patterns.
+
+Q: How did you handle inventory management UX?
+A: Real-time stock status, "only 3 left" urgency (when true), out-of-stock alternatives. Transparency about availability.
+
+Q: What was the navigation structure?
+A: Category-based (standard e-commerce), trending section, personalized for you, search. Simple hierarchy, no mystery meat.
+
+Q: How did you design for trust signals?
+A: CaixaBank logo (credibility), secure payment badges, customer reviews, clear return policy, customer service access. Multiple trust indicators.
+
+Q: What was the mobile app vs web strategy?
+A: Mobile-first web, then native app. Web for discovery (SEO), app for loyal customers (notifications, saved preferences).
+
+Q: How did you measure Wivai success?
+A: Monthly visits (233.4K), bounce rate (33.6% reduction), conversion rate, average order value, mobile vs desktop split (70% mobile validated our approach).
+
+Q: What would you improve about Wivai?
+A: More aggressive personalization, better AR for product preview (furniture, fashion), social proof features (what friends bought), smarter recommendations.
+
+Q: How did Wivai handle competition?
+A: Didn't try to be Amazon. Focused on curated selection, CaixaBank customer convenience, trust factor. Different game, not same game.
+
+Q: What was the loyalty program strategy?
+A: Integrate with CaixaBank rewards, earn points on purchases, redeem for discounts or banking benefits. Cross-pollinate the ecosystems.
+
+Q: How did you approach category pages?
+A: Filters that match how people shop (price, brand, features), visual grid, quick view option, sort by relevance/price/popularity.
+
+Q: What analytics did Wivai track?
+A: Conversion funnel, cart abandonment, product views, search queries, filter usage, mobile vs desktop behavior, payment method breakdown.
+
+Q: What made Wivai challenging technically?
+A: Integration with CaixaBank authentication, real-time inventory across suppliers, payment processing, Spanish market payment methods (Bizum, etc).
+
+Q: How did you handle Spanish market specifics?
+A: Bizum payment integration (very popular in Spain), Spanish holidays (affect shipping), metric measurements, local product preferences.
+
+Q: What did you learn from Wivai?
+A: Banks can become retailers if they leverage trust and convenience. Also, mobile-first isn't optional in Spain - 70% mobile is the market reality.
+
+=====================================
+MOTOGP DEEP-DIVE (30 QUESTIONS)
+=====================================
+
+Q: What is MotoGP?
+A: Premier motorcycle racing championship - think Formula 1 but for bikes. I worked on the digital platform redesign and new feature concepts.
+
+Q: What was your role at MotoGP?
+A: Design Lead for the visual redesign and proof-of-concept work. Modernized the brand's digital presence and designed 8 interactive feature POCs.
+
+Q: How long did MotoGP take?
+A: About 8 months (2022). 2 months research and strategy, 4 months design and POCs, 2 months stakeholder reviews and handoff.
+
+Q: What was the main challenge with MotoGP?
+A: Modernizing a racing brand without losing its heritage. MotoGP has passionate fans - you can't just "rebrand" it. Evolution, not revolution.
+
+Q: Who are MotoGP's users?
+A: Racing fans (hardcore followers), casual viewers (watch races occasionally), fantasy league players, and riders' fans. Different engagement levels, different needs.
+
+Q: What research did you do for MotoGP?
+A: Surveyed 50+ racing fans, analyzed competitor platforms (Formula 1, NASCAR), reviewed social media engagement, studied race day traffic patterns (60% mobile during races).
+
+Q: What was the business goal for MotoGP?
+A: Increase digital engagement, attract younger fans, monetize content better, improve race day experience. Make MotoGP more accessible without dumbing it down.
+
+Q: How did you approach the visual redesign?
+A: Bold, fast, dynamic. Racing is about speed and adrenaline - the design should feel that way. More video, more motion, less static imagery.
+
+Q: What was mobile vs desktop for MotoGP?
+A: 60% mobile on race days (people watching on TV, browsing on phone), 50/50 otherwise. Designed mobile-first but recognized dual-screen behavior.
+
+Q: What POC features did you design?
+A: Live race tracking (follow your favorite rider), augmented reality bike comparison, fantasy league integration, rider stats dashboard, live timing, social betting, race highlights auto-generation, and personalized content feed.
+
+Q: What was the homepage redesign?
+A: Hero video (race highlights), upcoming race countdown, rider standings, news feed, personalized content. Dynamic and always fresh.
+
+Q: How did you design the race experience?
+A: Live timing, rider positions, lap times, telemetry data, multiple camera angles. Give fans the data they want without overwhelming casual viewers.
+
+Q: What was the video strategy?
+A: Video-first. Racing is visual - show don't tell. Race highlights, rider interviews, behind-the-scenes, onboard cameras. More video, less text.
+
+Q: How did you approach navigation?
+A: Races (schedule, results, highlights), Riders (profiles, stats), Teams, Standings, News. Simple hierarchy, clear paths.
+
+Q: What made MotoGP different from other sports platforms?
+A: More technical data (telemetry, lap times, bike specs). Racing fans are data-hungry - they want numbers, not just stories.
+
+Q: How did you handle the global audience?
+A: Multiple languages, different time zones for races, regional content, international sponsors. Global sport requires global thinking.
+
+Q: What accessibility considerations did MotoGP have?
+A: High contrast (readable during bright race days), closed captions for videos, keyboard navigation for data tables. Standard WCAG AA compliance.
+
+Q: What was the rider profile design?
+A: Stats, career highlights, current bike specs, social media feed, upcoming races, photos/videos. Everything fans want to know about their favorite rider.
+
+Q: How did you design the standings page?
+A: Clear hierarchy (champion highlighted), points breakdown, recent race results, historical comparison. Make it easy to see who's winning and by how much.
+
+Q: What was the fantasy league feature?
+A: Pick your team, track performance, compete with friends, win prizes. Increase engagement beyond just watching races.
+
+Q: How did you approach race highlights?
+A: Auto-generated based on key moments (overtakes, crashes, celebrations), personalized to your favorite riders, shareable clips. Make highlights easy to consume and share.
+
+Q: What was the augmented reality concept?
+A: AR bike comparison - see different bikes side-by-side in 3D, compare specs, visualize performance differences. Cool tech that serves a purpose.
+
+Q: How did you design for race day?
+A: Live timing, real-time standings, social feed, video highlights. Everything happening now, easily accessible. Race day is peak engagement.
+
+Q: What analytics did MotoGP track?
+A: Video views, time on site, feature engagement, race day traffic spikes, mobile vs desktop, returning vs new visitors.
+
+Q: What would you improve about MotoGP?
+A: More social features (watch with friends virtually), better notifications (race start reminders, favorite rider updates), deeper telemetry for hardcore fans.
+
+Q: How did MotoGP compare to your other work?
+A: More brand-focused, less conversion-focused. Sports platforms are about engagement and loyalty, not transactions. Different success metrics.
+
+Q: What surprised you about racing fans?
+A: How data-hungry they are. They want lap times, bike specs, tire strategies - much more technical than casual sports fans.
+
+Q: What was the content strategy?
+A: Video-first, always fresh, personalized when possible, accessible to new fans but deep for hardcore fans. Serve both audiences.
+
+Q: How did you handle sponsor integration?
+A: Visible but not intrusive. Sponsors pay the bills, but users hate ads. Find the balance - sponsored content that's actually useful.
+
+Q: What did you learn from MotoGP?
+A: Sports fans are passionate and detail-oriented. Design for their enthusiasm - give them the data and content they crave. Also, mobile on race day is critical.
+
+=====================================
+RIO TINTO DEEP-DIVE (30 QUESTIONS)
+=====================================
+
+Q: What is Rio Tinto?
+A: Global mining corporation - one of the largest in the world. I worked on their enterprise HR system redesign called "True View."
+
+Q: What was your role at Rio Tinto?
+A: Design Lead for the True View platform. Owned the UX for a unified HR system handling employee data across multiple countries and regulations.
+
+Q: How long did Rio Tinto take?
+A: About 12 months (2021-2022). 3 months discovery and research, 6 months design and build, 3 months testing and rollout.
+
+Q: What was True View?
+A: Unified HR platform for Rio Tinto employees globally. Before True View, each country had different systems with different interfaces. Chaos for HR staff transferring between regions.
+
+Q: What was the main challenge at Rio Tinto?
+A: Different countries, different labor laws, different HR processes. Build one system flexible enough for all variations while maintaining consistency.
+
+Q: Who were the users of True View?
+A: HR staff across Rio Tinto's global operations - employee onboarding, benefits management, compliance tracking, payroll coordination. HR professionals, not technical users.
+
+Q: What research did you do for Rio Tinto?
+A: Interviewed 20+ HR staff across 5 countries, shadowed HR teams during employee onboarding, reviewed existing systems (painful), analyzed compliance requirements by country.
+
+Q: What was the business impact of Rio Tinto?
+A: 30% reduction in routine administrative time, zero training needed for HR staff transferring regions, compliance errors reduced, employee onboarding faster.
+
+Q: How did you approach enterprise HR design?
+A: Clarity and efficiency. HR staff process hundreds of employees - make workflows fast and error-proof. No flashy UI, just functional excellence.
+
+Q: What made True View challenging?
+A: Regulatory complexity. Australia has different labor laws than Chile which differ from Mongolia. One system, many rulesets.
+
+Q: How did you handle different country requirements?
+A: Configurable workflows based on country/region. Core platform same everywhere, compliance rules layer on top. Modular architecture.
+
+Q: What features did True View include?
+A: Employee onboarding, benefits enrollment, compliance tracking, payroll coordination, performance reviews, document management, reporting dashboards.
+
+Q: How did you design the onboarding workflow?
+A: Step-by-step wizard, clear progress indication, contextual help, validation at each step. Get new employees into the system correctly the first time.
+
+Q: What was the compliance tracking design?
+A: Automated alerts for expiring certifications, visual status indicators, bulk actions for renewals, audit trail for everything. Make compliance easy to maintain.
+
+Q: How did you approach data tables at Rio Tinto?
+A: Sortable, filterable, exportable. HR staff work with lots of employee data - make it easy to find who they're looking for and what they need.
+
+Q: What was the reporting dashboard?
+A: Key metrics at a glance (headcount, turnover, compliance status), drill-down for details, export for executives. Give HR visibility into their org.
+
+Q: How mobile-friendly was True View?
+A: Desktop-first (HR staff work at desks), but mobile-responsive for approvals and quick lookups. Different from consumer apps - context matters.
+
+Q: What accessibility features did True View have?
+A: WCAG AA compliance, keyboard navigation (lots of data entry), screen reader support, high contrast mode. Enterprise software should be accessible.
+
+Q: How did you measure success at Rio Tinto?
+A: Time savings (30% reduction in admin work), error reduction (compliance mistakes down), training time (zero for transfers), user satisfaction (internal surveys).
+
+Q: What would you improve about True View?
+A: More automation (AI could flag compliance issues proactively), better predictive analytics (turnover risk, staffing needs), mobile app for field workers.
+
+Q: How did you test True View?
+A: Prototype testing with HR staff, pilot program in one country before global rollout, iterative feedback during build, post-launch surveys.
+
+Q: What was the biggest technical challenge?
+A: Data migration from legacy systems, integration with existing payroll systems, handling different data formats by country. Not my problem directly, but constrained design.
+
+Q: How did you handle different languages?
+A: UI translated into 8+ languages, date/number formatting by locale, support for non-Latin characters. Global system needs global support.
+
+Q: What was the information architecture?
+A: Employees (directory, profiles, documents), Workflows (onboarding, changes, exits), Compliance (tracking, reporting), Reports (dashboards, exports).
+
+Q: How did you design for HR experts?
+A: Power user features (keyboard shortcuts, bulk actions, saved filters), but still approachable for occasional users. Serve both without alienating either.
+
+Q: What surprised you about enterprise HR?
+A: How manual everything was before True View. HR staff copying data between systems, checking compliance in spreadsheets. Huge automation opportunity.
+
+Q: How did Rio Tinto compare to your other work?
+A: Most enterprise/internal. Not sexy, but high impact - 30% time savings for hundreds of HR staff is massive productivity gain.
+
+Q: Would you work on enterprise software again?
+A: Yes. Most enterprise software is terrible because it's built by engineers for engineers. Huge opportunity for good design to make people's jobs easier.
+
+Q: What was the team structure at Rio Tinto?
+A: Me (design), 1 PM, 4 developers, compliance experts by country, HR stakeholders globally. Cross-functional and distributed.
+
+Q: What did you learn from Rio Tinto?
+A: Enterprise software doesn't have to be ugly or painful. Clear workflows, good design, and attention to the actual work people do can make boring tools actually useful.
 `;
 
   const normalize = (value) =>
