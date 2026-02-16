@@ -560,6 +560,10 @@ body.chat-started .page {
   margin-top: 1rem;
 }
 
+.chat-cards.is-pending {
+  display: none;
+}
+
 .chat-card {
   display: grid;
   grid-template-columns: 1fr;
@@ -733,6 +737,43 @@ body.chat-started .chat-input-fixed .send-button {
 .chat-row.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.chat-bubble-text p {
+  margin: 0;
+}
+
+.chat-bubble-text p + p {
+  margin-top: 0.6rem;
+}
+
+.chat-bubble-text ul {
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.chat-bubble-text li {
+  color: inherit;
+}
+
+.chat-bubble-text strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.landing-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.chat-input-shell,
+.chat-landing,
+.chat-quick .quick-chip {
+  transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
 }
 
 body.chat-started .hero-top,

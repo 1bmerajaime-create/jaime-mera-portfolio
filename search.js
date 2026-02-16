@@ -22,11 +22,14 @@
   const PROJECT_STORAGE_KEY = "jaime-chat-project";
   const CLICKED_SUGGESTIONS_KEY = "jaime-chat-clicked-suggestions";
   const PENDING_CARDS_KEY = "jaime-chat-pending-cards";
+  const SHOWN_CARDS_KEY = "jaime-chat-shown-cards";
 
   // Lightweight conversational state (not persisted across sessions)
   let chatTurnCount = 0;
   let lastIntroUsed = "";
   let lastAssistantMessage = "";
+  let lastAssistantFirstWord = "";
+  let lastOpenerUsed = "";
 
   if (!inputs.length || !thread) return;
 
@@ -59,6 +62,39 @@
 
   const clearPendingCards = () => {
     localStorage.removeItem(PENDING_CARDS_KEY);
+  };
+
+  const getShownCardUrls = () => {
+    const stored = localStorage.getItem(SHOWN_CARDS_KEY);
+    if (!stored) return new Set();
+    try {
+      const arr = JSON.parse(stored);
+      if (!Array.isArray(arr)) return new Set();
+      return new Set(arr.filter(Boolean));
+    } catch (error) {
+      return new Set();
+    }
+  };
+
+  const persistShownCardUrls = (set) => {
+    localStorage.setItem(SHOWN_CARDS_KEY, JSON.stringify([...set]));
+  };
+
+  const markCardsShown = (cards = []) => {
+    const shown = getShownCardUrls();
+    cards.forEach((card) => {
+      if (card && card.url) shown.add(card.url);
+    });
+    persistShownCardUrls(shown);
+  };
+
+  const rehydrateShownCardsFromDOM = () => {
+    const shown = getShownCardUrls();
+    thread.querySelectorAll(".chat-card").forEach((el) => {
+      const href = el.getAttribute("href");
+      if (href) shown.add(href);
+    });
+    persistShownCardUrls(shown);
   };
 
   const getContextualSuggestions = (text) => {
@@ -309,18 +345,124 @@
     const pickContextProjects = () => {
       const active = localStorage.getItem(PROJECT_STORAGE_KEY);
       if (active && projects[active]) return [projects[active]].filter(Boolean);
-      if (/(design system|system|components|tokens)/.test(normalized)) {
-        return [projects.sabadell, projects.adidas].filter(Boolean);
-      }
-      if (/(b2b|saas|enterprise)/.test(normalized)) {
-        return [projects.adidas, projects.beedata || projects.riotinto]
-          .filter(Boolean)
-          .slice(0, 2);
-      }
-      if (/(mobile|app)/.test(normalized)) {
-        return [projects.adidas, projects.shell].filter(Boolean);
-      }
-      return [projects.adidas, projects.sabadell].filter(Boolean);
+
+      const ORDERED_PROJECT_KEYS = [
+        "adidas",
+        "sabadell",
+        "beedata",
+        "shell",
+        "wivai",
+        "motogp",
+        "riotinto",
+      ];
+      const all = ORDERED_PROJECT_KEYS.map((key) => ({
+        key,
+        project: projects[key],
+      })).filter((entry) => entry.project);
+
+      const STOP = new Set([
+        "the",
+        "and",
+        "for",
+        "with",
+        "this",
+        "that",
+        "what",
+        "how",
+        "why",
+        "who",
+        "where",
+        "when",
+        "are",
+        "is",
+        "do",
+        "does",
+        "can",
+        "could",
+        "should",
+        "would",
+        "your",
+        "you",
+        "me",
+        "my",
+        "i",
+        "im",
+        "its",
+        "about",
+        "show",
+        "see",
+        "view",
+        "work",
+        "projects",
+        "project",
+        "case",
+        "study",
+        "cards",
+        "card",
+      ]);
+
+      const tokens = normalized
+        .split(/\s+/)
+        .map((t) => t.replace(/[^a-z0-9%+.-]/g, ""))
+        .filter((t) => t.length > 2 && !STOP.has(t));
+
+      const shown = getShownCardUrls();
+      const allowShown = !!explicitProjectsRequest;
+
+      const boosts = [
+        { re: /(design system|system|components|tokens|governance)/, keys: ["sabadell", "adidas"] },
+        { re: /(bank|banking|finance|private banking)/, keys: ["sabadell"] },
+        { re: /(saas|subscription|analytics|dashboard|insights)/, keys: ["beedata"] },
+        { re: /(energy|ev|charging|carwash|payments|loyalty)/, keys: ["shell"] },
+        { re: /(e-?commerce|retail|marketplace|checkout)/, keys: ["wivai", "adidas"] },
+        { re: /(sports|racing|video|live|fans)/, keys: ["motogp"] },
+        { re: /(enterprise|workflow|hr|compliance|safety)/, keys: ["riotinto"] },
+        { re: /(b2b|wholesale)/, keys: ["adidas", "beedata"] },
+        { re: /(mobile|app)/, keys: ["adidas", "shell", "wivai"] },
+      ];
+
+      const scoreProject = (entry) => {
+        const p = entry.project;
+        const hay = normalize(
+          `${p.title || ""} ${p.tag || ""} ${p.description || ""} ${p.metric || ""}`
+        );
+        let score = 0;
+        tokens.forEach((token) => {
+          if (hay.includes(token)) score += 2;
+        });
+        boosts.forEach((b) => {
+          if (!b.re.test(normalized)) return;
+          if (b.keys.includes(entry.key)) score += 8;
+        });
+        // If the query explicitly mentions the project name, give it a strong bump.
+        if (hay.includes(entry.key)) score += 6;
+        return score;
+      };
+
+      const ranked = all
+        .map((entry, idx) => ({
+          entry,
+          idx,
+          score: scoreProject(entry),
+          shown: !!(entry.project?.url && shown.has(entry.project.url)),
+        }))
+        .sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          // Prefer not-yet-shown cards unless user explicitly asks for cards.
+          if (!allowShown && a.shown !== b.shown) return a.shown ? 1 : -1;
+          return a.idx - b.idx;
+        })
+        .map((r) => r.entry.project)
+        .filter(Boolean);
+
+      // If nothing matches strongly, rotate through projects without repeating.
+      const top = ranked.slice(0, 2);
+      if (top.length) return top;
+      return all
+        .map((e) => e.project)
+        .filter(Boolean)
+        .filter((p) => (allowShown ? true : !(p.url && shown.has(p.url))))
+        .slice(0, 2);
     };
     const showProjectsNow = explicitProjectsRequest
       ? turnCount >= 2
@@ -332,7 +474,7 @@
         text: SUGGESTED_RESPONSES[suggestedKey],
         allowShort: true,
         projects: showProjectsNow
-          ? [projects.adidas, projects.sabadell].filter(Boolean)
+          ? pickContextProjects().slice(0, 2)
           : [],
         suggestions: [
           "Tell me about Adidas Click",
@@ -351,7 +493,11 @@
         localStorage.setItem(PROJECT_STORAGE_KEY, match.project);
       }
       // If we're talking about a specific project, start surfacing the card after a couple turns.
-      const shouldShowCards = !!match.project && (showProjectsNow || turnCount >= 2);
+      const shouldShowCards = !!match.project
+        ? explicitProjectsRequest
+          ? turnCount >= 2
+          : turnCount >= 3
+        : false;
       return {
         text: match.response,
         projects: shouldShowCards ? [projects[match.project]] : [],
@@ -400,7 +546,7 @@
     if (wantsProjects && !showProjectsNow) {
       return {
         text:
-          "Cool — before I throw project links at you like confetti, what kind of work do you actually want to see? Design systems, mobile apps, B2B enterprise, consumer e‑commerce… pick a lane and I’ll point you to the right case study. If you don’t care, I’ll default to the two strongest: Adidas Click and Banco Sabadell.",
+          "Cool — before I throw project links at you like confetti, what kind of work do you actually want to see? Design systems, mobile apps, B2B enterprise, consumer e‑commerce… pick a lane and I’ll point you to the right case study. If you don’t care, I’ll pull two strong ones based on what you’re asking (Adidas, Sabadell, BeeData, Shell, Wivai, MotoGP, Rio Tinto — all fair game).",
         projects: [],
         suggestions: [
           "Design systems",
@@ -411,10 +557,11 @@
     }
 
     if (showProjectsNow && wantsProjects) {
+      const picks = pickContextProjects().slice(0, 2);
       return {
         text:
-          "Alright, you’ve earned the visuals. Here are two strong starting points that show both craft and real numbers — Adidas Click (global B2B + design system) and Banco Sabadell (banking transformation + Galatea). If you tell me what you care about (systems vs product flows vs pure impact), I can narrow it down even more.",
-        projects: [projects.adidas, projects.sabadell].filter(Boolean),
+          "Alright, you’ve earned the visuals. Here are two good starting points based on what you’ve been asking — craft + real numbers, no fluff. If you tell me what you care about (systems vs product flows vs pure impact), I can narrow it down even more.",
+        projects: picks,
         suggestions: [
           "Tell me more about Adidas",
           "Tell me more about Banco Sabadell",
@@ -617,16 +764,13 @@
     }
 
     return {
-      text:
-        "I can help you explore projects, impact, or how I work – whatever is most useful for you. There’s work for Adidas, Banco Sabadell, BeeData, Wivai, MotoGP, Rio Tinto, and Shell, plus a couple of design systems that tie everything together. Rather than throwing everything at you at once, I’d rather point you to what actually matches your interests. Are you more into B2B, consumer products, design systems, or something completely different?",
-      projects:
-        turnCount >= 3 && (wantsProjects || workAdjacent)
-          ? pickContextProjects().slice(0, 2)
-          : [],
+      text: "Still training this thing. That's outside my knowledge, but design questions? Fire away",
+      allowShort: true,
+      projects: [],
       suggestions: [
-        "Show the Adidas work",
-        "How did you build Galatea?",
-        "What business impact stands out?",
+        "What's your design process?",
+        "Tell me about Adidas Click",
+        "Show me your work",
       ],
     };
   };
@@ -641,6 +785,52 @@
     bubbleText.className = "chat-bubble-text";
     bubble.appendChild(bubbleText);
     row.appendChild(bubble);
+
+    const escapeHtml = (value) =>
+      String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const renderRichText = (raw, { partial = false } = {}) => {
+      const lines = String(raw || "")
+        .replace(/\r\n/g, "\n")
+        .split("\n")
+        .map((l) => l.trimEnd());
+
+      const out = [];
+      let list = [];
+
+      const flushList = () => {
+        if (!list.length) return;
+        out.push(`<ul>${list.join("")}</ul>`);
+        list = [];
+      };
+
+      const formatInline = (line) => {
+        // Escape first, then allow **bold** markup.
+        const escaped = escapeHtml(line);
+        const withBold = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        return partial ? withBold.replace(/\*\*/g, "") : withBold;
+      };
+
+      lines.forEach((line) => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        if (/^-\s+/.test(trimmed)) {
+          const item = trimmed.replace(/^-\s+/, "");
+          list.push(`<li>${formatInline(item)}</li>`);
+          return;
+        }
+        flushList();
+        out.push(`<p>${formatInline(trimmed)}</p>`);
+      });
+
+      flushList();
+      return out.join("");
+    };
 
     const typeText = (fullText) => {
       const maxChars = 2000;
@@ -669,7 +859,7 @@
       };
       const step = () => {
         if (index <= content.length) {
-          bubbleText.textContent = content.slice(0, index);
+          bubbleText.innerHTML = renderRichText(content.slice(0, index), { partial: true });
           index += 2; // slightly faster than 1-by-1
           // Keep view pinned to the latest message while typing
           const scroller = document.scrollingElement || document.documentElement;
@@ -679,6 +869,8 @@
           });
           setTimeout(step, baseDelay);
         } else {
+          // Render structured/bold formatting after typing completes.
+          bubbleText.innerHTML = renderRichText(content);
           bubble.dataset.typingComplete = "true";
           bubble.dispatchEvent(
             new CustomEvent("typing-complete", { bubbles: true })
@@ -698,7 +890,7 @@
   };
 
   const addProjectCards = (parent, cards = []) => {
-    if (!cards.length) return;
+    if (!cards.length) return null;
     const grid = document.createElement("div");
     grid.className = "chat-cards";
     cards.forEach((card) => {
@@ -723,6 +915,56 @@
       grid.appendChild(cardEl);
     });
     parent.appendChild(grid);
+    markCardsShown(cards);
+    return grid;
+  };
+
+  const addProjectCardsSequenced = (parent, cards = []) => {
+    if (!cards.length) return;
+    const slot = document.createElement("div");
+    slot.className = "chat-cards is-pending";
+    parent.appendChild(slot);
+
+    const reveal = () => {
+      // Fill and reveal after typing is done.
+      slot.innerHTML = "";
+      slot.classList.remove("is-pending");
+      cards.forEach((card) => {
+        if (!card) return;
+        const cardEl = document.createElement("a");
+        cardEl.className = "chat-card";
+        cardEl.href = card.url;
+        cardEl.innerHTML = `
+          <div class="chat-card-image">
+            <img src="${card.image}" alt="${card.title}" onerror="this.parentElement.classList.add('is-missing');this.remove();" />
+            <div class="chat-card-fallback">${card.title}</div>
+          </div>
+          <div class="chat-card-body">
+            <div class="chat-card-tags">
+              <span>${card.tag}</span>
+              <span class="metric">${card.metric}</span>
+            </div>
+            <h3>${card.title}</h3>
+            <p>${card.description}</p>
+          </div>
+        `;
+        slot.appendChild(cardEl);
+      });
+      markCardsShown(cards);
+
+      // Scroll after cards are in DOM (reduces "broken" scroll feeling).
+      requestAnimationFrame(() => {
+        const scroller = document.scrollingElement || document.documentElement;
+        window.scrollTo({ top: scroller.scrollHeight, behavior: "smooth" });
+      });
+
+      parent.removeEventListener("typing-complete", reveal);
+    };
+
+    parent.addEventListener("typing-complete", reveal);
+    if (parent.dataset.typingComplete === "true") {
+      reveal();
+    }
   };
 
   const getClickedSuggestions = () => {
@@ -793,6 +1035,8 @@
     localStorage.removeItem("jaime-chat-version");
     localStorage.removeItem(PROJECT_STORAGE_KEY);
     localStorage.removeItem(CLICKED_SUGGESTIONS_KEY);
+    localStorage.removeItem(PENDING_CARDS_KEY);
+    localStorage.removeItem(SHOWN_CARDS_KEY);
   };
 
   const restoreHistory = () => {
@@ -807,16 +1051,145 @@
           handleQuery(button.textContent || "");
         });
       });
+      rehydrateShownCardsFromDOM();
     } else if (version && version !== STORAGE_VERSION) {
       clearHistory();
     }
   };
 
+  const splitSentencesGlobal = (text) => {
+    const parts = String(text)
+      .replace(/\s+/g, " ")
+      .trim()
+      .match(/[^.!?]+[.!?]+|[^.!?]+$/g);
+    return (parts || []).map((s) => s.trim()).filter(Boolean);
+  };
+
+  const emphasizeImportant = (text) => {
+    let t = String(text || "");
+    // Bold key numeric patterns.
+    t = t.replace(
+      /\b(\d+(?:\.\d+)?%|\d+(?:\.\d+)?M\+|\d+\+)\b/g,
+      "**$1**"
+    );
+    // Bold metric-ish numbers when followed by common KPI units/words (e.g., "8 POCs", "15 markets").
+    t = t.replace(
+      /\b(\d+(?:\.\d+)?)(?=\s*(users?|transactions?|markets?|modules?|teams?|components?|patterns?|pocs?|visits?|sessions?|bookings?|days?|weeks?|months?|countries?|languages?|rating|nps|kwh|lift|growth|conversion|revenue|efficiency|adoption)\b)/gi,
+      "**$1**"
+    );
+    // Bold known project/system names (light-touch).
+    const highlights = [
+      "Adidas Click",
+      "Banco Sabadell",
+      "BeeData",
+      "Shell",
+      "Wivai",
+      "MotoGP",
+      "Rio Tinto",
+      "Galatea",
+      "Click design system",
+      "design system",
+      "mobile app",
+    ];
+    highlights.forEach((phrase) => {
+      const re = new RegExp(`\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi");
+      t = t.replace(re, (m) => `**${m}**`);
+    });
+    return t;
+  };
+
+  const autoStructure = (text) => {
+    const raw = String(text || "").trim();
+    if (!raw) return raw;
+    if (raw.includes("\n- ")) return raw;
+    const sentences = splitSentencesGlobal(raw);
+    if (sentences.length <= 3) return raw;
+    const lead = sentences[0];
+    const hook =
+      [...sentences].reverse().find((s) => /\?\s*$/.test(s)) ||
+      sentences[sentences.length - 1];
+    const mid = sentences.slice(1, Math.min(3, sentences.length - 1));
+    if (!mid.length) return raw;
+    const bullets = mid.map((s) => `- ${s}`).join("\n");
+    return `${lead}\n${bullets}\n${hook}`.trim();
+  };
+
+  const capBullets = (text, maxBullets = 3) => {
+    const lines = String(text || "").split("\n");
+    const head = [];
+    const bullets = [];
+    const tail = [];
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+      if (/^-\s+/.test(trimmed)) {
+        bullets.push(trimmed);
+      } else if (!head.length) {
+        head.push(trimmed);
+      } else {
+        tail.push(trimmed);
+      }
+    });
+
+    const usedBullets = bullets.slice(0, maxBullets);
+    const usedTail = tail.length ? [tail[tail.length - 1]] : [];
+    return [...head, ...usedBullets, ...usedTail].join("\n").trim();
+  };
+
+  const clampToSentences = (text, maxSentences = 5) => {
+    const sentences = splitSentencesGlobal(text);
+    if (sentences.length <= maxSentences) return String(text || "").trim();
+    const clamped = sentences.slice(0, maxSentences);
+    const lastHasQuestion = /\?\s*$/.test(clamped[clamped.length - 1] || "");
+    if (!lastHasQuestion) {
+      const hook = [...sentences].reverse().find((s) => /\?\s*$/.test(s));
+      if (hook) clamped[clamped.length - 1] = hook;
+    }
+    return clamped.join(" ").trim();
+  };
+
+  const varyOpening = (text) => {
+    const trimmed = String(text || "").trim();
+    if (!trimmed) return trimmed;
+    const firstWord = (trimmed.split(/\s+/)[0] || "").toLowerCase();
+    const OPENERS = [
+      "Quick one —",
+      "Alright —",
+      "Honestly —",
+      "Here’s the thing —",
+      "Real talk —",
+      "Short version —",
+    ];
+    const startsWithOpener = OPENERS.some((o) =>
+      trimmed.toLowerCase().startsWith(o.toLowerCase().replace(/\s+—$/, ""))
+    );
+    if (startsWithOpener) {
+      lastAssistantFirstWord = firstWord || lastAssistantFirstWord;
+      return trimmed;
+    }
+    if (firstWord && firstWord === lastAssistantFirstWord) {
+      const pool = OPENERS.filter((o) => o !== lastOpenerUsed);
+      const pickFrom = pool.length ? pool : OPENERS;
+      const opener = pickFrom[Math.floor(Math.random() * pickFrom.length)];
+      lastOpenerUsed = opener;
+      lastAssistantFirstWord = (opener.split(/\s+/)[0] || "").toLowerCase();
+      return `${opener} ${trimmed}`;
+    }
+    lastAssistantFirstWord = firstWord || lastAssistantFirstWord;
+    return trimmed;
+  };
+
   const normalizeResponseLength = (text, allowShort = false) => {
-    if (allowShort) return text;
-    const minLength = 140;
-    if (text.length >= minLength) return text;
-    return `${text} Want more detail on impact or decisions? Ask me to go deeper.`;
+    // Keep answers short & sweet: 4–5 sentences max.
+    const base = String(text || "").trim();
+    const structured = allowShort ? base : autoStructure(base);
+    const capped = allowShort
+      ? structured
+      : structured.includes("\n- ")
+        ? capBullets(structured, 3)
+        : clampToSentences(structured, 5);
+    return emphasizeImportant(varyOpening(capped));
   };
 
   const handleQuery = (query) => {
@@ -824,25 +1197,6 @@
     if (!cleaned) return;
     chatTurnCount += 1;
     const normalized = normalize(cleaned);
-
-    // If we previously offered cards, interpret a "yes/no" reply in context.
-    const pending = getPendingCards();
-    if (pending.length) {
-      if (isAffirmative(normalized)) {
-        clearPendingCards();
-        body.classList.add("chat-started");
-        addMessage("user", cleaned);
-        const msg = addMessage("assistant", "Cool — here you go.");
-        addProjectCards(msg, pending);
-        addSuggestions(msg, getContextualSuggestions(lastAssistantMessage));
-        persistHistory();
-        thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
-        return;
-      }
-      if (isNegative(normalized)) {
-        clearPendingCards();
-      }
-    }
     const isHomepageSuggested =
       normalized === normalize("Tell me about your work") ||
       normalized === normalize("What makes you different?") ||
@@ -857,7 +1211,10 @@
       normalized.includes("see projects") ||
       normalized.includes("project cards") ||
       normalized.includes("case study") ||
-      normalized.includes("case studies");
+      normalized.includes("case studies") ||
+      /(show|see|view|open|pull up).*(project|case|card|work|adidas|sabadell|beedata|shell|wivai|motogp|rio|tinto)/.test(
+        normalized
+      );
     const wantsProjects =
       explicitProjectsRequest ||
       normalized.includes("show me your best work") ||
@@ -874,18 +1231,17 @@
       explicitProjectsRequest,
     });
 
-    // Always confirm before showing project cards.
     const offeredCards = Array.isArray(response.projects) ? response.projects.filter(Boolean) : [];
-    let assistantText = normalizeResponseLength(response.text, response.allowShort);
-    let assistantCards = [];
-    if (offeredCards.length) {
-      setPendingCards(offeredCards.slice(0, 2));
-      assistantText = `${assistantText} Want me to pull up the case study card(s)?`;
-      assistantCards = [];
-    }
+    const assistantText = normalizeResponseLength(response.text, response.allowShort);
+    const shown = getShownCardUrls();
+    const assistantCardsRaw = offeredCards.slice(0, 2);
+    const assistantCards = explicitProjectsRequest
+      ? assistantCardsRaw
+      : assistantCardsRaw.filter((c) => c && c.url && !shown.has(c.url));
 
     const message = addMessage("assistant", assistantText);
-    addProjectCards(message, assistantCards);
+    // Cards appear after typing completes (text first, then cards).
+    addProjectCardsSequenced(message, assistantCards);
     const sug = (response.suggestions && response.suggestions.length)
       ? response.suggestions
       : getContextualSuggestions(assistantText);
@@ -996,4 +1352,69 @@
 
   fitQuickChips();
   window.addEventListener("resize", fitQuickChips);
+
+  // Homepage landing sequence: type + reveal in order.
+  const runLandingSequence = async () => {
+    try {
+      if (!body.classList.contains("home")) return;
+      if (body.classList.contains("chat-started")) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+        return;
+
+      const hi = document.querySelector(".hero-hi");
+      const headline = document.querySelector(".headline");
+      const inputShell = document.querySelector(".chat-input-shell");
+      const pillsWrap = document.querySelector(".chat-landing");
+      const pills = Array.from(document.querySelectorAll(".chat-quick .quick-chip"));
+      if (!hi || !headline || !inputShell || !pillsWrap) return;
+
+      const headlineText = headline.textContent ? headline.textContent.trim() : "";
+      const hiText = hi.textContent ? hi.textContent.trim() : "Welcome";
+
+      // Prep: hide input + pills, keep layout stable for headline.
+      inputShell.classList.add("landing-hidden");
+      pillsWrap.classList.add("landing-hidden");
+      pills.forEach((p) => p.classList.add("landing-hidden"));
+
+      const headlineHeight = headline.getBoundingClientRect().height;
+      headline.style.minHeight = `${Math.max(56, Math.round(headlineHeight))}px`;
+
+      // Clear text before typing.
+      hi.textContent = "";
+      headline.textContent = "";
+
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      const typeInto = async (el, text, { delay = 32, step = 1 } = {}) => {
+        let i = 0;
+        while (i <= text.length) {
+          el.textContent = text.slice(0, i);
+          i += step;
+          await sleep(delay);
+        }
+      };
+
+      // 1) Welcome
+      await typeInto(hi, hiText, { delay: 38, step: 1 });
+      await sleep(180);
+
+      // 2) Headline
+      await typeInto(headline, headlineText, { delay: 18, step: 1 });
+      headline.style.minHeight = "";
+      await sleep(220);
+
+      // 3) Input
+      inputShell.classList.remove("landing-hidden");
+      await sleep(240);
+
+      // 4) Pills
+      pillsWrap.classList.remove("landing-hidden");
+      pills.forEach((p, idx) => {
+        setTimeout(() => p.classList.remove("landing-hidden"), 70 * idx);
+      });
+    } catch (e) {
+      // If anything fails, keep homepage usable.
+    }
+  };
+
+  runLandingSequence();
 })();
