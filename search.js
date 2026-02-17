@@ -1417,4 +1417,53 @@
   };
 
   runLandingSequence();
+
+  // Mobile homepage sticky input when keyboard opens.
+  const setupHomeStickyInput = () => {
+    if (!body.classList.contains("home")) return;
+    const homeInput = document.querySelector(".chat-input-shell .search-bar input");
+    if (!homeInput) return;
+
+    let vvHandler = null;
+
+    const updateKeyboardOffset = () => {
+      const vv = window.visualViewport;
+      if (!vv) {
+        body.style.removeProperty("--keyboard-offset");
+        return;
+      }
+      const offset = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop));
+      body.style.setProperty("--keyboard-offset", `${Math.round(offset)}px`);
+    };
+
+    const onFocus = () => {
+      body.classList.add("home-input-focused");
+      updateKeyboardOffset();
+      if (window.visualViewport) {
+        vvHandler = () => updateKeyboardOffset();
+        window.visualViewport.addEventListener("resize", vvHandler);
+        window.visualViewport.addEventListener("scroll", vvHandler);
+      }
+      setTimeout(() => {
+        try {
+          homeInput.scrollIntoView({ behavior: "smooth", block: "center" });
+        } catch (e) {}
+      }, 300);
+    };
+
+    const onBlur = () => {
+      body.classList.remove("home-input-focused");
+      body.style.removeProperty("--keyboard-offset");
+      if (window.visualViewport && vvHandler) {
+        window.visualViewport.removeEventListener("resize", vvHandler);
+        window.visualViewport.removeEventListener("scroll", vvHandler);
+      }
+      vvHandler = null;
+    };
+
+    homeInput.addEventListener("focus", onFocus);
+    homeInput.addEventListener("blur", onBlur);
+  };
+
+  setupHomeStickyInput();
 })();
