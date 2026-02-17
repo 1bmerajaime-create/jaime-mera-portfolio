@@ -859,6 +859,10 @@ body.chat-started .chat-back {
   .hero-avatar {
     width: 180px;
     height: 320px;
+    border-radius: 0;
+    overflow: visible;
+    border: none;
+    background: transparent;
   }
 
   .hero-content {
