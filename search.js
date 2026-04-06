@@ -18,7 +18,7 @@
   const body = document.body;
   const logoLinks = document.querySelectorAll(".logo");
   const backButton = document.querySelector(".chat-back");
-  const STORAGE_VERSION = "3";
+  const STORAGE_VERSION = "4";
   const PROJECT_STORAGE_KEY = "jaime-chat-project";
   const CLICKED_SUGGESTIONS_KEY = "jaime-chat-clicked-suggestions";
   const PENDING_CARDS_KEY = "jaime-chat-pending-cards";
@@ -30,8 +30,20 @@
   let lastAssistantMessage = "";
   let lastAssistantFirstWord = "";
   let lastOpenerUsed = "";
+  /** Anthropic thread (only used when PORTFOLIO_CHAT_API_URL / meta is set). */
+  let llmMessages = [];
 
   if (!inputs.length || !thread) return;
+
+  const getChatApiUrl = () => {
+    const fromWin =
+      typeof window !== "undefined" && window.PORTFOLIO_CHAT_API_URL
+        ? String(window.PORTFOLIO_CHAT_API_URL).trim()
+        : "";
+    if (fromWin) return fromWin;
+    const meta = document.querySelector('meta[name="portfolio-chat-api"]');
+    return (meta && meta.getAttribute("content") ? meta.getAttribute("content") : "").trim();
+  };
 
   const isAffirmative = (normalized) =>
     /^(yes|yep|yeah|sure|ok|okay|do it|show me|let’s do it|lets do it|go ahead|sounds good)\b/.test(
@@ -97,6 +109,57 @@
     persistShownCardUrls(shown);
   };
 
+  const getLlmFollowUpChips = (lastUserText) => {
+    const n = normalize(lastUserText || "");
+    if (/(adidas|click|wholesale|b2b)/.test(n)) {
+      return [
+        "What did you learn on the shop floor?",
+        "Numbers behind the design system",
+        "Open the Adidas case study",
+      ];
+    }
+    if (/(system|galatea|component|token)/.test(n)) {
+      return [
+        "Galatea vs Click—how were they different?",
+        "How did you get teams to adopt it?",
+        "Biggest system mistake you avoid now",
+      ];
+    }
+    if (/(sabadell|bank|banking|galatea)/.test(n)) {
+      return [
+        "What moved mobile conversion?",
+        "Private banking lead story",
+        "Open the Sabadell case study",
+      ];
+    }
+    if (/(metric|impact|result|kpi|conversion)/.test(n)) {
+      return [
+        "Strongest proof from Adidas",
+        "Banking outcomes at Sabadell",
+        "Where efficiency showed up at Rio Tinto",
+      ];
+    }
+    if (/(ai|claude|chatgpt|aily|llm)/.test(n)) {
+      return [
+        "How AI shows up in your workflow",
+        "Designing AI products at AILY",
+        "Where you still go slow on craft",
+      ];
+    }
+    if (/(hire|hiring|candidate|join (my|our) team|recruit)/.test(n)) {
+      return [
+        "Your process with PM and engineering",
+        "A case study that matches our domain",
+        "What you need to know about the role",
+      ];
+    }
+    return [
+      "Which case study should I read first?",
+      "How do you start a messy project?",
+      "What kind of role are you open to?",
+    ];
+  };
+
   const getContextualSuggestions = (text) => {
     const t = normalize(text);
     if (t.includes("adidas") || t.includes("click")) {
@@ -123,7 +186,38 @@
 
   const KEYWORDS = [
     {
-      keys: ["adidas", "click", "wholesale", "b2b", "e-commerce", "ecommerce"],
+      keys: [
+        "join my team",
+        "join our team",
+        "join the team",
+        "why would you be a good",
+        "why should we hire",
+        "why should i hire",
+        "good candidate",
+        "good condidate",
+        "looking for a product designer",
+        "looking for a designer",
+        "hiring a designer",
+        "hiring a product designer",
+        "hire you",
+        "want to hire",
+        "recruiting",
+        "open role",
+        "open position",
+        "full-time designer",
+        "why you for this role",
+      ],
+      project: null,
+      response:
+        "If you are hiring a product designer, here is how I would be useful on your team: I have shipped complex products end-to-end—notably the Adidas wholesale mobile app across 15+ markets and two design systems built from scratch (Galatea at Banco Sabadell, Click at Adidas). I am comfortable owning research through handoff, aligning with PM and engineering, and arguing from metrics as much as from craft—think outcomes like faster design-to-dev, conversion lifts, and adoption of systems at scale. I am Madrid-based and open to remote or hybrid for the right product. What level are you hiring for, what domain is the product in, and how is the design team structured today?",
+      suggestions: [
+        "Biggest measurable impact you have driven",
+        "How do you hand off to developers?",
+        "Are you open to relocation or hybrid?",
+      ],
+    },
+    {
+      keys: ["adidas click", "adidas", "wholesale", "b2b", "e-commerce", "ecommerce"],
       project: "adidas",
       response:
         "Adidas Click is the global B2B platform that wholesale buyers use worldwide. I led the wholesale mobile app from research through launch across 15+ markets and co-created the Click design system from scratch. For the app, I spent time on shop floors and designed a scanning-based reordering flow that made day-to-day ordering dramatically faster. The design system side was 50+ components, full documentation, and guardrails so designers and developers could ship consistently without babysitting every screen. The result was roughly 60% faster design-to-dev and about 40% faster reordering in real stores. Are you more curious about the mobile app side, the design system, or the business impact numbers?",
@@ -145,7 +239,16 @@
       ],
     },
     {
-      keys: ["beedata", "saas", "subscription", "data", "analytics", "ai"],
+      keys: [
+        "beedata",
+        "bee data",
+        "saas",
+        "subscription",
+        "analytics",
+        "dashboard",
+        "insights",
+        "onboarding",
+      ],
       project: "beedata",
       response:
         "BeeData was all about taking an intimidating, engineering-first analytics tool and turning it into something normal humans could actually use. We reframed it as a kind of business intelligence advisor, with guided flows and language that made sense to sales and ops teams instead of data scientists. I led research, redesigned the IA, and created dashboards that surfaced the right insights without forcing people to wrestle with a hundred filters. That work grew subscriptions by roughly 20–30%, pushed NPS from 32 up to 58, and cut onboarding from three weeks down to three days. Not bad for something that started as a pretty dense product. Are you more interested in the UX changes, the research, or the business results?",
@@ -189,7 +292,7 @@
       ],
     },
     {
-      keys: ["rio", "tinto", "hr", "safety", "enterprise", "workflow"],
+      keys: ["rio tinto", "riotinto", "tinto", "true view", "hr", "safety", "enterprise", "workflow"],
       project: "riotinto",
       response:
         "Rio Tinto was a global HR platform project where the main goal was to make HR tools suck less for both employees and admins. I designed a universal core experience with regional modules so each country could meet its legal and cultural needs without breaking the system. A lot of the work was around workflows, permissions, and making self-service actually usable instead of something people avoid. That structure cut routine HR work by around 30% and sped up feature delivery by roughly 60%. It is very enterprise, but also very satisfying when you see the efficiency numbers move. Are you more into the system architecture part or the UX for employees?",
@@ -200,7 +303,7 @@
       ],
     },
     {
-      keys: ["design system", "system", "components", "tokens"],
+      keys: ["design system", "component library", "design tokens", "system", "components", "tokens"],
       project: "sabadell",
       response:
         "Design systems are one of my main playgrounds. I built Galatea for Banco Sabadell from scratch and co-created the Click system for Adidas, both of which went way beyond \"a Figma file with some buttons\". These systems included tokens, components, documentation, and governance so teams could move faster without slowly drifting into chaos. They helped cut design-to-dev time by 50–60% and made it possible to scale work across multiple squads without sacrificing quality. I like systems because they sit right at the intersection of craft, ops, and business impact. Are you interested in how the systems were structured, how we rolled them out, or how they changed team behaviour?",
@@ -211,29 +314,50 @@
       ],
     },
     {
-      keys: ["mobile", "mobile-first", "app"],
-      project: "adidas",
+      keys: ["mobile-first", "mobile app", "wholesale app", "one-handed", "phone-first"],
+      project: null,
       response:
-        "Mobile-first is pretty much non-negotiable for me at this point. I led the Adidas wholesale app, where floor staff literally work from their phones while juggling stock and customers. The same mindset carried over into banking and e-commerce work, where I pushed for layouts, interactions, and flows that assume people are on small screens, half-distracted, and probably on the move. That means things like one-handed navigation, progressive disclosure, and trimming any step that does not earn its keep. When you do that well, conversion and task completion almost automatically improve. Are you looking at a mobile-heavy product yourself, or just curious how I approach it?",
+        "I treat mobile as the default, not a squeezed-down desktop layout. The Adidas wholesale app is the clearest example—staff reordering from the shop floor—but the same thinking shows up in Shell, Wivai, and banking work: fewer steps, thumb-friendly actions, and realistic states for noisy environments and uneven connectivity. Tell me if you want the research side, UI patterns, or metrics from a specific case.",
       suggestions: [
-        "How did you lead the Adidas app?",
-        "What mobile-first decisions mattered?",
-        "Show mobile results",
+        "How did you design the Adidas wholesale app?",
+        "Mobile patterns in the Shell app",
+        "Show me mobile-heavy work",
       ],
     },
     {
-      keys: ["impact", "metrics", "results", "growth", "conversion"],
-      project: "beedata",
+      keys: [
+        "impact",
+        "metrics",
+        "results",
+        "growth",
+        "conversion",
+        "kpis",
+        "outcomes",
+        "measure",
+        "measurable",
+      ],
+      project: null,
       response:
-        "I tend to start with metrics rather than wireframes, because pretty UI without results is just decoration. On recent projects that has meant things like a 35% lift in mobile conversion at Sabadell, 20–30% subscription growth at BeeData, and around 30% efficiency gains at Rio Tinto. Those numbers came from a mix of better flows, clearer communication, and design systems that removed friction for teams. It is not about chasing vanity KPIs, it is about making sure design work shows up in the business dashboard. That mindset also keeps conversations with stakeholders very grounded. What kind of outcomes matter most in your context – growth, conversion, efficiency, or something else?",
+        "I anchor work in outcomes, not decoration. Across case studies that shows up as things like ~60% faster design-to-dev on Adidas Click, a 35% mobile conversion lift at Banco Sabadell, 20–30% subscription growth at BeeData, and roughly 30% less routine HR time after Rio Tinto’s platform work. If you say whether you care most about revenue, speed-to-ship, or adoption, I can unpack the right project in more detail.",
       suggestions: [
-        "Show the Sabadell impact",
-        "How did BeeData grow?",
-        "What improved efficiency at Rio Tinto?",
+        "What moved the needle at Adidas?",
+        "Banking numbers at Sabadell",
+        "Efficiency wins at Rio Tinto",
       ],
     },
     {
-      keys: ["about", "background", "bio", "jaime", "who"],
+      keys: [
+        "who are you",
+        "tell me about yourself",
+        "about yourself",
+        "about me",
+        "jaime mera",
+        "about",
+        "background",
+        "bio",
+        "jaime",
+        "who",
+      ],
       project: null,
       response:
         profile.summary ||
@@ -245,7 +369,21 @@
       ],
     },
     {
-      keys: ["ai", "aily", "claude", "chatgpt", "midjourney"],
+      keys: [
+        "aily",
+        "artificial intelligence",
+        "ai",
+        "claude",
+        "chatgpt",
+        "chat gpt",
+        "openai",
+        "gpt-4",
+        "gpt4",
+        "midjourney",
+        "llm",
+        "generative ai",
+        "copilot",
+      ],
       project: null,
       response:
         "I am fairly AI-native in two directions at once. On one side I lead design at AILY Labs, an AI company in Madrid, which means working on products where AI is not just a buzzword but the core of the experience. On the other side I use tools like Claude, ChatGPT, and Midjourney daily to speed up research synthesis, exploration, and even bits of visual thinking. The trick is knowing when to lean on AI and when to slow down and think like a human, especially for high-stakes decisions. Done right, it lets you move faster without turning everything into generic sludge. Are you thinking about AI in your own product, or just curious how it fits into a design workflow?",
@@ -267,6 +405,111 @@
       ],
     },
   ];
+
+  const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const BRAND_KEYS = new Set([
+    "adidas",
+    "sabadell",
+    "beedata",
+    "shell",
+    "wivai",
+    "motogp",
+    "galatea",
+    "caixabank",
+    "aily",
+    "claude",
+    "chatgpt",
+    "midjourney",
+    "tinto",
+    "jaime",
+    "ai",
+  ]);
+
+  const WEAK_KEYS = new Set([
+    "mobile",
+    "wholesale",
+    "banking",
+    "bank",
+    "finance",
+    "saas",
+    "subscription",
+    "analytics",
+    "ev",
+    "charging",
+    "carwash",
+    "payments",
+    "retail",
+    "marketplace",
+    "sports",
+    "racing",
+    "video",
+    "live",
+    "enterprise",
+    "workflow",
+    "hr",
+    "safety",
+    "components",
+    "tokens",
+    "impact",
+    "metrics",
+    "results",
+    "growth",
+    "conversion",
+    "about",
+    "background",
+    "bio",
+    "different",
+    "unique",
+    "design",
+    "system",
+    "app",
+    "who",
+    "ecommerce",
+  ]);
+
+  const KEYWORD_MATCH_MIN = 12;
+
+  const scoreKeywordEntry = (normalizedFull, entry) => {
+    const scores = [];
+    for (const key of entry.keys) {
+      const nk = normalize(key).trim();
+      if (!nk) continue;
+      let pts = 0;
+      if (nk.includes(" ")) {
+        if (normalizedFull.includes(nk)) pts = 26;
+      } else {
+        const re = new RegExp(`\\b${escapeRe(nk)}\\b`, "i");
+        if (!re.test(normalizedFull)) continue;
+        if (BRAND_KEYS.has(nk)) pts = 20;
+        else if (WEAK_KEYS.has(nk)) pts = 6;
+        else pts = 11;
+      }
+      scores.push(pts);
+    }
+    if (!scores.length) return 0;
+    scores.sort((a, b) => b - a);
+    let total = scores[0];
+    for (let i = 1; i < scores.length && i < 4; i += 1) {
+      total += Math.min(scores[i], 7);
+    }
+    return total;
+  };
+
+  const pickBestKeywordEntry = (normalizedFull) => {
+    let bestEntry = null;
+    let bestScore = 0;
+    for (const entry of KEYWORDS) {
+      const score = scoreKeywordEntry(normalizedFull, entry);
+      if (score > bestScore) {
+        bestScore = score;
+        bestEntry = entry;
+      }
+    }
+    return bestEntry && bestScore >= KEYWORD_MATCH_MIN
+      ? { entry: bestEntry, score: bestScore }
+      : null;
+  };
 
   const followUpKeys = [
     "more",
@@ -337,7 +580,6 @@
       explicitProjectsRequest = false,
     } = context;
     const normalized = normalize(query);
-    const queryTokens = normalized.split(/\s+/).filter(Boolean);
     const workAdjacent =
       /(work|project|projects|portfolio|case study|case studies|achievement|different|impact|metrics|results|design system|system|components|adidas|sabadell|beedata|shell|wivai|motogp|rio tinto|riotinto)/.test(
         normalized
@@ -473,6 +715,7 @@
       return {
         text: SUGGESTED_RESPONSES[suggestedKey],
         allowShort: true,
+        plainText: true,
         projects: showProjectsNow
           ? pickContextProjects().slice(0, 2)
           : [],
@@ -484,9 +727,8 @@
       };
     }
 
-    const match = KEYWORDS.find((entry) =>
-      entry.keys.some((key) => queryTokens.includes(normalize(key)))
-    );
+    const keywordHit = pickBestKeywordEntry(normalized);
+    const match = keywordHit ? keywordHit.entry : null;
 
     if (match) {
       if (match.project) {
@@ -500,6 +742,7 @@
         : false;
       return {
         text: match.response,
+        plainText: true,
         projects: shouldShowCards ? [projects[match.project]] : [],
         suggestions: match.suggestions,
       };
@@ -516,6 +759,7 @@
           !!projects[activeProject] && (showProjectsNow || turnCount >= 3);
         return {
           text: detail,
+          plainText: true,
           projects: shouldShowCards
             ? [projects[activeProject]].filter(Boolean)
             : [],
@@ -533,6 +777,7 @@
       return {
         text:
           "Hey — welcome. What brings you here: hiring, design inspiration, or checking out the work? If you tell me what you care about (B2B, consumer, design systems, mobile), I’ll point you to the right thing.",
+        plainText: true,
         projects: [],
         suggestions: [
           "Tell me about your work",
@@ -547,6 +792,7 @@
       return {
         text:
           "Cool — before I throw project links at you like confetti, what kind of work do you actually want to see? Design systems, mobile apps, B2B enterprise, consumer e‑commerce… pick a lane and I’ll point you to the right case study. If you don’t care, I’ll pull two strong ones based on what you’re asking (Adidas, Sabadell, BeeData, Shell, Wivai, MotoGP, Rio Tinto — all fair game).",
+        plainText: true,
         projects: [],
         suggestions: [
           "Design systems",
@@ -561,6 +807,7 @@
       return {
         text:
           "Alright, you’ve earned the visuals. Here are two good starting points based on what you’ve been asking — craft + real numbers, no fluff. If you tell me what you care about (systems vs product flows vs pure impact), I can narrow it down even more.",
+        plainText: true,
         projects: picks,
         suggestions: [
           "Tell me more about Adidas",
@@ -617,6 +864,12 @@
         )
           return "recruiter";
         if (
+          /(hire|hiring|recruit|recruiting|candidate|condidate|join (my|our|the) team|open role|open position|job opening|looking for (a |an )?(product )?designer|why (would|should) (i|we) hire|why would you be (a )?good)/.test(
+            normalized
+          )
+        )
+          return "recruiter";
+        if (
           /(figma|sketch|xd|after effects|prototype|prototyp|tokens|components?|dev mode|html|css|javascript|wcag|accessibility|typography|design system)/.test(
             normalized
           )
@@ -628,53 +881,43 @@
       };
 
       const scoreItem = (item) => {
+        const nq = item.normalizedQuestion;
         let score = 0;
+        if (normalized.length >= 10 && nq.length >= 8) {
+          if (normalized.includes(nq) || nq.includes(normalized)) score += 45;
+        }
         tokens.forEach((token) => {
-          if (item.normalizedQuestion.includes(token)) score += 2;
-          if (item.normalizedAnswer.includes(token)) score += 1;
+          if (token.length < 3) return;
+          if (nq.includes(token)) score += 6;
         });
         return score;
       };
 
       const scored = qaPairs
         .map((item) => ({ item, score: scoreItem(item) }))
-        .filter((entry) => entry.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 4);
+        .filter((entry) => entry.score >= 10)
+        .sort((a, b) => b.score - a.score);
 
       if (scored.length) {
-        const mode = detectMode();
-        const selected = [scored[0]];
-        // If the query spans multiple topics, blend in close matches.
-        const isMultiTopic =
-          normalized.includes(" and ") ||
-          normalized.includes(" vs ") ||
-          normalized.includes(" / ") ||
-          normalized.includes(",");
-        if (scored[1] && scored[1].score >= scored[0].score * 0.75) selected.push(scored[1]);
-        if (
-          isMultiTopic &&
-          scored[2] &&
-          scored[2].score >= scored[0].score * 0.6
-        )
-          selected.push(scored[2]);
+        const top = scored[0];
+        const second = scored[1];
+        const ambiguousWeak =
+          second &&
+          second.score >= top.score * 0.9 &&
+          top.score < 22;
 
-        const splitSentences = (text) => {
+        if (!ambiguousWeak) {
+        const mode = detectMode();
+
+        const trimAnswer = (text, maxSents = 7) => {
           const parts = String(text)
             .replace(/\s+/g, " ")
             .trim()
             .match(/[^.!?]+[.!?]+|[^.!?]+$/g);
-          return (parts || []).map((s) => s.trim()).filter(Boolean);
+          const sents = (parts || []).map((s) => s.trim()).filter(Boolean);
+          if (sents.length <= maxSents) return String(text).trim();
+          return sents.slice(0, maxSents).join(" ").trim();
         };
-
-        const keySentences = [];
-        selected.forEach(({ item }, idx) => {
-          const sentences = splitSentences(item.answer);
-          if (!sentences.length) return;
-          // Take 1–2 sentences per answer, capped overall.
-          keySentences.push(sentences[0]);
-          if (idx === 0 && sentences[1] && keySentences.length < 3) keySentences.push(sentences[1]);
-        });
 
         const intros = {
           recruiter: [
@@ -708,13 +951,13 @@
         };
         const outros = {
           recruiter:
-            "What’s the role scope and location you’re hiring for, so I can answer in the right context?",
+            "If you share level, location, and product domain, I can tailor examples to what your team cares about.",
           designer:
             "What kind of product are you working on — mobile-first, B2B, consumer — so I can tailor the details?",
           exec:
             "What metric are you actually trying to move — conversion, retention, efficiency — so we optimize the right thing?",
           general:
-            "What’s the context here — are you hiring, looking for inspiration, or trying to solve a specific product problem?",
+            "Say if you want to go deeper on a specific project, process, or metric.",
         };
 
         const suggestionsByMode = {
@@ -740,42 +983,46 @@
           ],
         };
 
-        const body = keySentences.join(" ").trim();
-        // Keep answers readable and roughly 4–6 sentences, and vary openings.
+        const body = trimAnswer(top.item.answer, 7);
+        const strongMatch = top.score >= 38;
         const introPool = (intros[mode] || intros.general || []).filter(Boolean);
         const options = introPool.filter((item) => item !== lastIntroUsed);
         const pickFrom = options.length ? options : introPool;
-        const intro =
-          pickFrom[Math.floor(Math.random() * pickFrom.length)] ||
-          pickFrom[0] ||
-          "";
-        lastIntroUsed = intro || lastIntroUsed;
-        const text = `${intro} ${body} ${outros[mode]}`.replace(/\s+/g, " ").trim();
+        const intro = strongMatch
+          ? ""
+          : pickFrom[Math.floor(Math.random() * pickFrom.length)] || pickFrom[0] || "";
+        if (!strongMatch) lastIntroUsed = intro || lastIntroUsed;
+        const outro = strongMatch ? "" : outros[mode];
+        const text = [intro, body, outro].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
 
         return {
           text,
+          plainText: true,
           projects:
             turnCount >= 3 && (wantsProjects || workAdjacent)
               ? pickContextProjects().slice(0, 2)
               : [],
           suggestions: suggestionsByMode[mode] || suggestionsByMode.general,
         };
+        }
       }
     }
 
     return {
-      text: "Still training this thing. That's outside my knowledge, but design questions? Fire away",
+      text:
+        "I’m wired to answer from Jaime’s portfolio and FAQ—not a general-purpose model like ChatGPT—so that was too fuzzy for me to answer safely. Try naming a project (Adidas Click, Sabadell, BeeData, Shell, Wivai, MotoGP, Rio Tinto), a topic (design systems, mobile, metrics), or open the Work page for full case studies.",
       allowShort: true,
+      plainText: true,
       projects: [],
       suggestions: [
-        "What's your design process?",
         "Tell me about Adidas Click",
+        "Design systems experience",
         "Show me your work",
       ],
     };
   };
 
-  const addMessage = (role, text) => {
+  const addMessage = (role, text, opts = {}) => {
     const row = document.createElement("div");
     row.className = `chat-row ${role}`;
 
@@ -824,6 +1071,11 @@
           list.push(`<li>${formatInline(item)}</li>`);
           return;
         }
+        if (/^[*•]\s+/.test(trimmed)) {
+          const item = trimmed.replace(/^[*•]\s+/, "");
+          list.push(`<li>${formatInline(item)}</li>`);
+          return;
+        }
         flushList();
         out.push(`<p>${formatInline(trimmed)}</p>`);
       });
@@ -838,6 +1090,17 @@
       if (role !== "assistant") {
         bubbleText.textContent = content;
         bubble.dataset.typingComplete = "true";
+        return;
+      }
+      if (opts.instant) {
+        const raw = String(fullText || "").trim();
+        bubbleText.innerHTML = renderRichText(raw);
+        bubble.dataset.typingComplete = "true";
+        requestAnimationFrame(() => {
+          bubble.dispatchEvent(
+            new CustomEvent("typing-complete", { bubbles: true })
+          );
+        });
         return;
       }
       // Human-ish typing indicator + small "thinking" pause.
@@ -1003,7 +1266,7 @@
       button.textContent = item;
       button.addEventListener("click", () => {
         markSuggestionClicked(item);
-        handleQuery(item);
+        void handleQuery(item);
       });
       wrap.appendChild(button);
     });
@@ -1037,6 +1300,7 @@
     localStorage.removeItem(CLICKED_SUGGESTIONS_KEY);
     localStorage.removeItem(PENDING_CARDS_KEY);
     localStorage.removeItem(SHOWN_CARDS_KEY);
+    llmMessages = [];
   };
 
   const restoreHistory = () => {
@@ -1044,11 +1308,12 @@
     const started = localStorage.getItem("jaime-chat-started") === "true";
     const version = localStorage.getItem("jaime-chat-version");
     if (state && started && version === STORAGE_VERSION) {
+      llmMessages = [];
       thread.innerHTML = state;
       body.classList.add("chat-started");
       thread.querySelectorAll(".chat-suggestion").forEach((button) => {
         button.addEventListener("click", () => {
-          handleQuery(button.textContent || "");
+          void handleQuery(button.textContent || "");
         });
       });
       rehydrateShownCardsFromDOM();
@@ -1180,9 +1445,9 @@
     return trimmed;
   };
 
-  const normalizeResponseLength = (text, allowShort = false) => {
-    // Keep answers short & sweet: 4–5 sentences max.
+  const normalizeResponseLength = (text, allowShort = false, options = {}) => {
     const base = String(text || "").trim();
+    if (options.plain === true) return base;
     const structured = allowShort ? base : autoStructure(base);
     const capped = allowShort
       ? structured
@@ -1192,7 +1457,7 @@
     return emphasizeImportant(varyOpening(capped));
   };
 
-  const handleQuery = (query) => {
+  const handleQuery = async (query) => {
     const cleaned = query.trim();
     if (!cleaned) return;
     chatTurnCount += 1;
@@ -1225,6 +1490,60 @@
       normalized.includes("portfolio");
     body.classList.add("chat-started");
     addMessage("user", cleaned);
+
+    const chatApiUrl = getChatApiUrl();
+    if (chatApiUrl) {
+      llmMessages.push({ role: "user", content: cleaned });
+      const pendingRow = document.createElement("div");
+      pendingRow.className = "chat-row assistant chat-row-pending";
+      pendingRow.innerHTML = `
+        <div class="chat-bubble assistant">
+          <div class="chat-bubble-text" aria-live="polite">
+            <div class="typing-indicator" aria-hidden="true">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+        </div>`;
+      thread.appendChild(pendingRow);
+      requestAnimationFrame(() => {
+        pendingRow.classList.add("is-visible");
+      });
+      const scroller = document.scrollingElement || document.documentElement;
+      window.scrollTo({ top: scroller.scrollHeight, behavior: "smooth" });
+      try {
+        const res = await fetch(chatApiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: llmMessages }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.error || res.statusText || "Chat request failed");
+        }
+        if (!data.text || typeof data.text !== "string") {
+          throw new Error("Invalid response from chat API");
+        }
+        pendingRow.remove();
+        llmMessages.push({ role: "assistant", content: data.text });
+        if (llmMessages.length > 24) {
+          llmMessages.splice(0, llmMessages.length - 24);
+        }
+        const assistantText = normalizeResponseLength(data.text, true, { plain: true });
+        const message = addMessage("assistant", assistantText, { instant: true });
+        addProjectCardsSequenced(message, []);
+        addSuggestions(message, getLlmFollowUpChips(cleaned));
+        lastAssistantMessage = assistantText;
+        persistHistory();
+        thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
+        return;
+      } catch {
+        pendingRow.remove();
+        llmMessages.pop();
+      }
+    }
+
     const response = getChatResponse(cleaned, {
       turnCount: chatTurnCount,
       wantsProjects,
@@ -1232,7 +1551,9 @@
     });
 
     const offeredCards = Array.isArray(response.projects) ? response.projects.filter(Boolean) : [];
-    const assistantText = normalizeResponseLength(response.text, response.allowShort);
+    const assistantText = normalizeResponseLength(response.text, response.allowShort, {
+      plain: response.plainText === true,
+    });
     const shown = getShownCardUrls();
     const assistantCardsRaw = offeredCards.slice(0, 2);
     const assistantCards = explicitProjectsRequest
@@ -1240,7 +1561,6 @@
       : assistantCardsRaw.filter((c) => c && c.url && !shown.has(c.url));
 
     const message = addMessage("assistant", assistantText);
-    // Cards appear after typing completes (text first, then cards).
     addProjectCardsSequenced(message, assistantCards);
     const sug = (response.suggestions && response.suggestions.length)
       ? response.suggestions
@@ -1251,7 +1571,7 @@
     thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
   };
 
-  const submitQuery = (inputEl) => {
+  const submitQuery = async (inputEl) => {
     const query = inputEl.value.trim();
     if (!query) return;
     inputs.forEach((field) => {
@@ -1260,7 +1580,7 @@
     searchBars.forEach((bar) => {
       bar.classList.remove("has-text");
     });
-    handleQuery(query);
+    await handleQuery(query);
   };
 
   const fitQuickChips = () => {
@@ -1303,7 +1623,7 @@
     inputEl.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        submitQuery(inputEl);
+        void submitQuery(inputEl);
       }
     });
   });
@@ -1313,7 +1633,7 @@
       const bar = button.closest(".search-bar");
       const inputEl = bar ? bar.querySelector("input") : null;
       if (inputEl) {
-        submitQuery(inputEl);
+        void submitQuery(inputEl);
       }
     });
   });
@@ -1322,7 +1642,7 @@
     button.addEventListener("click", () => {
       const label = button.textContent || "";
       markSuggestionClicked(label);
-      handleQuery(label);
+      void handleQuery(label);
     });
   });
 

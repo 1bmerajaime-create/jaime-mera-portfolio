@@ -522,6 +522,27 @@ body.home .quick-chip {
 .chat-bubble.assistant {
   background: transparent;
   border-color: transparent;
+  display: flex;
+  flex-direction: column;
+  /* flex-start so children are not stretched to 720px wide (stretch was forcing .chat-cards full width) */
+  align-items: flex-start;
+}
+
+.chat-bubble.assistant > .chat-bubble-text {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.chat-bubble.assistant > .chat-suggestions {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Shrink-wrap card row to real card width(s), never the text column */
+.chat-bubble.assistant > .chat-cards {
+  max-width: calc(260px * 2 + 0.65rem);
 }
 
 .chat-bubble.user {
@@ -566,10 +587,16 @@ body.home .quick-chip {
 }
 
 .chat-cards {
-  display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  margin-top: 1rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 0.85rem;
+  box-sizing: border-box;
+  width: auto;
+  max-width: calc(260px * 2 + 0.65rem);
+  vertical-align: top;
 }
 
 .chat-cards.is-pending {
@@ -577,16 +604,21 @@ body.home .quick-chip {
 }
 
 .chat-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 0.8rem;
-  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  border-radius: 12px;
   border: 1px solid var(--border);
   background: #121212;
   text-decoration: none;
   color: var(--text);
   transition: transform 0.2s ease, border 0.2s ease;
+  box-sizing: border-box;
+  flex: 0 0 260px;
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
 }
 
 .chat-card:hover {
@@ -596,18 +628,24 @@ body.home .quick-chip {
 
 .chat-card-image {
   position: relative;
-  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 118px;
+  border-radius: 8px;
   overflow: hidden;
-  background: #0d0d0d;
+  background: #0a0a0a;
   border: 1px solid var(--border);
-  aspect-ratio: 16 / 9;
 }
 
 .chat-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   display: block;
+  margin: 0 auto;
 }
 
 .chat-card-image.is-missing .chat-card-fallback {
@@ -628,21 +666,32 @@ body.home .quick-chip {
   opacity: 0;
 }
 
+.chat-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
 .chat-card-body h3 {
-  font-size: 0.95rem;
-  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .chat-card-body p {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
   color: var(--muted);
+  margin: 0;
 }
 
 .chat-card-tags {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.65rem;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.58rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--muted);
@@ -651,6 +700,47 @@ body.home .quick-chip {
 .chat-card-tags .metric {
   color: var(--accent);
   font-weight: 600;
+}
+
+@media (max-width: 540px) {
+  .chat-bubble.assistant > .chat-cards {
+    max-width: 100%;
+  }
+
+  .chat-cards {
+    gap: 0.55rem;
+  }
+
+  .chat-card {
+    flex: 0 0 min(240px, calc(100vw - 3.5rem));
+    width: min(240px, calc(100vw - 3.5rem));
+    min-width: 0;
+    max-width: min(240px, calc(100vw - 3.5rem));
+    padding: 0.4rem;
+    gap: 0.3rem;
+    border-radius: 10px;
+  }
+
+  .chat-card-body {
+    gap: 0.15rem;
+  }
+
+  .chat-card-image {
+    height: 104px;
+    border-radius: 6px;
+  }
+
+  .chat-card-body h3 {
+    font-size: 0.76rem;
+  }
+
+  .chat-card-body p {
+    font-size: 0.68rem;
+  }
+
+  .chat-card-tags {
+    font-size: 0.52rem;
+  }
 }
 
 .chat-suggestions {
@@ -744,6 +834,10 @@ body.chat-started .chat-input-fixed .search-bar input {
 
 body.chat-started .chat-input-fixed .send-button {
   display: inline-flex;
+}
+
+.chat-row-pending .chat-bubble-text {
+  min-height: 1.25rem;
 }
 
 .chat-row.is-visible {
