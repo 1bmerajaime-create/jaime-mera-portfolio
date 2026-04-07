@@ -1,0 +1,600 @@
+/* One-page scroll homepage (structure inspired by jessmatsuura.com) */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700&display=swap");
+
+:root {
+  --sh-bg: #000000;
+  --sh-bg-alt: #0d0d0d;
+  --sh-text: #e5e5e5;
+  --sh-muted: #9a9a9a;
+  --sh-accent: #a855f7;
+  --sh-border: rgba(255, 255, 255, 0.08);
+  --sh-max: 1120px;
+  --sh-pad: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.scroll-body {
+  margin: 0;
+  color-scheme: dark;
+  background: var(--sh-bg);
+  color: var(--sh-text);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.scroll-body a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.scroll-body a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Hide legacy help / chat */
+.scroll-body .help-button,
+.scroll-body .chat-page {
+  display: none !important;
+}
+
+.scroll-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 1rem var(--sh-pad);
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--sh-border);
+}
+
+.scroll-nav-inner {
+  max-width: var(--sh-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.scroll-logo {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-decoration: none !important;
+}
+
+.scroll-nav-links {
+  display: flex;
+  gap: 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.scroll-nav-links a {
+  text-decoration: none !important;
+  opacity: 0.85;
+}
+
+.scroll-nav-links a:hover {
+  opacity: 1;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 640px) {
+  .scroll-nav-inner {
+    flex-wrap: wrap;
+  }
+
+  .scroll-nav-links {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--sh-border);
+  }
+}
+
+.scroll-main {
+  padding-top: 64px;
+}
+
+.scroll-main .scroll-section {
+  scroll-margin-top: 4.75rem;
+}
+
+/* Hero: avatar | welcome on row 1; name + scroll cue aligned on one row (row 2) */
+.scroll-hero {
+  position: relative;
+  min-height: calc(100svh - 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.28fr);
+  grid-template-rows: auto auto;
+  column-gap: clamp(2rem, 7vw, 5.5rem);
+  row-gap: clamp(0.35rem, 1.2vh, 0.85rem);
+  align-items: start;
+  padding: clamp(0.65rem, 1.75vh, 1.5rem) var(--sh-pad) clamp(1.75rem, 4vh, 2.75rem);
+  max-width: var(--sh-max);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.scroll-hero-left {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 0;
+}
+
+/* Raw asset — large cap; group is vertically centered in column */
+.scroll-hero-avatar {
+  display: block;
+  width: auto;
+  max-width: min(100%, clamp(320px, 52vw, 600px));
+  height: auto;
+}
+
+.scroll-hero-name {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.35rem, 9.5vw, 5.85rem);
+  font-weight: 600;
+  line-height: 1.02;
+  margin: 0;
+  letter-spacing: -0.028em;
+  max-width: 100%;
+  white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.scroll-hero-bottom {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  min-width: 0;
+}
+
+.scroll-hero-right {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: clamp(0.65rem, 1.6vh, 1.05rem);
+  margin-left: auto;
+  max-width: min(100%, 28rem);
+  width: 100%;
+  padding-top: clamp(2rem, 6.5vh, 4.25rem);
+  padding-bottom: 0.25rem;
+}
+
+/* “Welcome.” in Fraunces; intro stays DM Sans */
+.scroll-hero-kicker {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.5rem, 2.85vw, 2.2rem);
+  font-weight: 600;
+  margin: 0;
+  color: var(--sh-text);
+  letter-spacing: -0.022em;
+  line-height: 1.12;
+}
+
+.scroll-hero-intro {
+  font-family: "DM Sans", system-ui, sans-serif;
+  max-width: 32rem;
+  margin: 0;
+  font-size: clamp(0.92rem, 1.55vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.58;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.scroll-hero-cue {
+  position: static;
+  margin: 0;
+  flex-shrink: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.55rem 1.1rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.scroll-hero-cue:hover {
+  color: var(--sh-text);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.32);
+  text-decoration: none;
+}
+
+.scroll-hero-cue:focus-visible {
+  outline: 2px solid var(--sh-accent);
+  outline-offset: 3px;
+}
+
+.scroll-hero-cue-arrow {
+  font-size: 1em;
+  line-height: 1;
+  position: relative;
+  top: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .scroll-hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    min-height: 0;
+    padding-top: clamp(0.5rem, 2vh, 1.25rem);
+    padding-bottom: clamp(2rem, 6vh, 3rem);
+    row-gap: clamp(0.85rem, 3vw, 1.5rem);
+  }
+
+  .scroll-hero-left {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .scroll-hero-avatar {
+    max-width: min(100%, clamp(220px, 68vw, 380px));
+  }
+
+  .scroll-hero-right {
+    grid-column: 1;
+    grid-row: 2;
+    margin-left: 0;
+    max-width: none;
+    padding-top: clamp(1rem, 3.5vh, 1.85rem);
+    padding-bottom: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .scroll-hero-bottom {
+    grid-column: 1;
+    grid-row: 3;
+    align-items: center;
+  }
+
+  .scroll-hero-name {
+    font-size: clamp(2rem, 11.5vw, 3.5rem);
+  }
+
+  .scroll-hero-cue {
+    margin-left: auto;
+  }
+}
+
+.scroll-section {
+  padding: clamp(3.5rem, 10vw, 6rem) var(--sh-pad);
+}
+
+.scroll-section-alt {
+  background: var(--sh-bg-alt);
+}
+
+.scroll-section-inner {
+  max-width: var(--sh-max);
+  margin: 0 auto;
+}
+
+.scroll-section h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.scroll-lead {
+  max-width: 40rem;
+  margin: 0 0 3rem;
+  color: var(--sh-muted);
+  font-size: 1.05rem;
+}
+
+/* Selected works — layout inspired by jessmatsuura.com */
+.scroll-work-intro {
+  max-width: 44rem;
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--sh-muted);
+}
+
+/* Selected works — 3-column rows like jessmatsuura.com (index + title | desc | panel) */
+.scroll-work-list--jess {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.scroll-work-list--jess .scroll-work-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-work-list--jess .scroll-work-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-work-list--jess .scroll-work-link {
+  display: grid;
+  grid-template-columns: minmax(11rem, 28%) minmax(0, 1fr) minmax(9.5rem, 26%);
+  gap: clamp(1.25rem, 4vw, 2.75rem);
+  align-items: stretch;
+  text-decoration: none !important;
+  color: inherit;
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.scroll-work-list--jess .scroll-work-item:last-child .scroll-work-link {
+  border-bottom: none;
+}
+
+.scroll-work-list--jess .scroll-work-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding-top: 0.2rem;
+}
+
+.scroll-work-list--jess .scroll-work-num {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.32);
+  line-height: 1;
+  user-select: none;
+}
+
+.scroll-work-list--jess .scroll-work-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.scroll-work-list--jess .scroll-work-title {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--sh-text);
+}
+
+.scroll-work-list--jess .scroll-work-tags {
+  margin: 0;
+  max-width: 100%;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.8rem, 1.35vw, 0.92rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.scroll-work-list--jess .scroll-work-desc-wrap {
+  padding-top: 1.65rem;
+  min-width: 0;
+}
+
+.scroll-work-list--jess .scroll-work-intro {
+  margin: 0;
+  font-size: clamp(0.88rem, 1.45vw, 1rem);
+  line-height: 1.65;
+  color: var(--sh-muted);
+  font-weight: 400;
+  max-width: 40rem;
+}
+
+.scroll-work-list--jess .scroll-work-visual-panel {
+  border-radius: 12px;
+  background: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: clamp(0.55rem, 1.4vw, 0.95rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(132px, 18vw, 188px);
+  max-width: 100%;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.scroll-work-list--jess .scroll-work-visual-inner {
+  width: 100%;
+  height: 100%;
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-work-list--jess .scroll-work-visual-inner img {
+  max-width: 100%;
+  max-height: clamp(112px, 14vw, 188px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.scroll-work-list--jess .scroll-work-link:hover .scroll-work-visual-panel {
+  border-color: rgba(168, 85, 247, 0.28);
+  background: #1a1520;
+}
+
+.scroll-work-list--jess .scroll-work-link:hover .scroll-work-visual-inner img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 960px) {
+  .scroll-work-list--jess .scroll-work-link {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: clamp(2rem, 5vw, 2.75rem) 0;
+  }
+
+  .scroll-work-list--jess .scroll-work-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .scroll-work-list--jess .scroll-work-desc-wrap {
+    padding-top: 0;
+    order: 3;
+  }
+
+  .scroll-work-list--jess .scroll-work-visual-panel {
+    order: 2;
+    min-height: 168px;
+  }
+
+  .scroll-work-list--jess .scroll-work-visual-inner img {
+    max-height: min(200px, 42vw);
+  }
+}
+
+.scroll-about-name {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+}
+
+.scroll-about-bio {
+  max-width: 38rem;
+  margin: 0 0 2rem;
+  font-size: 1.05rem;
+}
+
+.scroll-about-label {
+  margin-bottom: 0.5rem;
+}
+
+.scroll-about-timeline {
+  margin-bottom: 1.5rem;
+}
+
+.scroll-body .scroll-about-timeline .timeline-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+
+.scroll-body .scroll-about-timeline .timeline-item {
+  padding: 1.25rem 0;
+}
+
+.scroll-footer {
+  padding: clamp(3rem, 8vw, 5rem) var(--sh-pad);
+  background: #050505;
+  color: #e5e5e5;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.scroll-footer-inner {
+  max-width: var(--sh-max);
+  margin: 0 auto;
+}
+
+.scroll-footer h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: #ffffff;
+}
+
+.scroll-footer-lead {
+  margin: 0 0 1.5rem;
+  color: var(--sh-muted);
+  font-size: 1.05rem;
+  max-width: 32rem;
+}
+
+.scroll-footer a {
+  color: #c4b5fd;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.scroll-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.scroll-footer-links a {
+  color: #e5e5e5;
+}
+
+.scroll-copy {
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: var(--sh-muted);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-hero-cue {
+    transition: none;
+  }
+
+  .scroll-work-list--jess .scroll-work-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .scroll-work-list--jess .scroll-work-visual-inner img {
+    transition: none !important;
+    transform: none !important;
+  }
+}

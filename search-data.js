@@ -80,7 +80,7 @@ window.JAIME_PROFILE = {
   email: "1b.mera.jaime@gmail.com",
   phone: "+34 686 192 345",
   website: "JaimeMera.com",
-  linkedin: "linkedin.com/jaime.mera",
+  linkedin: "linkedin.com/in/jaime-mera",
   summary:
     "I make complex products simple and useful. I build design systems from scratch, lead mobile-first work, and focus on measurable business outcomes. I don't chase pretty screens - I solve business problems that happen to need beautiful interfaces.",
   differentiators: [

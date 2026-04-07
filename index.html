@@ -1,112 +1,567 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jaime Mera - Product Design Lead</title>
+    <title>Jaime Mera — Product Design Lead</title>
     <meta
       name="description"
-      content="Jaime Mera is a product design lead focused on measurable business outcomes and human-centered digital experiences."
+      content="Product Design Lead in Madrid — design systems, mobile apps, and measurable outcomes. Selected work: Adidas Click, Banco Sabadell, Shell, and more."
     />
-    <meta property="og:title" content="Jaime Mera - Product Design Lead" />
-    <meta
-      property="og:description"
-      content="Product design portfolio featuring strategic product work across global brands."
-    />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="./styles.css?v=20260409" />
+    <link rel="stylesheet" href="scroll-home.css?v=20260428" />
     <link rel="icon" type="image/png" href="./images/tab-avatar.png?v=1" />
-    <link rel="shortcut icon" href="./images/tab-avatar.png?v=1" />
-    <link rel="apple-touch-icon" href="./images/tab-avatar.png?v=1" />
-    <link rel="stylesheet" href="./styles.css?v=20260411" />
-    <meta
-      name="portfolio-chat-api"
-      content="https://jaime-portfolio-chat.jmera-portfolio.workers.dev/chat"
-    />
   </head>
-  <body class="home">
-    <div class="chat-page">
-      <header class="site-header">
-      <div class="nav">
-        <a class="logo" href="./index.html?reset=1#top" id="home-reset">JAIME MERA</a>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-        <label for="nav-toggle" class="nav-toggle-button">☰</label>
-        <div class="nav-right">
-          <nav class="nav-links">
-            <a href="./about.html">About</a>
-            <a href="./work.html">Work</a>
-          </nav>
+  <body class="scroll-body">
+    <header class="scroll-header">
+      <nav class="scroll-nav-inner" aria-label="Primary">
+        <a class="scroll-logo" href="#top">JAIME MERA</a>
+        <div class="scroll-nav-links">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
         </div>
-        <div class="nav-mobile">
-          <a href="./about.html">About</a>
-          <a href="./work.html">Work</a>
-        </div>
-      </div>
-      </header>
+      </nav>
+    </header>
 
-      <main id="top" class="page">
-        <section class="chat-hero messages-container">
-        <button class="chat-back" type="button" aria-label="Exit chat mode">
-          ‹ Back
-        </button>
-        <div class="hero-grid home-split">
-          <div class="hero-left">
-            <div class="hero-avatar">
-              <img src="./images/jaime-avatar.png" alt="Jaime Mera avatar" />
-            </div>
-            <h2 class="hero-name">Jaime Mera</h2>
+    <main class="scroll-main" id="top">
+      <section class="scroll-hero" aria-label="Introduction">
+        <div class="scroll-hero-left">
+          <img
+            class="scroll-hero-avatar"
+            src="./images/jaime-avatar.png?v=20260409"
+            alt="Jaime Mera"
+            width="682"
+            height="1024"
+            decoding="async"
+          />
+        </div>
+        <div class="scroll-hero-right">
+          <p class="scroll-hero-kicker">Welcome.</p>
+          <p class="scroll-hero-intro">
+            Some say I am a Product Designer, but truly, what I really do is try to make
+            everyone’s life easier.
+          </p>
+          <p class="scroll-hero-intro">
+            That means turning complexity into simplicity, friction into flow, and
+            confusion into clarity. Good design shouldn’t announce itself. It should just
+            quietly make your day a little better.
+          </p>
+        </div>
+        <div class="scroll-hero-bottom">
+          <h1 class="scroll-hero-name">Jaime Mera</h1>
+          <a href="#work" class="scroll-hero-cue">
+            Scroll to see more<span class="scroll-hero-cue-arrow" aria-hidden="true"> ↓</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="work" aria-labelledby="work-heading">
+        <div class="scroll-section-inner">
+          <h2 id="work-heading">Selected works</h2>
+          <p class="scroll-work-intro">
+            Here are some of the projects I’ve worked on over the past few
+            years — each one taught me something new and shaped the way I design
+            today.
+          </p>
+
+          <div class="scroll-work-list scroll-work-list--jess">
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-adidas-click.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">01</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">Adidas Click</h3>
+                    <p class="scroll-work-tags">
+                      Global B2B E-Commerce + Mobile App + Design System
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    Click is Adidas’s global B2B wholesale platform. I led the mobile app
+                    from research through launch in 15+ markets and co-created the Click
+                    design system that accelerated the team by 60%.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/adidas/Adidas-1-fdb8e856-6207-44e0-b8f7-9fa9ff768100.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-banco-sabadell.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">02</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">Banco Sabadell</h3>
+                    <p class="scroll-work-tags">
+                      Digital Banking Transformation + Galatea Design System
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    Banco Sabadell needed one coherent digital transformation across retail
+                    and private banking. I built the Galatea design system from scratch and
+                    led mobile-first experiences and IA that improved consistency and speed.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/sabadell/Sabadell-1-4f956ff9-6aed-47d3-a3ba-b552fea15349.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-beedata.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">03</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">BeeData</h3>
+                    <p class="scroll-work-tags">
+                      Enterprise B2B SaaS — AI-Powered Data Insights
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    BeeData is a B2B database product meant to feel like more than a raw
+                    export. I designed for a relationship-led model where AI helps businesses
+                    evolve—not just download data.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/beedata/BeeData-1-2d482b4a-7ac9-4090-bb0e-b844bc875109.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-shell.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">04</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">Shell</h3>
+                    <p class="scroll-work-tags">
+                      Global Shell App + EV Platform + Carwash Innovation
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    Shell’s ecosystem spans fuel, loyalty, EV, carwash, and more—often with
+                    different rules per market. I helped unify the experience for users and
+                    keep it scalable for product teams.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/shell/Shell-1-f99e972e-736c-4a3e-b068-4161d3b334b0.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-wivai.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">05</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">Wivai</h3>
+                    <p class="scroll-work-tags">
+                      Banking giant’s move into retail e-commerce
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    Wivai is CaixaBank’s retail e-commerce play for consumer tech—built to
+                    feel like a store, not a bank bolt-on. I led design from brand through
+                    launch with a mobile-first foundation.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/wivai/Wivai-1-17a205d2-11ba-4bfd-96b4-23421e3347d5.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-motogp.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">06</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">MotoGP</h3>
+                    <p class="scroll-work-tags">
+                      Racing platform visual transformation + feature POC
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    MotoGP wanted a sharper digital presence and stronger mobile experiences
+                    for race-day fans. I led visual direction, guidelines, and PoCs that
+                    felt premium, fast, and easier to navigate.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/motogp/Motogp-5-114613e7-df71-44c6-8dc8-9a0f40bc1af8.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="scroll-work-item">
+              <a class="scroll-work-link" href="./work-rio-tinto.html">
+                <div class="scroll-work-meta">
+                  <span class="scroll-work-num">07</span>
+                  <div class="scroll-work-title-row">
+                    <h3 class="scroll-work-title">Rio Tinto</h3>
+                    <p class="scroll-work-tags">
+                      Enterprise HR platform — scalability meets efficiency
+                    </p>
+                  </div>
+                </div>
+                <div class="scroll-work-desc-wrap">
+                  <p class="scroll-work-intro">
+                    TrueView supports pit patrollers who need clear, safe access to
+                    operations data in the field. I simplified how teams read dashboards and
+                    act on them—faster and more safely.
+                  </p>
+                </div>
+                <div class="scroll-work-visual-panel" aria-hidden="true">
+                  <div class="scroll-work-visual-inner">
+                    <img
+                      src="./images/riotinto/RioTinto-1-fb984dba-165a-464f-ad33-332c57284f88.png"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </a>
+            </article>
           </div>
-          <div class="hero-content">
-            <div class="hero-top">
-              <span class="wave">👋</span>
-              <span class="hero-hi">Welcome</span>
-            </div>
-            <h1 class="headline">
-              Hi, I&apos;m Jaime. Some say I&apos;m a Product Designer but truly, what I
-              really do is try to make everyone&apos;s life easier. Try asking me
-              anything and check it out for yourself.
-            </h1>
-            <div class="chat-input-shell">
-              <div class="chat-input-wrap">
-                <div class="search-bar">
-                  <input type="text" placeholder="Ask me about my work..." />
-                  <button class="send-button" type="button" aria-label="Send">
-                    ➤
-                  </button>
+        </div>
+      </section>
+
+      <section
+        class="scroll-section scroll-section-alt"
+        id="about"
+        aria-labelledby="about-heading"
+      >
+        <div class="scroll-section-inner">
+          <h2 id="about-heading">About me</h2>
+          <p class="scroll-about-name">Jaime Mera</p>
+          <p class="scroll-about-bio">
+            I’m a Product Design Lead at AILY Labs in Madrid. I make complex
+            products simple — from design systems serving millions to mobile apps
+            used globally. I work across the entire process from research to
+            delivery. I don’t chase pretty screens — I solve business problems
+            that happen to need beautiful interfaces.
+          </p>
+
+          <div class="about-label scroll-about-label">Experience</div>
+          <div class="about-timeline scroll-about-timeline" data-accordion="single">
+            <article class="timeline-item" style="--delay: 0">
+              <button class="timeline-trigger" type="button" aria-expanded="false">
+                <div class="timeline-role">
+                  <h3 class="timeline-title">Product Design Lead</h3>
+                  <p class="timeline-company">AILY LABS</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">2024 - Present</span>
+                  <span class="timeline-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path
+                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+              <div class="timeline-content" aria-hidden="true">
+                <div class="timeline-content-inner">
+                  <p>
+                    I lead the design strategy for Aily, a mobile-first AI decision platform
+                    for pharma. I translate complex enterprise workflows into consumer-grade
+                    interfaces that prioritize decisions over data, applying Decision Driven
+                    Design across 9+ modules (Finance, R&amp;D, GTM, Manufacturing, etc.). I
+                    balance rapid delivery with systematic consolidation—ensuring templates,
+                    components, and patterns scale.
+                  </p>
                 </div>
               </div>
-            </div>
-            <div class="chat-landing">
-              <div class="chat-quick">
-                <button class="quick-chip" type="button">
-                  Tell me about your work
-                </button>
-                <button class="quick-chip" type="button">
-                  What makes you different?
-                </button>
-                <button class="quick-chip" type="button">
-                  What's your biggest achievement?
-                </button>
+            </article>
+
+            <article class="timeline-item" style="--delay: 1">
+              <button class="timeline-trigger" type="button" aria-expanded="false">
+                <div class="timeline-role">
+                  <h3 class="timeline-title">Senior Product Designer</h3>
+                  <p class="timeline-company">Accenture Song</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">2021 - 2024</span>
+                  <span class="timeline-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path
+                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+              <div class="timeline-content" aria-hidden="true">
+                <div class="timeline-content-inner">
+                  <p>
+                    As a senior product designer my main roles are:
+                  </p>
+                  <ul>
+                    <li>
+                      Leading the design process from ideation to execution, working
+                      closely with cross-functional teams such as product managers,
+                      engineers, and other designers.
+                    </li>
+                    <li>
+                      Conducting user research and gathering insights to inform design
+                      decisions. Collaborating with product managers to define user
+                      needs and create user personas.
+                    </li>
+                    <li>
+                      Creating design concepts and iterating on them based on user
+                      feedback and business requirements. Designing user interfaces
+                      that are intuitive, easy to use, and visually appealing. Ensuring
+                      that the user experience is consistent across touchpoints,
+                      including mobile, web, and desktop.
+                    </li>
+                    <li>
+                      Collaborating with cross-functional teams to ensure that the
+                      design aligns with the product vision and business goals. Also
+                      collaborating with engineers to ensure that the design is feasible
+                      and can be implemented efficiently.
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            </article>
+
+            <article class="timeline-item" style="--delay: 2">
+              <button class="timeline-trigger" type="button" aria-expanded="false">
+                <div class="timeline-role">
+                  <h3 class="timeline-title">Product Designer</h3>
+                  <p class="timeline-company">Fjord (Accenture)</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">2019 - 2021</span>
+                  <span class="timeline-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path
+                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+              <div class="timeline-content" aria-hidden="true">
+                <div class="timeline-content-inner">
+                  <p>
+                    As a Product Designer my most relevant tasks are to:
+                  </p>
+                  <ul>
+                    <li>
+                      Define interactions and services based on relevant business,
+                      technical, and design considerations.
+                    </li>
+                    <li>
+                      Make design ideas tangible for the Fjord team and the client
+                      through visual storytelling and rapid prototyping.
+                    </li>
+                    <li>
+                      Explain and discuss design decisions eloquently, and give design
+                      feedback.
+                    </li>
+                    <li>
+                      Contribute to definition and execution of visual design language
+                      throughout engagements at the project level.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="timeline-item" style="--delay: 3">
+              <button class="timeline-trigger" type="button" aria-expanded="false">
+                <div class="timeline-role">
+                  <h3 class="timeline-title">UX &amp; Digital Innovation Analyst</h3>
+                  <p class="timeline-company">Accenture Interactive</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">2018 - 2019</span>
+                  <span class="timeline-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                      <path
+                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+              <div class="timeline-content" aria-hidden="true">
+                <div class="timeline-content-inner">
+                  <p>
+                    As part of Accenture Interactive, a performance unit focused in
+                    digital transformation and digital marketing, in which we create
+                    and design customer centric services, content strategies and hybrid
+                    spaces always with a layer of user experience (UX). Focused on a
+                    experience architecture, building a digital strategy for important
+                    firms in health, public, energy, banking and other key sectors that
+                    want to transform the way its business works, making it more
+                    digital, customer-centric and results-oriented always using a
+                    service design methodology.
+                  </p>
+                  <p>My day to day tasks are:</p>
+                  <ul>
+                    <li>Customer Journeys &amp; Experience Definition</li>
+                    <li>Digital Marketing &amp; Digital Strategy</li>
+                    <li>Communication Strategy</li>
+                    <li>UX</li>
+                    <li>Service Design</li>
+                    <li>Market research and trend generation</li>
+                    <li>Design and organization of workshops</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
+      </section>
 
-        <div class="chat-thread" aria-live="polite"></div>
-        </section>
-      </main>
-
-      <div class="chat-input-fixed">
-        <div class="search-bar">
-          <input type="text" placeholder="Ask me about my work..." />
-          <button class="send-button" type="button" aria-label="Send">
-            ➤
-          </button>
+      <footer class="scroll-footer" id="contact">
+        <div class="scroll-footer-inner">
+          <h2>Wanna say hi?</h2>
+          <p class="scroll-footer-lead">
+            Send me an email at
+            <a href="mailto:1b.mera.jaime@gmail.com">1b.mera.jaime@gmail.com</a>
+            or find me on
+            <a
+              href="https://www.linkedin.com/in/jaime-mera/"
+              rel="noopener noreferrer"
+              target="_blank"
+              >LinkedIn</a
+            >
+            — I would love to chat with you.
+          </p>
+          <div class="scroll-footer-links">
+            <a href="tel:+34686192345">+34 686 192 345</a>
+            <a href="https://jaimemera.com" rel="noopener noreferrer"
+              >JaimeMera.com</a
+            >
+          </div>
+          <p class="scroll-copy">© Jaime Mera</p>
         </div>
-      </div>
-    </div>
+      </footer>
+    </main>
 
-    <button class="help-button" type="button" aria-label="Help">?</button>
-    <script src="./search-data.js?v=20260217"></script>
-    <script src="./chat-qa.js?v=20260217"></script>
-    <script src="./search.js?v=20260408"></script>
+    <script>
+      const items = document.querySelectorAll(".scroll-work-item");
+      if (items.length && "IntersectionObserver" in window) {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-visible");
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        );
+        items.forEach((el) => obs.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      const timeline = document.querySelector(".scroll-about-timeline");
+      if (timeline) {
+        const tItems = Array.from(timeline.querySelectorAll(".timeline-item"));
+        const closeItem = (item) => {
+          const trigger = item.querySelector(".timeline-trigger");
+          const content = item.querySelector(".timeline-content");
+          item.classList.remove("is-open");
+          trigger.setAttribute("aria-expanded", "false");
+          content.setAttribute("aria-hidden", "true");
+          content.style.maxHeight = "0px";
+        };
+
+        const openItem = (item) => {
+          const trigger = item.querySelector(".timeline-trigger");
+          const content = item.querySelector(".timeline-content");
+          item.classList.add("is-open");
+          trigger.setAttribute("aria-expanded", "true");
+          content.setAttribute("aria-hidden", "false");
+          content.style.maxHeight = `${content.scrollHeight}px`;
+        };
+
+        tItems.forEach((item) => {
+          const trigger = item.querySelector(".timeline-trigger");
+          const content = item.querySelector(".timeline-content");
+          content.style.maxHeight = "0px";
+
+          trigger.addEventListener("click", () => {
+            const isOpen = item.classList.contains("is-open");
+            tItems.forEach((other) => {
+              if (other !== item) closeItem(other);
+            });
+            if (isOpen) closeItem(item);
+            else openItem(item);
+          });
+        });
+
+        window.addEventListener("resize", () => {
+          tItems.forEach((item) => {
+            if (item.classList.contains("is-open")) {
+              const content = item.querySelector(".timeline-content");
+              content.style.maxHeight = `${content.scrollHeight}px`;
+            }
+          });
+        });
+      }
+    </script>
   </body>
 </html>
