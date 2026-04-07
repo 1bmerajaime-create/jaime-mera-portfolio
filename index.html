@@ -18,12 +18,38 @@
     <header class="scroll-header">
       <nav class="scroll-nav-inner" aria-label="Primary">
         <a class="scroll-logo" href="#top">JAIME MERA</a>
-        <div class="scroll-nav-links">
+        <div class="scroll-nav-links" aria-label="Primary links">
           <a href="#work">Work</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </div>
+        <button
+          class="scroll-menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-haspopup="dialog"
+          aria-controls="scroll-mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="scroll-menu-icon" aria-hidden="true"></span>
+        </button>
       </nav>
+      <div class="scroll-menu-popover" id="scroll-mobile-menu" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="scroll-menu-backdrop" data-menu-close="true"></div>
+        <div class="scroll-menu-panel" role="document">
+          <div class="scroll-menu-panel-top">
+            <span class="scroll-menu-title">Menu</span>
+            <button class="scroll-menu-close" type="button" aria-label="Close menu" data-menu-close="true">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="scroll-menu-links" aria-label="Mobile links">
+            <a href="#work" data-menu-link="true">Work</a>
+            <a href="#about" data-menu-link="true">About</a>
+            <a href="#contact" data-menu-link="true">Contact</a>
+          </div>
+        </div>
+      </div>
     </header>
 
     <main class="scroll-main" id="top">
@@ -560,6 +586,64 @@
               content.style.maxHeight = `${content.scrollHeight}px`;
             }
           });
+        });
+      }
+
+      // Mobile menu (hamburger -> popover)
+      const menuBtn = document.querySelector(".scroll-menu-button");
+      const menuPopover = document.getElementById("scroll-mobile-menu");
+      const menuPanel = menuPopover?.querySelector(".scroll-menu-panel");
+      const closeEls = menuPopover?.querySelectorAll("[data-menu-close='true']");
+      const menuLinks = menuPopover?.querySelectorAll("[data-menu-link='true']");
+
+      const setMenuOpen = (open) => {
+        if (!menuBtn || !menuPopover) return;
+        menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        menuPopover.setAttribute("aria-hidden", open ? "false" : "true");
+        document.documentElement.classList.toggle("scroll-menu-open", open);
+        if (open) {
+          // Focus first link for keyboard users.
+          const first = menuPopover.querySelector(".scroll-menu-links a");
+          if (first) first.focus({ preventScroll: true });
+        } else {
+          menuBtn.focus({ preventScroll: true });
+        }
+      };
+
+      if (menuBtn && menuPopover && menuPanel) {
+        menuBtn.addEventListener("click", () => {
+          const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
+          setMenuOpen(!isOpen);
+        });
+
+        closeEls?.forEach((el) => el.addEventListener("click", () => setMenuOpen(false)));
+        menuLinks?.forEach((a) => a.addEventListener("click", () => setMenuOpen(false)));
+
+        window.addEventListener("keydown", (e) => {
+          const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
+          if (!isOpen) return;
+          if (e.key === "Escape") setMenuOpen(false);
+        });
+
+        // Trap focus lightly (keep focus inside panel while open).
+        menuPopover.addEventListener("keydown", (e) => {
+          const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
+          if (!isOpen || e.key !== "Tab") return;
+          const focusables = Array.from(
+            menuPopover.querySelectorAll(
+              "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+            )
+          ).filter((el) => !el.hasAttribute("disabled"));
+          if (!focusables.length) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
         });
       }
     </script>
